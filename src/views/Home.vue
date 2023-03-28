@@ -6,9 +6,13 @@
       <img class="bottom" src="@/assets/images/bottom.png" alt="" />
       <img class="left" src="@/assets/images/left.png" alt="" />
       <img class="right" src="@/assets/images/right.png" alt="" />
+
+      <span class="top_title"> 供销江南大数据中心 </span>
     </div>
 
-    <div class="part"></div>
+    <div class="part">
+      <LeftPart />
+    </div>
 
     <div class="map">
       <img class="left" src="@/assets/images/left-1.png" alt="" />
@@ -63,17 +67,23 @@
       </div>
     </div>
 
-    <div class="part"></div>
+    <div class="part">
+      <RightPart />
+    </div>
   </div>
 </template>
 
 <script>
 import CountUp from 'vue-countup-v2'
+import LeftPart from './LeftPart.vue'
+import RightPart from './RightPart.vue'
 
 export default {
   name: 'Home',
   components: {
-    CountUp
+    CountUp,
+    LeftPart,
+    RightPart
   },
 
   data () {
@@ -157,6 +167,20 @@ export default {
       position: absolute;
       right: 0;
       height: 847px;
+    }
+
+    .top_title {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      font-size: 63px;
+      font-family: YouSheBiaoTiHei;
+      font-weight: 400;
+      color: #eff8fc;
+      text-shadow: 0px 4px 1px rgba(19, 80, 143, 0.66);
+      margin-top: 5px;
     }
   }
 

@@ -5,9 +5,14 @@
 </template>
 
 <style>
+@font-face {
+  font-family: YouSheBiaoTiHei;
+  src: url('~@/assets/fonts/YouSheBiaoTiHei-2.woff2');
+}
+
 #app {
-  width: 5825px;
-  height: 1248px;
+  width: 5824px;
+  height: 1352px;
   overflow: hidden;
 }
 
