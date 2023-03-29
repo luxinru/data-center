@@ -224,7 +224,12 @@ export default {
     onFooterClick (type) {
       this.type = type
       if (type !== 2) {
-        echarts.dispose(document.getElementById('provinceMap'))
+        const chart = echarts.getInstanceByDom(
+          document.getElementById('provinceMap')
+        )
+        if (chart) {
+          echarts.dispose(document.getElementById('provinceMap'))
+        }
       }
       switch (type) {
         case 2:
@@ -269,7 +274,12 @@ export default {
       })
 
       const provinceJSON = require(`@/assets/json/jiangxi/${name}.json`)
-      echarts.dispose(document.getElementById('provinceMap'))
+      const chart = echarts.getInstanceByDom(
+        document.getElementById('provinceMap')
+      )
+      if (chart) {
+        echarts.dispose(document.getElementById('provinceMap'))
+      }
       const echartObj = echarts.init(document.getElementById('provinceMap'))
       echarts.registerMap(name, provinceJSON)
       echartObj.setOption({
