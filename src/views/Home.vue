@@ -45,10 +45,17 @@
       </div>
 
       <div class="footer">
-        <div class="item">
-          <img class="bac" src="@/assets/images/base.png" alt="" />
-          <img class="icon" src="@/assets/images/Tradingmap.png" alt="" />
-        </div>
+        <el-tooltip
+          effect="dark"
+          content="交易地图"
+          placement="top"
+          :hide-after="1000000"
+        >
+          <div class="item">
+            <img class="bac" src="@/assets/images/base.png" alt="" />
+            <img class="icon" src="@/assets/images/Tradingmap.png" alt="" />
+          </div>
+        </el-tooltip>
 
         <div class="item">
           <img class="bac" src="@/assets/images/base.png" alt="" />
@@ -59,6 +66,18 @@
           <img class="bac" src="@/assets/images/base.png" alt="" />
           <img class="icon" src="@/assets/images/Videolist.png" alt="" />
         </div>
+
+        <el-tooltip
+          effect="dark"
+          content="APP演示"
+          placement="top"
+          :hide-after="0"
+        >
+          <div class="item" @click="onFooterClick(4)">
+            <img class="bac" src="@/assets/images/base.png" alt="" />
+            <img class="icon" src="@/assets/images/app.png" alt="" />
+          </div>
+        </el-tooltip>
 
         <div class="item">
           <img class="bac" src="@/assets/images/base.png" alt="" />
@@ -173,6 +192,10 @@ export default {
           this.isFullScreen = false
           this.isShowModal3 = true
           break
+
+        case 4:
+          window.open('http://shop.gxjnmall.com/')
+          break
       }
     },
 
@@ -182,6 +205,26 @@ export default {
   }
 }
 </script>
+
+<style lang="less">
+.el-tooltip__popper {
+  white-space: nowrap;
+  font-size: 25px;
+  color: rgba(255, 255, 255, 1);
+  padding: 14px 40px;
+}
+
+.el-tooltip__popper.is-dark {
+  background: rgba(0, 0, 0, 1) !important;
+}
+
+.el-tooltip__popper[x-placement^='top'] .popper__arrow::after {
+  border-top-color: rgba(0, 0, 0, 1);
+}
+.el-tooltip__popper[x-placement^='top'] .popper__arrow {
+  border-top-color: rgba(0, 0, 0, 1);
+}
+</style>
 
 <style lang="less" scoped>
 .home {
@@ -388,7 +431,7 @@ export default {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 450px;
+      padding: 0 420px;
 
       .item {
         position: relative;
