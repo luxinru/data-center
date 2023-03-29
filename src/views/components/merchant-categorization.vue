@@ -6,6 +6,18 @@
       </template>
 
       <div id="chart5" class="chart"></div>
+
+      <div class="labels">
+        <div class="item" v-for="(item, index) in labels" :key="index">
+          <span class="icon" :style="{background: colors[index]}"></span>
+          <span class="name">
+            {{ item.name }}
+          </span>
+          <span class="value">
+            {{ ((item.value / total) * 100).toFixed(2) }}%
+          </span>
+        </div>
+      </div>
     </Box>
   </div>
 </template>
@@ -39,6 +51,46 @@ export default {
           value: '3',
           label: '商品数量'
         }
+      ],
+      labels: [],
+      total: 0,
+      colors: [
+        '#5470c6',
+        '#91cc75',
+        '#fac858',
+        '#ee6666',
+        '#73c0de',
+        '#3ba272',
+        '#fc8452',
+        '#9a60b4',
+        '#ea7ccc',
+        '#5470c6',
+        '#91cc75',
+        '#fac858',
+        '#ee6666',
+        '#73c0de',
+        '#3ba272',
+        '#fc8452',
+        '#9a60b4',
+        '#ea7ccc',
+        '#5470c6',
+        '#91cc75',
+        '#fac858',
+        '#ee6666',
+        '#73c0de',
+        '#3ba272',
+        '#fc8452',
+        '#9a60b4',
+        '#ea7ccc',
+        '#5470c6',
+        '#91cc75',
+        '#fac858',
+        '#ee6666',
+        '#73c0de',
+        '#3ba272',
+        '#fc8452',
+        '#9a60b4',
+        '#ea7ccc'
       ]
     }
   },
@@ -82,8 +134,12 @@ export default {
         })
       }
 
+      this.labels = syjgdata
+      this.total = total
+
       // 绘制图表
       myChart.setOption({
+        color: this.colors,
         grid: {
           left: '0',
           top: '0',
@@ -94,6 +150,7 @@ export default {
           trigger: 'item'
         },
         legend: {
+          show: false,
           icon: 'circle',
           itemWidth: 10,
           itemGap: 15,
@@ -213,6 +270,44 @@ export default {
   .chart {
     width: 100%;
     height: 100%;
+  }
+
+  .labels {
+    position: absolute;
+    bottom: 24px;
+    width: 100%;
+    height: 110px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+    overflow-y: auto;
+
+    .item {
+      display: flex;
+      align-items: center;
+
+      .icon {
+        width: 20px;
+        height: 5px;
+        border-radius: 2px;
+        margin-right: 13px;
+      }
+
+      .name {
+        font-size: 18px;
+        font-family: Microsoft YaHei;
+        font-weight: 400;
+        color: #ffffff;
+        margin-right: 13px;
+      }
+
+      .value {
+        font-size: 23px;
+        font-family: YouSheBiaoTiHei;
+        font-weight: 400;
+        color: rgba(0, 186, 255, 1);
+      }
+    }
   }
 }
 </style>

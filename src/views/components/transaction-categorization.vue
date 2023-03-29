@@ -9,7 +9,7 @@
 
       <div class="labels">
         <div class="item" v-for="(item, index) in labels" :key="index">
-          <span class="icon"></span>
+          <span class="icon" :style="{background: colors[index]}"></span>
           <span class="name">
             {{ item.name }}
           </span>
@@ -53,7 +53,45 @@ export default {
         }
       ],
       labels: [],
-      total: 0
+      total: 0,
+      colors: [
+        '#5470c6',
+        '#91cc75',
+        '#fac858',
+        '#ee6666',
+        '#73c0de',
+        '#3ba272',
+        '#fc8452',
+        '#9a60b4',
+        '#ea7ccc',
+        '#5470c6',
+        '#91cc75',
+        '#fac858',
+        '#ee6666',
+        '#73c0de',
+        '#3ba272',
+        '#fc8452',
+        '#9a60b4',
+        '#ea7ccc',
+        '#5470c6',
+        '#91cc75',
+        '#fac858',
+        '#ee6666',
+        '#73c0de',
+        '#3ba272',
+        '#fc8452',
+        '#9a60b4',
+        '#ea7ccc',
+        '#5470c6',
+        '#91cc75',
+        '#fac858',
+        '#ee6666',
+        '#73c0de',
+        '#3ba272',
+        '#fc8452',
+        '#9a60b4',
+        '#ea7ccc'
+      ]
     }
   },
 
@@ -117,6 +155,7 @@ export default {
 
       // 绘制图表
       myChart.setOption({
+        color: this.colors,
         grid: {
           left: '0',
           top: '0',
@@ -200,7 +239,6 @@ export default {
         width: 20px;
         height: 5px;
         border-radius: 2px;
-        background: red;
         margin-right: 13px;
       }
 
