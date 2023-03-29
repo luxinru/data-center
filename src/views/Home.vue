@@ -517,10 +517,6 @@ export default {
       grid-template-columns: repeat(3, 1fr);
       grid-gap: 25px;
 
-      &::-webkit-scrollbar {
-        display: none;
-      }
-
       .item {
         position: relative;
         width: 100%;

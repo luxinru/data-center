@@ -20,6 +20,17 @@
   box-sizing: border-box;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+  background: rgba(49, 147, 248, 0.1);
+}
+
+/* 设置滚动条滑块的颜色和形状 */
+::-webkit-scrollbar-thumb {
+  background-color: rgba(49, 147, 248, 0.2);
+  border-radius: 12px;
+}
+
 html,
 body {
   margin: 0;

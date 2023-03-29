@@ -46,6 +46,7 @@ export default {
   methods: {
     init () {
       // 基于准备好的dom，初始化echarts实例
+      echarts.dispose(document.getElementById('chart2'))
       const myChart = echarts.init(document.getElementById('chart2'))
 
       // 绘制图表

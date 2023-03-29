@@ -50,6 +50,7 @@ export default {
   methods: {
     init () {
       // 基于准备好的dom，初始化echarts实例
+      echarts.dispose(document.getElementById('chart5'))
       const myChart = echarts.init(document.getElementById('chart5'))
 
       var total = 0

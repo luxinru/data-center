@@ -11,7 +11,7 @@
       </thead>
 
       <tbody>
-        <tr v-for="(item, index) in tableData" :key="index">
+        <tr v-for="(item, index) in tableData" :key="index" @click="onRowClick(item)">
           <td v-if="isRank" class="rank">
             <img v-if="index === 0" src="@/assets/images/no-1.png" alt="" />
             <img
@@ -255,6 +255,12 @@ export default {
         ]
       }
     }
+  },
+
+  methods: {
+    onRowClick (row) {
+      this.$emit('onRowClick', row)
+    }
   }
 }
 </script>
@@ -307,10 +313,6 @@ export default {
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-
-      &::-webkit-scrollbar {
-        display: none;
-      }
 
       tr {
         width: 100%;
