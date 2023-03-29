@@ -39,7 +39,9 @@
         </div>
       </div>
 
-      <div class="svg_map">
+      <div v-if="type === 2" id="provinceMap" class="provinceMap"></div>
+
+      <div class="svg_map" v-else>
         <img class="bac" src="@/assets/images/map.png" alt="" />
         <!-- <img class="svg" src="@/assets/images/map.svg" alt=""> -->
       </div>
@@ -51,7 +53,7 @@
           placement="top"
           :hide-after="1000000"
         >
-          <div class="item">
+          <div class="item" @click="onFooterClick(1)">
             <img class="bac" src="@/assets/images/base.png" alt="" />
             <img class="icon" src="@/assets/images/Tradingmap.png" alt="" />
           </div>
@@ -63,7 +65,7 @@
           placement="top"
           :hide-after="1000000"
         >
-          <div class="item">
+          <div class="item" @click="onFooterClick(2)">
             <img class="bac" src="@/assets/images/base.png" alt="" />
             <img
               class="icon"
@@ -167,6 +169,7 @@ import CountUp from 'vue-countup-v2'
 import LeftPart from './LeftPart.vue'
 import RightPart from './RightPart.vue'
 import XModal from '@/components/x-model.vue'
+import * as echarts from 'echarts'
 
 export default {
   name: 'Home',
@@ -212,13 +215,23 @@ export default {
           value: 12,
           label: '设备数'
         }
-      ]
+      ],
+      type: 1
     }
   },
 
   methods: {
     onFooterClick (type) {
+      this.type = type
+      if (type !== 2) {
+        echarts.dispose(document.getElementById('provinceMap'))
+      }
       switch (type) {
+        case 2:
+          this.$nextTick(() => {
+            this.initProvinceMap()
+          })
+          break
         case 3:
           this.isFullScreen = false
           this.isShowModal3 = true
@@ -232,6 +245,149 @@ export default {
 
     onModal3Close () {
       this.isShowModal3 = false
+    },
+
+    initProvinceMap (name = '江西省') {
+      const points = [
+        { value: [115.96066, 29.66666], itemStyle: { color: '#00EEFF' } },
+        { value: [117.18457, 29.27425], itemStyle: { color: '#00EEFF' } },
+        { value: [115.95046, 28.5516], itemStyle: { color: '#00EEFF' } }, // 南昌市
+        { value: [117.94946, 28.46063], itemStyle: { color: '#00EEFF' } },
+        { value: [117.07557, 28.26579], itemStyle: { color: '#00EEFF' } },
+        { value: [116.36454, 27.95489], itemStyle: { color: '#00EEFF' } },
+        { value: [114.92354, 27.82358], itemStyle: { color: '#00EEFF' } },
+        { value: [114.42356, 27.82086], itemStyle: { color: '#00EEFF' } },
+        { value: [113.89369, 27.66475], itemStyle: { color: '#00EEFF' } },
+        { value: [115.00051, 27.11973], itemStyle: { color: '#00EEFF' } },
+        { value: [114.94051, 25.83518], itemStyle: { color: '#00EEFF' } }
+      ]
+
+      const gdCode = [115.95046, 28.5516]
+      const codes = []
+      points.forEach((item) => {
+        codes.push({ coords: [item.value, gdCode], lineStyle: item.lineStyle })
+      })
+
+      const provinceJSON = require(`@/assets/json/jiangxi/${name}.json`)
+      echarts.dispose(document.getElementById('provinceMap'))
+      const echartObj = echarts.init(document.getElementById('provinceMap'))
+      echarts.registerMap(name, provinceJSON)
+      echartObj.setOption({
+        tooltip: {
+          padding: 0,
+          // 数据格式化
+          formatter: function (params, callback) {
+            return params.name + '：' + (params.value || 0)
+          }
+        },
+
+        geo: {
+          map: name,
+          roam: false, // 不开启缩放和平移
+          zoom: 1.15, // 视角缩放比例
+          label: {
+            normal: {
+              show: true,
+              fontSize: 10,
+              color: '#000'
+            },
+            emphasis: {
+              show: true,
+              color: 'blue'
+            }
+          },
+          itemStyle: {
+            normal: {
+              borderWidth: 6,
+              // 外层边框
+              borderColor: '#4b9fee',
+              shadowBlur: 16, // 设置阴影大小
+              shadowColor: 'rgba(0,106,250)' // 设置阴影颜色和透明度
+            },
+            emphasis: {
+              // 高亮的显示设置
+              areaColor: '#087af4' // 鼠标选择地图块区域颜色
+            }
+          }
+        },
+        series: [
+          {
+            type: 'map',
+            map: name,
+            zoom: 1.15, // 视角缩放比例
+
+            data: this.dataList,
+            label: {
+              normal: {
+                show: true,
+                fontSize: '10',
+                color: 'rgba(0,0,0,0.7)',
+                textStyle: {
+                  color: '#fff' // 地图省份文字颜色
+                },
+                emphasis: {
+                  textStyle: {
+                    color: '#fff'
+                  }
+                },
+
+                shadowBlur: 200, // 设置阴影大小
+                shadowColor: 'rgba(255, 0, 0, 0.3)' // 设置阴影颜色和透明度
+              }
+            },
+            roam: false,
+            itemStyle: {
+              normal: {
+                areaColor: '#073c86',
+                borderColor: '#0e5eb9',
+                borderWidth: 1
+              },
+              emphasis: {
+                show: false,
+                areaColor: '#0377f7'
+              }
+            }
+          },
+          {
+            type: 'effectScatter',
+            coordinateSystem: 'geo',
+            showEffectOn: 'render',
+            zlevel: 1,
+            rippleEffect: {
+              number: 3, // 波纹的数量。
+              period: 5, // 动画的周期，秒数。
+              scale: 17, // 动画中波纹的最大缩放比例。
+              brushType: 'fill' // 波纹的绘制方式，可选 'stroke' 和 'fill'。
+            },
+            symbolSize: 2,
+            data: points
+          },
+          {
+            type: 'lines',
+            zlevel: 2,
+            effect: {
+              show: true,
+              period: 4, // 箭头指向速度，值越小速度越快
+              trailLength: 0.4, // 特效尾迹长度[0,1]值越大，尾迹越长重
+              symbol: 'arrow', // 箭头图标
+              symbolSize: 6 // 图标大小
+            },
+            lineStyle: {
+              normal: {
+                color: '#1DE9B6',
+                width: 1, // 线条宽度
+                opacity: 0.1, // 尾迹线条透明度
+                curveness: 0.3 // 尾迹线条曲直度
+              }
+            },
+            data: codes
+          }
+        ]
+      })
+      echartObj.on('click', (params) => {
+        const name = params.name
+        this.initProvinceMap(name)
+      })
     }
   }
 }
@@ -314,7 +470,6 @@ export default {
 .el-date-editor .el-range-separator {
   color: #fff;
 }
-
 </style>
 
 <style lang="less" scoped>
@@ -512,6 +667,11 @@ export default {
         height: 100%;
         background: transparent;
       }
+    }
+
+    .provinceMap {
+      width: 1058px;
+      height: 785px;
     }
 
     .footer {
