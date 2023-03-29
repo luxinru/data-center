@@ -55,7 +55,7 @@
           <img class="icon" src="@/assets/images/Internetofthings.png" alt="" />
         </div>
 
-        <div class="item">
+        <div class="item" @click="onFooterClick(3)">
           <img class="bac" src="@/assets/images/base.png" alt="" />
           <img class="icon" src="@/assets/images/Videolist.png" alt="" />
         </div>
@@ -70,6 +70,46 @@
     <div class="part">
       <RightPart />
     </div>
+
+    <XModal v-show="isShowModal3">
+      <div class="device_list">
+        <div class="title">
+          <span>视频列表</span>
+          <img src="@/assets/images/close.png" alt="" @click="onModal3Close" />
+        </div>
+
+        <div class="content">
+          <template v-if="!isFullScreen">
+            <div class="item" v-for="index in 30" :key="index">
+              <img class="bac" src="@/assets/images/pic-1.png" alt="" />
+
+              <div class="bar">
+                <img class="icon" src="@/assets/images/video.png" alt="" />
+                <span>宣传视频</span>
+
+                <img
+                  class="full"
+                  src="@/assets/images/full-screen.png"
+                  alt=""
+                  @click="isFullScreen = !isFullScreen"
+                />
+              </div>
+            </div>
+          </template>
+
+          <div
+            v-else
+            class="fullscreen"
+            :style="{
+              width: isFullScreen ? '100%' : '0',
+              height: isFullScreen ? '100%' : '0',
+            }"
+          >
+            <img class="bac" src="@/assets/images/pic-1.png" alt="" />
+          </div>
+        </div>
+      </div>
+    </XModal>
   </div>
 </template>
 
@@ -77,17 +117,22 @@
 import CountUp from 'vue-countup-v2'
 import LeftPart from './LeftPart.vue'
 import RightPart from './RightPart.vue'
+import XModal from '@/components/x-model.vue'
 
 export default {
   name: 'Home',
+
   components: {
     CountUp,
     LeftPart,
-    RightPart
+    RightPart,
+    XModal
   },
 
   data () {
     return {
+      isShowModal3: false,
+      isFullScreen: false,
       barsList: [
         {
           value: 4037969.99,
@@ -121,7 +166,20 @@ export default {
     }
   },
 
-  methods: {}
+  methods: {
+    onFooterClick (type) {
+      switch (type) {
+        case 3:
+          this.isFullScreen = false
+          this.isShowModal3 = true
+          break
+      }
+    },
+
+    onModal3Close () {
+      this.isShowModal3 = false
+    }
+  }
 }
 </script>
 
@@ -369,6 +427,110 @@ export default {
           &:hover {
             transform: translateY(-20px);
           }
+        }
+      }
+    }
+  }
+
+  .device_list {
+    width: 1495px;
+    height: 983px;
+    background: url('~@/assets/images/video-bj.png') no-repeat;
+    background-size: 100% 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 36px;
+    overflow: hidden;
+
+    .title {
+      width: 100%;
+      height: 67px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      span {
+        font-size: 40px;
+        font-family: YouSheBiaoTiHei;
+        font-weight: 400;
+        color: #ffffff;
+        margin-left: 36px;
+      }
+
+      img {
+        margin-right: 5px;
+        cursor: pointer;
+      }
+    }
+
+    .content {
+      position: relative;
+      width: 100%;
+      flex: 1 0;
+      overflow: hidden;
+      padding: 16px 0;
+      overflow-y: auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 25px;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      .item {
+        position: relative;
+        width: 100%;
+        height: 253px;
+
+        .bac {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+        }
+
+        .bar {
+          position: absolute;
+          width: 100%;
+          height: 45px;
+          display: flex;
+          align-items: center;
+          padding: 0 13px;
+          bottom: 0;
+          background-color: rgba(0, 0, 0, 0.8);
+
+          .icon {
+            height: 48px;
+            cursor: pointer;
+          }
+
+          span {
+            flex: 1 0;
+            font-size: 20px;
+            font-family: Microsoft YaHei;
+            font-weight: 400;
+            color: #ffffff;
+            margin-left: 5px;
+          }
+
+          .full {
+            height: 38px;
+            cursor: pointer;
+          }
+        }
+      }
+
+      .fullscreen {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 0;
+        padding: 16px 0;
+
+        .bac {
+          width: 100%;
+          height: 100%;
         }
       }
     }
