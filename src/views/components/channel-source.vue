@@ -1,6 +1,10 @@
 <template>
   <div class="channel-source">
     <Box title="渠道来源">
+      <template #select>
+        <XSelect :value="value" :options="options" />
+      </template>
+
       <div id="chart2" class="chart"></div>
     </Box>
   </div>
@@ -9,12 +13,30 @@
 <script>
 import Box from '@/components/box'
 import * as echarts from 'echarts'
+import XSelect from '@/components/x-select.vue'
 
 export default {
   name: 'ChannelSource',
 
   components: {
-    Box
+    Box,
+    XSelect
+  },
+
+  data () {
+    return {
+      value: '1',
+      options: [
+        {
+          value: '1',
+          label: '订单渠道来源'
+        },
+        {
+          value: '2',
+          label: '用户渠道来源'
+        }
+      ]
+    }
   },
 
   mounted () {

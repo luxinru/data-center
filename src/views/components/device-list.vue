@@ -1,6 +1,10 @@
 <template>
   <div class="device_list">
     <Box title="设备列表">
+      <template #select>
+        <XSelect :value="value" :options="options" />
+      </template>
+
       <XTable :isRank="false" :columns="columns" :tableData="tableData" />
     </Box>
   </div>
@@ -9,17 +13,34 @@
 <script>
 import Box from '@/components/box'
 import XTable from '@/components/x-table'
+import XSelect from '@/components/x-select.vue'
 
 export default {
   name: 'DeviceList',
 
   components: {
     Box,
-    XTable
+    XTable,
+    XSelect
   },
 
   data () {
     return {
+      value: '1',
+      options: [
+        {
+          value: '1',
+          label: '故障检修'
+        },
+        {
+          value: '2',
+          label: '正常运行'
+        },
+        {
+          value: '3',
+          label: '关闭暂停'
+        }
+      ],
       columns: [
         {
           name: '编号',

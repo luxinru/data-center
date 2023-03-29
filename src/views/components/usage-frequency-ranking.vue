@@ -1,6 +1,10 @@
 <template>
   <div class="usage_frequency_ranking">
     <Box title="使用次数排行榜">
+      <template #select>
+        <XSelect :value="value" :options="options" />
+      </template>
+
       <XTable :columns="columns" :tableData="tableData" />
     </Box>
   </div>
@@ -9,17 +13,30 @@
 <script>
 import Box from '@/components/box'
 import XTable from '@/components/x-table'
+import XSelect from '@/components/x-select.vue'
 
 export default {
   name: 'UsageFrequencyRanking',
 
   components: {
     Box,
-    XTable
+    XTable,
+    XSelect
   },
 
   data () {
     return {
+      value: '1',
+      options: [
+        {
+          value: '1',
+          label: '自提柜'
+        },
+        {
+          value: '2',
+          label: '零售柜'
+        }
+      ],
       columns: [
         {
           name: '编号',

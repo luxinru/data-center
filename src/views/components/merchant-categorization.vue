@@ -1,6 +1,10 @@
 <template>
   <div class="merchant_categorization">
     <Box title="商户分类">
+      <template #select>
+        <XSelect :value="value" :options="options" />
+      </template>
+
       <div id="chart5" class="chart"></div>
     </Box>
   </div>
@@ -8,13 +12,35 @@
 
 <script>
 import Box from '@/components/box'
+import XSelect from '@/components/x-select.vue'
 import * as echarts from 'echarts'
 
 export default {
   name: 'MerchantCategorization',
 
   components: {
-    Box
+    Box,
+    XSelect
+  },
+
+  data () {
+    return {
+      value: '1',
+      options: [
+        {
+          value: '1',
+          label: '商品金额'
+        },
+        {
+          value: '2',
+          label: '商品销量'
+        },
+        {
+          value: '3',
+          label: '商品数量'
+        }
+      ]
+    }
   },
 
   mounted () {

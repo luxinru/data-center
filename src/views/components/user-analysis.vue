@@ -1,6 +1,10 @@
 <template>
   <div class="user_analysis">
     <Box title="用户分析">
+      <template #select>
+        <XSelect :value="value" :options="options" />
+      </template>
+
       <div class="user_analysis_container">
         <div class="imgs">
           <img class="bac" src="@/assets/images/icon-bj-1.png" alt="" />
@@ -48,12 +52,42 @@
 
 <script>
 import Box from '@/components/box'
+import XSelect from '@/components/x-select.vue'
 
 export default {
   name: 'UserAnalysis',
 
   components: {
-    Box
+    Box,
+    XSelect
+  },
+
+  data () {
+    return {
+      value: '1',
+      options: [
+        {
+          value: '1',
+          label: '用户年龄'
+        },
+        {
+          value: '2',
+          label: '用户性别'
+        },
+        {
+          value: '3',
+          label: '用户地区'
+        },
+        {
+          value: '4',
+          label: '用户等级'
+        },
+        {
+          value: '5',
+          label: '消费次数'
+        }
+      ]
+    }
   }
 }
 </script>

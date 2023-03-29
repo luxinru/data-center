@@ -1,9 +1,13 @@
 <template>
   <div class="box">
     <div class="title">
-      <span>
+      <span class="name">
         {{ title }}
       </span>
+
+      <div class="select">
+        <slot name="select"></slot>
+      </div>
     </div>
 
     <div class="container"><slot /></div>
@@ -29,20 +33,32 @@ export default {
   height: 100%;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 
   .title {
     width: 100%;
     height: 60px;
     background: url('~@/assets/images/title.png') no-repeat;
     background-size: 100% auto;
-    font-size: 36px;
-    font-family: YouSheBiaoTiHei;
-    font-weight: 400;
-    color: #ffffff;
-    padding: 0 0 34px 67px;
+    padding: 0 16px 0 67px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+
+    .name {
+      margin-bottom: 34px;
+      font-size: 36px;
+      font-family: YouSheBiaoTiHei;
+      font-weight: 400;
+      color: #ffffff;
+    }
+
+    .select {
+      flex: 1 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-bottom: 12px;
+    }
   }
 
   .container {

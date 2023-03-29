@@ -34,7 +34,7 @@
             :class="{ isNumber: label.isNumber }"
             :style="{ color: label.color || '#fffefe'}"
           >
-            <span>
+            <span :title="item[label.value]">
               {{ item[label.value] }}
             </span>
           </td>
@@ -319,6 +319,7 @@ export default {
         margin-top: 7px;
         background-color: #051645;
         flex-shrink: 0;
+        cursor: pointer;
 
         td {
           flex: 1 0;

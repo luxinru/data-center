@@ -1,6 +1,10 @@
 <template>
   <div class="commodity_price_trend">
     <Box title="商品价格趋势">
+      <template #select>
+        <XSelect :value="value" :options="options" />
+      </template>
+
       <div id="chart1" class="chart"></div>
     </Box>
   </div>
@@ -9,12 +13,34 @@
 <script>
 import Box from '@/components/box'
 import * as echarts from 'echarts'
+import XSelect from '@/components/x-select.vue'
 
 export default {
   name: 'CommodityPriceTrend',
 
   components: {
-    Box
+    Box,
+    XSelect
+  },
+
+  data () {
+    return {
+      value: '1',
+      options: [
+        {
+          value: '1',
+          label: '上升'
+        },
+        {
+          value: '2',
+          label: '下降'
+        },
+        {
+          value: '3',
+          label: '异常'
+        }
+      ]
+    }
   },
 
   mounted () {

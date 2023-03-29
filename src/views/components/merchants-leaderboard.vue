@@ -1,6 +1,10 @@
 <template>
   <div class="merchants_leaderboard">
     <Box title="商户排行榜">
+      <template #select>
+        <XSelect :value="value" :options="options" />
+      </template>
+
       <XTable :columns="columns" :tableData="tableData" />
     </Box>
   </div>
@@ -9,17 +13,34 @@
 <script>
 import Box from '@/components/box'
 import XTable from '@/components/x-table'
+import XSelect from '@/components/x-select.vue'
 
 export default {
   name: 'MerchantsLeaderboard',
 
   components: {
     Box,
-    XTable
+    XTable,
+    XSelect
   },
 
   data () {
     return {
+      value: '1',
+      options: [
+        {
+          value: '1',
+          label: '商品金额'
+        },
+        {
+          value: '2',
+          label: '门店金额'
+        },
+        {
+          value: '3',
+          label: '自提点金额'
+        }
+      ],
       columns: [
         {
           name: '名称',
