@@ -11,7 +11,11 @@
       </thead>
 
       <tbody>
-        <tr v-for="(item, index) in tableData" :key="index" @click="onRowClick(item)">
+        <tr
+          v-for="(item, index) in tableData"
+          :key="index"
+          @click="onRowClick(item)"
+        >
           <td v-if="isRank" class="rank">
             <img v-if="index === 0" src="@/assets/images/no-1.png" alt="" />
             <img
@@ -32,7 +36,7 @@
             v-for="(label, j) in columns"
             :key="j"
             :class="{ isNumber: label.isNumber }"
-            :style="{ color: label.color || '#fffefe'}"
+            :style="{ color: label.color || '#fffefe' }"
           >
             <span :title="item[label.value]">
               {{ item[label.value] }}
@@ -350,6 +354,10 @@ export default {
           font-family: YouSheBiaoTiHei;
           font-weight: 400;
           color: #00baff;
+        }
+
+        &:hover {
+          background-color: #071e50;
         }
       }
     }

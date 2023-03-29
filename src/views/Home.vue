@@ -97,10 +97,22 @@
           </div>
         </el-tooltip>
 
-        <div class="item">
-          <img class="bac" src="@/assets/images/base.png" alt="" />
-          <img class="icon" src="@/assets/images/date.png" alt="" />
-        </div>
+        <el-tooltip placement="top">
+          <el-date-picker
+            v-model="daterange"
+            slot="content"
+            type="daterange"
+            :clearable="false"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+          >
+          </el-date-picker>
+          <div class="item">
+            <img class="bac" src="@/assets/images/base.png" alt="" />
+            <img class="icon" src="@/assets/images/date.png" alt="" />
+          </div>
+        </el-tooltip>
       </div>
     </div>
 
@@ -168,6 +180,7 @@ export default {
 
   data () {
     return {
+      daterange: '',
       isShowModal3: false,
       isFullScreen: false,
       barsList: [
@@ -229,7 +242,7 @@ export default {
   white-space: nowrap;
   font-size: 25px;
   color: rgba(255, 255, 255, 1);
-  padding: 14px 40px;
+  padding: 14px 20px;
 }
 
 .el-tooltip__popper.is-dark {
@@ -242,6 +255,66 @@ export default {
 .el-tooltip__popper[x-placement^='top'] .popper__arrow {
   border-top-color: rgba(0, 0, 0, 1);
 }
+
+.el-picker-panel {
+  background: rgba(3, 22, 57, 0.9);
+  font-size: 16px;
+  font-family: Microsoft YaHei;
+  font-weight: 400;
+  color: #ffffff;
+  border: 1px solid rgba(21, 61, 130, 1);
+}
+
+.el-date-range-picker__content.is-left {
+  border-right: 1px solid rgba(21, 61, 130, 1);
+}
+
+.el-date-table th {
+  border-bottom: solid 1px rgba(21, 61, 130, 1);
+}
+
+.el-date-table td.in-range div,
+.el-date-table td.in-range div:hover,
+.el-date-table.is-week-mode .el-date-table__row.current div,
+.el-date-table.is-week-mode .el-date-table__row:hover div {
+  background-color: rgba(17, 51, 109, 0.5);
+}
+
+.el-popper[x-placement^='top'] .popper__arrow::after {
+  border-top-color: rgba(21, 61, 130, 1);
+}
+
+.el-picker-panel__icon-btn {
+  font-size: 16px;
+  color: #fff;
+}
+
+.el-date-range-picker__header div {
+  font-size: 20px;
+}
+
+.el-date-table {
+  font-size: 16px;
+}
+
+.el-input__inner {
+  background-color: rgba(21, 61, 130, 0.5) !important;
+  border: 1px solid rgba(21, 61, 130, 1);
+
+  &:hover {
+    border: 1px solid rgba(21, 61, 130, 1);
+  }
+}
+.el-date-editor .el-range-input {
+  font-size: 16px;
+  color: #fff;
+  background-color: transparent;
+}
+
+.el-date-editor .el-range-separator {
+  color: #fff;
+}
+
 </style>
 
 <style lang="less" scoped>
