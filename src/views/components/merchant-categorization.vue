@@ -53,37 +53,34 @@ export default {
       echarts.dispose(document.getElementById('chart5'))
       const myChart = echarts.init(document.getElementById('chart5'))
 
-      var total = 0
-      var data = [35, 30, 22, 55]
-      var getsjjg = ['>100000', '50000-100000', '10000-50000', '<10000']
+      var data = [35, 30, 22, 55, 35, 30, 22, 55, 35, 30, 22, 55, 35, 30, 22]
+      var getsjjg = [
+        '生鲜食品',
+        '休闲食品',
+        '家用电器',
+        '美食餐饮',
+        '生活服务',
+        '酒水饮料',
+        '饰品',
+        '酒店民宿',
+        '医疗健康',
+        '汽修养车',
+        '日化用品',
+        '运动健身',
+        '营养保健',
+        '粮油副食',
+        '厨卫餐具'
+      ]
       var getsjjgrs = data
       var syjgdata = []
-      for (const i in getsjjgrs) {
-        total += getsjjgrs[i]
-      }
+      let total = 0
       for (var i = 0; i < getsjjg.length; i++) {
-        syjgdata.push(
-          {
-            name: getsjjg[i],
-            value: getsjjgrs[i]
-          },
-          {
-            value: total / 150,
-            name: ''
-          }
-        )
+        total += data[i]
+        syjgdata.push({
+          name: getsjjg[i],
+          value: getsjjgrs[i]
+        })
       }
-
-      var colorList = [
-        ['rgba(0,132,255,1)', 'rgba(0,132,255,0.7)'],
-        ['', ''],
-        ['rgba(55,255,201,1)', 'rgba(55,255,201,0.7)'],
-        ['', ''],
-        ['rgba(25,214,255,1)', 'rgba(25,214,255,0.7)'],
-        ['', ''],
-        ['rgba(255,231,119,1)', 'rgba(255,231,119,0.7)'],
-        ['', '']
-      ]
 
       // 绘制图表
       myChart.setOption({
@@ -100,9 +97,21 @@ export default {
           icon: 'circle',
           itemWidth: 10,
           itemGap: 15,
-          bottom: 0,
+          bottom: '0',
           textStyle: {
-            color: '#fff'
+            color: '#fff',
+            fontSize: 18
+          },
+          // 使用回调函数
+          formatter: function (name) {
+            const index = getsjjg.indexOf(name)
+            return `${name}` + ' ' + `${((data[index] / total) * 100).toFixed(2)}%`
+          },
+          rich: {
+            a: {
+
+            },
+            b: {}
           }
         },
         series: [
@@ -114,8 +123,8 @@ export default {
             },
             type: 'pie',
             hoverAnimation: false,
-            radius: ['40%', '50%'],
-            center: ['50%', '40%'],
+            radius: ['20%', '30%'],
+            center: ['50%', '35%'],
             label: {
               normal: {
                 show: false
@@ -126,7 +135,8 @@ export default {
                 value: 1
               }
             ],
-            z: 100
+            z: 100,
+            silent: true
           },
           {
             itemStyle: {
@@ -136,8 +146,8 @@ export default {
             },
             type: 'pie',
             hoverAnimation: false,
-            radius: ['50%', '60%'],
-            center: ['50%', '40%'],
+            radius: ['30%', '40%'],
+            center: ['50%', '35%'],
             label: {
               normal: {
                 show: false
@@ -148,7 +158,8 @@ export default {
                 value: 1
               }
             ],
-            z: 100
+            z: 100,
+            silent: true
           },
           {
             itemStyle: {
@@ -158,8 +169,8 @@ export default {
             },
             type: 'pie',
             hoverAnimation: false,
-            radius: ['50%', '70%'],
-            center: ['50%', '40%'],
+            radius: ['30%', '50%'],
+            center: ['50%', '35%'],
             label: {
               normal: {
                 show: false
@@ -170,40 +181,10 @@ export default {
                 value: 1
               }
             ],
-            z: 100
+            z: 100,
+            silent: true
           },
           {
-            itemStyle: {
-              normal: {
-                color: function (params) {
-                  if (params.dataIndex === 0) {
-                    return new echarts.graphic.LinearGradient(0, 0, 1, 1, [
-                      {
-                        offset: 0,
-                        color: colorList[params.dataIndex][0]
-                      },
-                      {
-                        offset: 1,
-                        color: colorList[params.dataIndex][1]
-                      }
-                    ])
-                  } else {
-                    if (params.dataIndex % 2 === 0) {
-                      return new echarts.graphic.LinearGradient(0, 0, 1, 1, [
-                        {
-                          offset: 0,
-                          color: colorList[params.dataIndex][0]
-                        },
-                        {
-                          offset: 1,
-                          color: colorList[params.dataIndex][1]
-                        }
-                      ])
-                    }
-                  }
-                }
-              }
-            },
             labelLine: {
               show: false
             },
@@ -212,8 +193,8 @@ export default {
             },
             hoverAnimation: true,
             type: 'pie',
-            radius: ['50%', '80%'],
-            center: ['50%', '40%'],
+            radius: ['30%', '60%'],
+            center: ['50%', '35%'],
             data: syjgdata,
             z: 10
           }

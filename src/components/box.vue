@@ -62,6 +62,7 @@ export default {
   }
 
   .container {
+    position: relative;
     width: 100%;
     flex: 1 0;
     margin-top: 20px;

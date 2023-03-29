@@ -57,15 +57,33 @@
           </div>
         </el-tooltip>
 
-        <div class="item">
-          <img class="bac" src="@/assets/images/base.png" alt="" />
-          <img class="icon" src="@/assets/images/Internetofthings.png" alt="" />
-        </div>
+        <el-tooltip
+          effect="dark"
+          content="供销物联网"
+          placement="top"
+          :hide-after="1000000"
+        >
+          <div class="item">
+            <img class="bac" src="@/assets/images/base.png" alt="" />
+            <img
+              class="icon"
+              src="@/assets/images/Internetofthings.png"
+              alt=""
+            />
+          </div>
+        </el-tooltip>
 
-        <div class="item" @click="onFooterClick(3)">
-          <img class="bac" src="@/assets/images/base.png" alt="" />
-          <img class="icon" src="@/assets/images/Videolist.png" alt="" />
-        </div>
+        <el-tooltip
+          effect="dark"
+          content="视频列表"
+          placement="top"
+          :hide-after="1000000"
+        >
+          <div class="item" @click="onFooterClick(3)">
+            <img class="bac" src="@/assets/images/base.png" alt="" />
+            <img class="icon" src="@/assets/images/Videolist.png" alt="" />
+          </div>
+        </el-tooltip>
 
         <el-tooltip
           effect="dark"

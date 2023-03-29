@@ -22,6 +22,7 @@
 
 ::-webkit-scrollbar {
   width: 10px;
+  height: 10px;
   background: rgba(49, 147, 248, 0.1);
 }
 
