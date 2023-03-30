@@ -20,9 +20,9 @@
 
       <div v-if="type === 2" id="provinceMap" class="provinceMap"></div>
 
-      <div class="svg_map" v-else>
+      <div class="svg_map" v-if="type === 1">
         <img class="bac" src="@/assets/images/map.png" alt="" />
-        <!-- <img class="svg" src="@/assets/images/map.svg" alt=""> -->
+        <div id="svgmap" class="svg"></div>
       </div>
 
       <div class="bars">
@@ -170,6 +170,7 @@ import LeftPart from './LeftPart.vue'
 import RightPart from './RightPart.vue'
 import XModal from '@/components/x-model.vue'
 import * as echarts from 'echarts'
+import svgMap from '@/assets/images/map.svg'
 
 export default {
   name: 'Home',
@@ -220,9 +221,14 @@ export default {
     }
   },
 
+  mounted () {
+    this.$nextTick(() => {
+      this.initSvgMap()
+    })
+  },
+
   methods: {
     onFooterClick (type) {
-      this.type = type
       if (type !== 2 && document.getElementById('provinceMap')) {
         const chart = echarts.getInstanceByDom(
           document.getElementById('provinceMap')
@@ -232,7 +238,14 @@ export default {
         }
       }
       switch (type) {
+        case 1:
+          this.type = type
+          this.$nextTick(() => {
+            this.initSvgMap()
+          })
+          break
         case 2:
+          this.type = type
           this.$nextTick(() => {
             this.initProvinceMap()
           })
@@ -250,6 +263,71 @@ export default {
 
     onModal3Close () {
       this.isShowModal3 = false
+    },
+
+    async initSvgMap () {
+      fetch(svgMap)
+        .then((response) => response.text())
+        .then((svgString) => {
+          const chart = echarts.getInstanceByDom(
+            document.getElementById('svgmap')
+          )
+          if (chart) {
+            echarts.dispose(document.getElementById('svgmap'))
+          }
+          echarts.registerMap('svgMap', { svg: svgString })
+
+          console.log(document.getElementById('svgmap'))
+          const echartObj = echarts.init(document.getElementById('svgmap'))
+
+          echartObj.setOption({
+            tooltip: {
+              padding: 0,
+              // 数据格式化
+              formatter: function (params, callback) {
+                return params.name + '：' + (params.value || 0)
+              }
+            },
+
+            geo: {
+              map: 'svgMap',
+              roam: false, // 不开启缩放和平移
+              layoutCenter: ['50.15%', '46.38%'],
+              layoutSize: '111%',
+              label: {
+                show: true,
+                color: '#fff',
+                fontSize: 18
+              },
+              itemStyle: {
+                areaColor: 'transparent'
+              },
+              emphasis: {
+                label: {
+                  color: 'rgba(189, 62, 13, 1)',
+                  backgroundColor: 'rgba(255, 209, 51, 1)',
+                  padding: [4, 8]
+                },
+                itemStyle: {
+                  areaColor: '#087af4' // 鼠标选择地图块区域颜色
+                }
+              }
+            },
+            series: [
+              {
+                type: 'scatter',
+                coordinateSystem: 'geo',
+                zlevel: 1,
+                symbolSize: 2,
+                data: []
+              }
+            ]
+          })
+          // echartObj.on('click', (params) => {
+          //   const name = params.name
+          //   this.initProvinceMap(name)
+          // })
+        })
     },
 
     initProvinceMap (name = '江西省') {
@@ -658,8 +736,8 @@ export default {
 
     .svg_map {
       position: relative;
-      width: 953px;
-      height: 725px;
+      width: 1000px;
+      height: 856px;
 
       .bac {
         position: absolute;
@@ -675,7 +753,6 @@ export default {
         left: 0;
         width: 100%;
         height: 100%;
-        background: transparent;
       }
     }
 
