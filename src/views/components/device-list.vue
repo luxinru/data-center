@@ -9,6 +9,7 @@
         :isRank="false"
         :columns="columns"
         :tableData="tableData"
+        autoScrollId="tbody3"
         @onRowClick="onRowClick"
       />
     </Box>

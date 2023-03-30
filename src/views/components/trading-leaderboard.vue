@@ -5,7 +5,7 @@
         <XSelect :value="value" :options="options" />
       </template>
 
-      <XTable @onRowClick="onRowClick" />
+      <XTable autoScrollId="tbody1" @onRowClick="onRowClick" />
     </Box>
 
     <XModal v-show="isShowModal">

@@ -5,7 +5,7 @@
         <XSelect :value="value" :options="options" />
       </template>
 
-      <XTable :columns="columns" :tableData="tableData" />
+      <XTable :columns="columns" :tableData="tableData" autoScrollId="tbody4"/>
     </Box>
   </div>
 </template>

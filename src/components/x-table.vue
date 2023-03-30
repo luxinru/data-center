@@ -10,7 +10,7 @@
         </tr>
       </thead>
 
-      <tbody>
+      <tbody :id="autoScrollId">
         <tr
           v-for="(item, index) in tableData"
           :key="index"
@@ -258,10 +258,48 @@ export default {
           }
         ]
       }
+    },
+
+    /**
+     * 传入id表格自动滚动
+     */
+    autoScrollId: {
+      type: String,
+      default: 'tbody1'
     }
   },
 
+  mounted () {
+    this.autoScroll()
+  },
+
   methods: {
+    autoScroll () {
+      const scrollContainer = document.getElementById(this.autoScrollId)
+
+      // Automatically scroll the container every 2 seconds
+      let intervalId = setInterval(function () {
+        scrollContainer.scrollTop += 1 // Adjust the amount of scrolling here
+        if (scrollContainer.scrollTop === (scrollContainer.scrollHeight - scrollContainer.clientHeight)) {
+          scrollContainer.scrollTop = 0
+        }
+      }, 60)
+
+      // Pause scrolling when the mouse is over the container
+      scrollContainer.addEventListener('mouseover', function () {
+        clearInterval(intervalId)
+      })
+
+      // Resume scrolling when the mouse leaves the container
+      scrollContainer.addEventListener('mouseout', function () {
+        intervalId = setInterval(function () {
+          scrollContainer.scrollTop += 1 // Adjust the amount of scrolling here
+          if (scrollContainer.scrollTop === (scrollContainer.scrollHeight - scrollContainer.clientHeight)) {
+            scrollContainer.scrollTop = 0
+          }
+        }, 60)
+      })
+    },
     onRowClick (row) {
       this.$emit('onRowClick', row)
     }
@@ -317,6 +355,10 @@ export default {
       overflow-y: auto;
       display: flex;
       flex-direction: column;
+
+      &:hover {
+        animation-play-state: paused;
+      }
 
       tr {
         width: 100%;
