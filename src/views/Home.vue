@@ -300,7 +300,8 @@ export default {
                 fontSize: 18
               },
               itemStyle: {
-                areaColor: 'transparent'
+                areaColor: 'transparent',
+                borderColor: 'RGBA(122, 177, 233, 1)'
               },
               emphasis: {
                 label: {
