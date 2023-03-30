@@ -299,6 +299,7 @@ export default {
     onFooterClick (type) {
       switch (type) {
         case 1:
+          this.isShowSvg2Map = false
           this.type = type
           if (document.getElementById('provinceMap')) {
             const chart = echarts.getInstanceByDom(
