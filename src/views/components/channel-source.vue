@@ -113,7 +113,7 @@ export default {
               show: false
             },
             // prettier-ignore
-            data: ['APP', '小程序', '公众号', '鹭鹭行', '大江网', '绿包碳汇'],
+            data: ['APP', '小程序', '公众号', '鹭鹭行', '大江网', '绿宝碳汇'],
             splitLine: {
               // 网格线
               show: false

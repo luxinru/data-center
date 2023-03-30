@@ -2,7 +2,7 @@
   <div class="user_analysis">
     <Box title="用户分析">
       <template #select>
-        <XSelect :value="value" :options="options" />
+        <XSelect :value="value" :options="options" @select="onSelect"/>
       </template>
 
       <div class="user_analysis_container">
@@ -10,7 +10,7 @@
           <img class="bac" src="@/assets/images/icon-bj-1.png" alt="" />
           <img class="content" src="@/assets/images/user.png" alt="" />
 
-          <span>用户年龄</span>
+          <span>{{ name }}</span>
         </div>
 
         <div class="labels">
@@ -87,6 +87,19 @@ export default {
           label: '消费次数'
         }
       ]
+    }
+  },
+
+  computed: {
+    name () {
+      const finded = this.options.find(item => item.value === this.value)
+      return finded.label
+    }
+  },
+
+  methods: {
+    onSelect (data) {
+      this.value = data.value
     }
   }
 }

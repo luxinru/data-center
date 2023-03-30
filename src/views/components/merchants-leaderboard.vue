@@ -103,7 +103,7 @@ export default {
       options: [
         {
           value: '1',
-          label: '商品金额'
+          label: '商户金额'
         },
         {
           value: '2',
@@ -380,7 +380,7 @@ export default {
         ],
         series: [
           {
-            name: '近期价格趋势',
+            name: '近期交易趋势',
             type: 'line',
             symbol: 'none', // 默认是空心圆（中间是白色的），改成实心圆
             smooth: true,
@@ -420,49 +420,6 @@ export default {
             data: [
               1000, 2000, 1000, 2000, 1000, 2000, 1000, 2000, 1000, 2000, 1000,
               2000, 1000, 2000, 1000, 2000, 1000, 2000, 1000, 2000
-            ]
-          },
-          {
-            name: '近期销售趋势',
-            type: 'line',
-            symbol: 'none', // 默认是空心圆（中间是白色的），改成实心圆
-            smooth: true,
-            lineStyle: {
-              normal: {
-                width: 1,
-                color: 'rgba(46, 255, 169, 1)' // 线条颜色
-              }
-            },
-            itemStyle: {
-              normal: {
-                color: '#fff600'
-              }
-            },
-            areaStyle: {
-              normal: {
-                // 线性渐变，前4个参数分别是x0,y0,x2,y2(范围0~1);相当于图形包围盒中的百分比。如果最后一个参数是‘true’，则该四个值是绝对像素位置。
-                color: new echarts.graphic.LinearGradient(
-                  0,
-                  0,
-                  0,
-                  1,
-                  [
-                    {
-                      offset: 0,
-                      color: 'rgba(46, 255, 169, 0.3)'
-                    },
-                    {
-                      offset: 1,
-                      color: 'rgba(46, 255, 169, 0.1)'
-                    }
-                  ],
-                  false
-                )
-              }
-            },
-            data: [
-              500, 1000, 500, 1000, 500, 1000, 500, 1000, 500, 1000, 500, 1000,
-              500, 1000, 500, 1000, 500, 1000, 500, 1000
             ]
           }
         ]

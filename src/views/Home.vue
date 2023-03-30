@@ -20,9 +20,72 @@
 
       <div v-if="type === 2" id="provinceMap" class="provinceMap"></div>
 
-      <div class="svg_map" v-if="type === 1">
+      <div class="svg_map" v-if="type === 1 && isShowSvg2Map === false">
         <img class="bac" src="@/assets/images/map.png" alt="" />
         <div id="svgmap" class="svg"></div>
+      </div>
+
+      <div v-if="isShowSvg2Map" id="provinceMap" class="provinceMap"></div>
+
+      <div
+        class="tooltip"
+        v-show="isTooltipShow"
+        :style="{ top: y + 150 + 'px', left: x + 'px' }"
+      >
+        <span class="title"> {{ cityName }} </span>
+
+        <div class="content">
+          <div class="item">
+            <span class="label">交易额</span>
+            <span class="value">5678.00</span>
+            <span class="unit">元</span>
+          </div>
+          <div class="item">
+            <span class="label">订单数</span>
+            <span class="value">5678</span>
+            <span class="unit">笔</span>
+          </div>
+          <div class="item">
+            <span class="label">商品数</span>
+            <span class="value">5678</span>
+            <span class="unit">件</span>
+          </div>
+          <div class="item">
+            <span class="label">商户数</span>
+            <span class="value">5678</span>
+            <span class="unit">户</span>
+          </div>
+          <div class="item">
+            <span class="label">门店数</span>
+            <span class="value">5678</span>
+            <span class="unit">个</span>
+          </div>
+          <div class="item">
+            <span class="label">用户数</span>
+            <span class="value">5678</span>
+            <span class="unit">个</span>
+          </div>
+          <div class="item">
+            <span class="label">自提点数</span>
+            <span class="value">5678</span>
+            <span class="unit">个</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tooltip2" v-if="type === 1 && isShowSvg2Map === false">
+        <div class="item">
+          <span></span>
+          <div>交易额</div>
+        </div>
+        <div class="item">
+          <span></span>
+          <div>订单数</div>
+        </div>
+        <div class="item">
+          <span></span>
+          <div>商户数</div>
+        </div>
       </div>
 
       <div class="bars">
@@ -217,7 +280,12 @@ export default {
           label: '设备数'
         }
       ],
-      type: 1
+      type: 1,
+      x: 0,
+      y: 0,
+      isTooltipShow: false,
+      cityName: '',
+      isShowSvg2Map: false
     }
   },
 
@@ -246,6 +314,7 @@ export default {
           break
         case 2:
           this.type = type
+          this.isShowSvg2Map = false
           this.$nextTick(() => {
             this.initProvinceMap()
           })
@@ -280,6 +349,9 @@ export default {
           console.log(document.getElementById('svgmap'))
           const echartObj = echarts.init(document.getElementById('svgmap'))
 
+          const base64png =
+            'image://data:image/png;base64,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'
+
           echartObj.setOption({
             tooltip: {
               padding: 0,
@@ -297,7 +369,9 @@ export default {
               label: {
                 show: true,
                 color: '#fff',
-                fontSize: 18
+                fontSize: 18,
+                backgroundColor: 'rgba(0, 0, 0, 1)',
+                padding: [4, 8]
               },
               itemStyle: {
                 areaColor: 'transparent',
@@ -316,18 +390,204 @@ export default {
             },
             series: [
               {
-                type: 'scatter',
-                coordinateSystem: 'geo',
-                zlevel: 1,
-                symbolSize: 2,
-                data: []
+                type: 'map',
+                map: 'svgMap',
+                layoutCenter: ['50.15%', '46.38%'],
+                layoutSize: '111%',
+                itemStyle: {
+                  areaColor: 'transparent',
+                  borderColor: 'transparent'
+                },
+                markPoint: {
+                  data: [
+                    {
+                      symbol: base64png,
+                      x: 497,
+                      y: 170,
+                      symbolSize: [52, 79]
+                    },
+                    {
+                      symbol: base64png,
+                      x: 385,
+                      y: 75,
+                      symbolSize: [52, 79]
+                    },
+                    {
+                      symbol: base64png,
+                      x: 752,
+                      y: 80,
+                      symbolSize: [52, 79]
+                    },
+                    {
+                      symbol: base64png,
+                      x: 758,
+                      y: 155,
+                      symbolSize: [52, 79]
+                    },
+                    {
+                      symbol: base64png,
+                      x: 705,
+                      y: 223,
+                      symbolSize: [52, 79]
+                    },
+                    {
+                      symbol: base64png,
+                      x: 308,
+                      y: 210,
+                      symbolSize: [52, 79]
+                    },
+                    {
+                      symbol: base64png,
+                      x: 287,
+                      y: 275,
+                      symbolSize: [52, 79]
+                    },
+                    {
+                      symbol: base64png,
+                      x: 93,
+                      y: 320,
+                      symbolSize: [52, 79]
+                    },
+                    {
+                      symbol: base64png,
+                      x: 583,
+                      y: 315,
+                      symbolSize: [52, 79]
+                    },
+                    {
+                      symbol: base64png,
+                      x: 280,
+                      y: 390,
+                      symbolSize: [52, 79]
+                    },
+                    {
+                      symbol: base64png,
+                      x: 355,
+                      y: 535,
+                      symbolSize: [52, 79]
+                    }
+                  ]
+                },
+                silent: true
               }
             ]
           })
-          // echartObj.on('click', (params) => {
-          //   const name = params.name
-          //   this.initProvinceMap(name)
-          // })
+          echartObj.on('mouseover', (params) => {
+            this.cityName = params.name
+            this.x = params.event.offsetX
+            this.y = params.event.offsetY
+            this.isTooltipShow = true
+          })
+          echartObj.on('mouseout', (params) => {
+            this.isTooltipShow = false
+          })
+
+          echartObj.on('click', (params) => {
+            this.isShowSvg2Map = true
+            this.isTooltipShow = false
+
+            this.$nextTick(() => {
+              const name = params.name
+              const provinceJSON = require(`@/assets/json/jiangxi/${name}.json`)
+              const chart = echarts.getInstanceByDom(
+                document.getElementById('provinceMap')
+              )
+              if (chart) {
+                echarts.dispose(document.getElementById('provinceMap'))
+              }
+              const echartObj2 = echarts.init(
+                document.getElementById('provinceMap')
+              )
+              echarts.registerMap(name, provinceJSON)
+
+              echartObj2.setOption({
+                tooltip: {
+                  padding: 0,
+                  // 数据格式化
+                  formatter: function (params, callback) {
+                    return params.name + '：' + (params.value || 0)
+                  }
+                },
+
+                geo: {
+                  map: name,
+                  roam: false, // 不开启缩放和平移
+                  zoom: 1, // 视角缩放比例
+                  label: {
+                    normal: {
+                      show: true,
+                      fontSize: 10,
+                      color: '#000'
+                    },
+                    emphasis: {
+                      show: true,
+                      color: 'blue'
+                    }
+                  },
+                  itemStyle: {
+                    normal: {
+                      borderWidth: 6,
+                      // 外层边框
+                      borderColor: '#4b9fee',
+                      shadowBlur: 16, // 设置阴影大小
+                      shadowColor: 'rgba(0,106,250)' // 设置阴影颜色和透明度
+                    },
+                    emphasis: {
+                      // 高亮的显示设置
+                      areaColor: '#087af4' // 鼠标选择地图块区域颜色
+                    }
+                  }
+                },
+                series: [
+                  {
+                    type: 'map',
+                    map: name,
+                    zoom: 1, // 视角缩放比例
+                    label: {
+                      normal: {
+                        show: true,
+                        fontSize: 18,
+                        color: 'rgba(0,0,0,0.7)',
+                        textStyle: {
+                          color: '#fff' // 地图省份文字颜色
+                        },
+                        emphasis: {
+                          textStyle: {
+                            color: '#fff'
+                          }
+                        },
+
+                        shadowBlur: 200, // 设置阴影大小
+                        shadowColor: 'rgba(255, 0, 0, 0.3)' // 设置阴影颜色和透明度
+                      }
+                    },
+                    roam: false,
+                    itemStyle: {
+                      normal: {
+                        areaColor: '#073c86',
+                        borderColor: '#0e5eb9',
+                        borderWidth: 1
+                      },
+                      emphasis: {
+                        show: false,
+                        areaColor: '#0377f7'
+                      }
+                    }
+                  }
+                ]
+              })
+
+              echartObj2.on('mouseover', (params) => {
+                this.cityName = params.name
+                this.x = params.event.offsetX
+                this.y = params.event.offsetY
+                this.isTooltipShow = true
+              })
+              echartObj2.on('mouseout', (params) => {
+                this.isTooltipShow = false
+              })
+            })
+          })
         })
     },
 
@@ -404,8 +664,6 @@ export default {
             type: 'map',
             map: name,
             zoom: 1, // 视角缩放比例
-
-            data: this.dataList,
             label: {
               normal: {
                 show: true,
@@ -761,7 +1019,7 @@ export default {
       position: absolute;
       width: 100%;
       height: 100%;
-      top: 0;
+      top: 3%;
       left: 0;
     }
 
@@ -912,6 +1170,124 @@ export default {
         .bac {
           width: 100%;
           height: 100%;
+        }
+      }
+    }
+  }
+
+  .tooltip {
+    position: absolute;
+    width: 706px;
+    height: 314px;
+    background: url('~@/assets/images/window-1.png') no-repeat;
+    background-size: 100% 100%;
+    padding: 22px 16px 0 16px;
+    display: flex;
+    flex-direction: column;
+
+    .title {
+      width: 100%;
+      height: 50px;
+      font-size: 30px;
+      font-family: YouSheBiaoTiHei;
+      font-weight: 400;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      padding-left: 20px;
+    }
+
+    .content {
+      margin-top: 10px;
+      width: 100%;
+      flex: 1 0;
+      padding-bottom: 15px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-column-gap: 8px;
+      grid-row-gap: 10px;
+
+      .item {
+        width: 100%;
+        background-color: rgba(0, 181, 255, 0.1);
+        display: flex;
+        align-items: center;
+        padding: 0 15px;
+
+        .label {
+          font-family: MicrosoftYaHei;
+          font-size: 20px;
+          color: rgba(255, 255, 255, 1);
+        }
+
+        .value {
+          flex: 1 0;
+          text-align: right;
+          font-family: YouSheBiaoTiHei;
+          color: rgba(0, 176, 236, 1);
+          font-size: 20px;
+        }
+
+        .unit {
+          font-family: MicrosoftYaHei;
+          font-size: 20px;
+          color: rgba(255, 255, 255, 1);
+          margin-left: 5px;
+        }
+      }
+    }
+  }
+
+  .tooltip2 {
+    position: absolute;
+    bottom: 100px;
+    right: 300px;
+    width: 142px;
+    height: 150px;
+    background: url('~@/assets/images/icon-bj-8.png') no-repeat;
+    background-size: 100% 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .item {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+
+      &:first-child {
+        margin-top: 0;
+      }
+
+      span {
+        width: 12px;
+        height: 12px;
+      }
+
+      div {
+        font-size: 18px;
+        font-family: Microsoft YaHei;
+        font-weight: 400;
+        color: #ffffff;
+        margin-left: 10px;
+      }
+
+      &:nth-child(1) {
+        span {
+          background-color: #19d6ff;
+        }
+      }
+
+      &:nth-child(2) {
+        span {
+          background-color: #ffbd77;
+        }
+      }
+
+      &:nth-child(3) {
+        span {
+          background-color: #89f4b9;
         }
       }
     }

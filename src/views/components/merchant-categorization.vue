@@ -41,15 +41,15 @@ export default {
       options: [
         {
           value: '1',
-          label: '商品金额'
+          label: '商户金额'
         },
         {
           value: '2',
-          label: '商品销量'
+          label: '商户销量'
         },
         {
           value: '3',
-          label: '商品数量'
+          label: '商户数量'
         }
       ],
       labels: [],
