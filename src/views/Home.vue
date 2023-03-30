@@ -405,38 +405,42 @@ export default {
                       name: '南昌市',
                       symbol: base64png,
                       x: 497,
-                      y: 170,
+                      y: 167,
                       symbolSize: [52, 79]
                     },
                     {
+                      name: '九江市',
                       symbol: base64png,
                       x: 385,
-                      y: 75,
+                      y: 72,
                       symbolSize: [52, 79]
                     },
                     {
+                      name: '景德镇市',
                       symbol: base64png,
                       x: 752,
-                      y: 80,
+                      y: 79,
                       symbolSize: [52, 79]
                     },
                     {
+                      name: '上饶市',
                       symbol: base64png,
                       x: 758,
-                      y: 155,
+                      y: 152,
                       symbolSize: [52, 79]
                     },
                     {
+                      name: '鹰潭市',
                       symbol: base64png,
                       x: 705,
-                      y: 223,
+                      y: 220,
                       symbolSize: [52, 79]
                     },
                     {
                       name: '宜春市',
                       symbol: base64png,
                       x: 308,
-                      y: 210,
+                      y: 208,
                       symbolSize: [52, 79]
                     },
                     {
@@ -449,7 +453,7 @@ export default {
                       name: '萍乡市',
                       symbol: base64png,
                       x: 93,
-                      y: 320,
+                      y: 315,
                       symbolSize: [52, 79]
                     },
                     {
@@ -462,13 +466,14 @@ export default {
                       name: '吉安市',
                       symbol: base64png,
                       x: 280,
-                      y: 385,
+                      y: 383,
                       symbolSize: [52, 79]
                     },
                     {
+                      name: '赣州市',
                       symbol: base64png,
                       x: 355,
-                      y: 535,
+                      y: 532,
                       symbolSize: [52, 79]
                     }
                   ]
