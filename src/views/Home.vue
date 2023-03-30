@@ -602,25 +602,35 @@ export default {
     },
 
     initProvinceMap (name = '江西省') {
-      const points = [
-        { value: [115.96066, 29.66666], itemStyle: { color: '#00EEFF' } },
-        { value: [117.18457, 29.27425], itemStyle: { color: '#00EEFF' } },
-        { value: [115.95046, 28.5516], itemStyle: { color: '#00EEFF' } }, // 南昌市
-        { value: [117.94946, 28.46063], itemStyle: { color: '#00EEFF' } },
-        { value: [117.07557, 28.26579], itemStyle: { color: '#00EEFF' } },
-        { value: [116.36454, 27.95489], itemStyle: { color: '#00EEFF' } },
-        { value: [114.92354, 27.82358], itemStyle: { color: '#00EEFF' } },
-        { value: [114.42356, 27.82086], itemStyle: { color: '#00EEFF' } },
-        { value: [113.89369, 27.66475], itemStyle: { color: '#00EEFF' } },
-        { value: [115.00051, 27.11973], itemStyle: { color: '#00EEFF' } },
-        { value: [114.94051, 25.83518], itemStyle: { color: '#00EEFF' } }
-      ]
+      let points = []
+
+      if (name === '江西省') {
+        points = [
+          { value: [115.96066, 29.66666], itemStyle: { color: '#00EEFF' } },
+          { value: [117.18457, 29.27425], itemStyle: { color: '#00EEFF' } },
+          { value: [115.95046, 28.5516], itemStyle: { color: '#00EEFF' } }, // 南昌市
+          { value: [117.94946, 28.46063], itemStyle: { color: '#00EEFF' } },
+          { value: [117.07557, 28.26579], itemStyle: { color: '#00EEFF' } },
+          { value: [116.36454, 27.95489], itemStyle: { color: '#00EEFF' } },
+          { value: [114.92354, 27.82358], itemStyle: { color: '#00EEFF' } },
+          { value: [114.42356, 27.82086], itemStyle: { color: '#00EEFF' } },
+          { value: [113.89369, 27.66475], itemStyle: { color: '#00EEFF' } },
+          { value: [115.00051, 27.11973], itemStyle: { color: '#00EEFF' } },
+          { value: [114.94051, 25.83518], itemStyle: { color: '#00EEFF' } }
+        ]
+      }
 
       const gdCode = [115.95046, 28.5516]
       const codes = []
-      points.forEach((item) => {
-        codes.push({ coords: [item.value, gdCode], lineStyle: item.lineStyle })
-      })
+
+      if (name === '江西省') {
+        points.forEach((item) => {
+          codes.push({
+            coords: [item.value, gdCode],
+            lineStyle: item.lineStyle
+          })
+        })
+      }
 
       const provinceJSON = require(`@/assets/json/jiangxi/${name}.json`)
       const chart = echarts.getInstanceByDom(
