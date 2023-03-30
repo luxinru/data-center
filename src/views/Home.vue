@@ -401,6 +401,7 @@ export default {
                 markPoint: {
                   data: [
                     {
+                      name: '南昌市',
                       symbol: base64png,
                       x: 497,
                       y: 170,
@@ -431,6 +432,7 @@ export default {
                       symbolSize: [52, 79]
                     },
                     {
+                      name: '宜春市',
                       symbol: base64png,
                       x: 308,
                       y: 210,
@@ -443,6 +445,7 @@ export default {
                       symbolSize: [52, 79]
                     },
                     {
+                      name: '萍乡市',
                       symbol: base64png,
                       x: 93,
                       y: 320,
@@ -455,9 +458,10 @@ export default {
                       symbolSize: [52, 79]
                     },
                     {
+                      name: '吉安市',
                       symbol: base64png,
                       x: 280,
-                      y: 390,
+                      y: 385,
                       symbolSize: [52, 79]
                     },
                     {
