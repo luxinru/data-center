@@ -9,7 +9,7 @@
 
       <div class="labels">
         <div class="item" v-for="(item, index) in labels" :key="index">
-          <span class="icon" :style="{background: colors[index]}"></span>
+          <span class="icon" :style="{ background: colors[index] }"></span>
           <span class="name">
             {{ item.name }}
           </span>
@@ -55,9 +55,18 @@ export default {
       labels: [],
       total: 0,
       colors: [
+        '#91cc75',
+        '#5470c6',
+        '#fac858',
+        '#ee6666',
+        '#73c0de',
+        '#3ba272',
+        '#fc8452',
+        '#9a60b4',
+        '#ea7ccc',
+        '#fac858',
         '#5470c6',
         '#91cc75',
-        '#fac858',
         '#ee6666',
         '#73c0de',
         '#3ba272',
@@ -80,17 +89,8 @@ export default {
         '#73c0de',
         '#3ba272',
         '#fc8452',
-        '#9a60b4',
         '#ea7ccc',
-        '#5470c6',
-        '#91cc75',
-        '#fac858',
-        '#ee6666',
-        '#73c0de',
-        '#3ba272',
-        '#fc8452',
-        '#9a60b4',
-        '#ea7ccc'
+        '#9a60b4'
       ]
     }
   },
