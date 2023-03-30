@@ -229,17 +229,17 @@ export default {
 
   methods: {
     onFooterClick (type) {
-      if (type !== 2 && document.getElementById('provinceMap')) {
-        const chart = echarts.getInstanceByDom(
-          document.getElementById('provinceMap')
-        )
-        if (chart) {
-          echarts.dispose(document.getElementById('provinceMap'))
-        }
-      }
       switch (type) {
         case 1:
           this.type = type
+          if (document.getElementById('provinceMap')) {
+            const chart = echarts.getInstanceByDom(
+              document.getElementById('provinceMap')
+            )
+            if (chart) {
+              echarts.dispose(document.getElementById('provinceMap'))
+            }
+          }
           this.$nextTick(() => {
             this.initSvgMap()
           })
