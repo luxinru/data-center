@@ -18,6 +18,13 @@
       <img class="left" src="@/assets/images/left-1.png" alt="" />
       <img class="right" src="@/assets/images/right-1.png" alt="" />
 
+      <div v-if="type === 2" id="provinceMap" class="provinceMap"></div>
+
+      <div class="svg_map" v-else>
+        <img class="bac" src="@/assets/images/map.png" alt="" />
+        <!-- <img class="svg" src="@/assets/images/map.svg" alt=""> -->
+      </div>
+
       <div class="bars">
         <div class="item" v-for="(item, index) in barsList" :key="index">
           <span>
@@ -37,13 +44,6 @@
           </span>
           <span>{{ item.label }}</span>
         </div>
-      </div>
-
-      <div v-if="type === 2" id="provinceMap" class="provinceMap"></div>
-
-      <div class="svg_map" v-else>
-        <img class="bac" src="@/assets/images/map.png" alt="" />
-        <!-- <img class="svg" src="@/assets/images/map.svg" alt=""> -->
       </div>
 
       <div class="footer">
@@ -223,7 +223,7 @@ export default {
   methods: {
     onFooterClick (type) {
       this.type = type
-      if (type !== 2) {
+      if (type !== 2 && document.getElementById('provinceMap')) {
         const chart = echarts.getInstanceByDom(
           document.getElementById('provinceMap')
         )
@@ -294,7 +294,7 @@ export default {
         geo: {
           map: name,
           roam: false, // 不开启缩放和平移
-          zoom: 1.15, // 视角缩放比例
+          zoom: 1, // 视角缩放比例
           label: {
             normal: {
               show: true,
@@ -324,13 +324,13 @@ export default {
           {
             type: 'map',
             map: name,
-            zoom: 1.15, // 视角缩放比例
+            zoom: 1, // 视角缩放比例
 
             data: this.dataList,
             label: {
               normal: {
                 show: true,
-                fontSize: '10',
+                fontSize: 18,
                 color: 'rgba(0,0,0,0.7)',
                 textStyle: {
                   color: '#fff' // 地图省份文字颜色
@@ -680,8 +680,11 @@ export default {
     }
 
     .provinceMap {
-      width: 1058px;
-      height: 785px;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
     }
 
     .footer {
