@@ -5,7 +5,12 @@
         <XSelect :value="value" :options="options" />
       </template>
 
-      <XTable autoScrollId="tbody1" @onRowClick="onRowClick" />
+      <XTable
+        autoScrollId="tbody1"
+        :columns="columns"
+        :tableData="tableData"
+        @onRowClick="onRowClick"
+      />
     </Box>
 
     <XModal v-show="isShowModal">
@@ -112,6 +117,196 @@ export default {
         {
           value: '4',
           label: '商品评分'
+        }
+      ],
+
+      columns: [
+        {
+          name: '商品名称',
+          value: 'b',
+          width: '180px'
+        },
+        {
+          name: '产地',
+          value: 'c'
+        },
+        {
+          name: '销量',
+          value: 'e',
+          isNumber: true
+        },
+        {
+          name: '金额',
+          value: 'f',
+          isNumber: true,
+          width: '100px'
+        },
+        {
+          name: '评分',
+          value: 'g'
+        }
+      ],
+
+      tableData: [
+        {
+          b: '【苏泊尔 电烤箱K30FK6】',
+          c: '江西',
+
+          e: '2',
+          f: '789.63',
+          g: '95'
+        },
+        {
+          b: '【苏泊尔 电烤箱K30FK6】',
+          c: '江西',
+
+          e: '2',
+          f: '789.63',
+          g: '95'
+        },
+        {
+          b: '【苏泊尔 电烤箱K30FK6】',
+          c: '江西',
+
+          e: '2',
+          f: '789.63',
+          g: '95'
+        },
+        {
+          b: '【苏泊尔 电烤箱K30FK6】',
+          c: '江西',
+
+          e: '2',
+          f: '789.63',
+          g: '95'
+        },
+        {
+          b: '【苏泊尔 电烤箱K30FK6】',
+          c: '江西',
+
+          e: '2',
+          f: '789.63',
+          g: '95'
+        },
+        {
+          b: '【苏泊尔 电烤箱K30FK6】',
+          c: '江西',
+
+          e: '2',
+          f: '789.63',
+          g: '95'
+        },
+        {
+          b: '【苏泊尔 电烤箱K30FK6】',
+          c: '江西',
+
+          e: '2',
+          f: '789.63',
+          g: '95'
+        },
+        {
+          b: '【苏泊尔 电烤箱K30FK6】',
+          c: '江西',
+
+          e: '2',
+          f: '789.63',
+          g: '95'
+        },
+        {
+          b: '【苏泊尔 电烤箱K30FK6】',
+          c: '江西',
+
+          e: '2',
+          f: '789.63',
+          g: '95'
+        },
+        {
+          b: '【苏泊尔 电烤箱K30FK6】',
+          c: '江西',
+
+          e: '2',
+          f: '789.63',
+          g: '95'
+        },
+        {
+          b: '【苏泊尔 电烤箱K30FK6】',
+          c: '江西',
+
+          e: '2',
+          f: '789.63',
+          g: '95'
+        },
+        {
+          b: '【苏泊尔 电烤箱K30FK6】',
+          c: '江西',
+
+          e: '2',
+          f: '789.63',
+          g: '95'
+        },
+        {
+          b: '【苏泊尔 电烤箱K30FK6】',
+          c: '江西',
+
+          e: '2',
+          f: '789.63',
+          g: '95'
+        },
+        {
+          b: '【苏泊尔 电烤箱K30FK6】',
+          c: '江西',
+
+          e: '2',
+          f: '789.63',
+          g: '95'
+        },
+        {
+          b: '【苏泊尔 电烤箱K30FK6】',
+          c: '江西',
+
+          e: '2',
+          f: '789.63',
+          g: '95'
+        },
+        {
+          b: '【苏泊尔 电烤箱K30FK6】',
+          c: '江西',
+
+          e: '2',
+          f: '789.63',
+          g: '95'
+        },
+        {
+          b: '【苏泊尔 电烤箱K30FK6】',
+          c: '江西',
+
+          e: '2',
+          f: '789.63',
+          g: '95'
+        },
+        {
+          b: '【苏泊尔 电烤箱K30FK6】',
+          c: '江西',
+
+          e: '2',
+          f: '789.63',
+          g: '95'
+        },
+        {
+          b: '【苏泊尔 电烤箱K30FK6】',
+          c: '江西',
+
+          e: '2',
+          f: '789.63',
+          g: '95'
+        },
+        {
+          b: '【苏泊尔 电烤箱K30FK6】',
+          c: '江西',
+
+          e: '2',
+          f: '789.63',
+          g: '95'
         }
       ]
     }
@@ -374,12 +569,13 @@ export default {
 
         .details {
           width: 100%;
-          height: 286px;
+          height: 350px;
           display: flex;
           align-items: center;
 
           img {
-            height: 286px;
+            width: 350px;
+            height: 350px;
             margin-right: 25px;
           }
 
@@ -433,6 +629,7 @@ export default {
       }
 
       .chat {
+        position: relative;
         flex: 1 0;
         display: flex;
         flex-direction: column;
@@ -441,6 +638,8 @@ export default {
         padding-right: 10px;
 
         .title {
+          position: sticky;
+          top: 0;
           width: 100%;
           height: 56px;
           font-size: 24px;
@@ -449,6 +648,7 @@ export default {
           color: #ffffff;
           border-bottom: 1px solid rgba(58, 137, 206, 1);
           flex-shrink: 0;
+          background-color: #041024;
         }
 
         .chat_item {

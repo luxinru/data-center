@@ -96,13 +96,14 @@
               :startVal="0"
               :endVal="item.value"
               :duration="2"
-              :options="{ decimalPlaces: 2 }"
+              :options="{ decimalPlaces: 2, useGrouping: false }"
             ></CountUp>
             <CountUp
               v-else
               :startVal="0"
               :endVal="item.value"
               :duration="2"
+              :options="{ useGrouping: false }"
             ></CountUp>
           </span>
           <span>{{ item.label }}</span>
@@ -347,7 +348,6 @@ export default {
           }
           echarts.registerMap('svgMap', { svg: svgString })
 
-          console.log(document.getElementById('svgmap'))
           const echartObj = echarts.init(document.getElementById('svgmap'))
 
           const base64png =
@@ -894,7 +894,6 @@ export default {
       font-weight: 400;
       color: #eff8fc;
       text-shadow: 0px 4px 1px rgba(19, 80, 143, 0.66);
-      margin-top: 5px;
     }
   }
 

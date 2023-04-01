@@ -4,7 +4,14 @@
       <thead>
         <tr>
           <th v-if="isRank">排名</th>
-          <th v-for="(item, index) in columns" :key="index">
+          <th
+            v-for="(item, index) in columns"
+            :key="index"
+            :style="{
+              width: item.width ? item.width : 'auto',
+              flex: item.width ? 'none' : '1 0',
+            }"
+          >
             {{ item.name }}
           </th>
         </tr>
@@ -36,7 +43,11 @@
             v-for="(label, j) in columns"
             :key="j"
             :class="{ isNumber: label.isNumber }"
-            :style="{ color: label.color || '#fffefe' }"
+            :style="{
+              color: label.color || '#fffefe',
+              width: label.width ? label.width : 'auto',
+              flex: label.width ? 'none' : '1 0',
+            }"
           >
             <span :title="item[label.value]">
               {{ item[label.value] }}
@@ -280,7 +291,10 @@ export default {
       // Automatically scroll the container every 2 seconds
       let intervalId = setInterval(function () {
         scrollContainer.scrollTop += 1 // Adjust the amount of scrolling here
-        if (scrollContainer.scrollTop === (scrollContainer.scrollHeight - scrollContainer.clientHeight)) {
+        if (
+          scrollContainer.scrollTop ===
+          scrollContainer.scrollHeight - scrollContainer.clientHeight
+        ) {
           scrollContainer.scrollTop = 0
         }
       }, 60)
@@ -294,7 +308,10 @@ export default {
       scrollContainer.addEventListener('mouseout', function () {
         intervalId = setInterval(function () {
           scrollContainer.scrollTop += 1 // Adjust the amount of scrolling here
-          if (scrollContainer.scrollTop === (scrollContainer.scrollHeight - scrollContainer.clientHeight)) {
+          if (
+            scrollContainer.scrollTop ===
+            scrollContainer.scrollHeight - scrollContainer.clientHeight
+          ) {
             scrollContainer.scrollTop = 0
           }
         }, 60)
@@ -329,6 +346,7 @@ export default {
       height: 40px;
       background-color: #071e50;
       flex-shrink: 0;
+      padding-right: 10px;
 
       tr {
         width: 100%;

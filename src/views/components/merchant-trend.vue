@@ -1,6 +1,6 @@
 <template>
   <div class="merchant_trend">
-    <Box title="商户趋势">
+    <Box title="商户增长趋势">
       <div id="chart3" class="chart"></div>
     </Box>
   </div>

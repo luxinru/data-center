@@ -1,6 +1,6 @@
 <template>
   <div class="transaction_trend">
-    <Box title="交易趋势">
+    <Box title="交易增长趋势">
       <div id="chart4" class="chart"></div>
     </Box>
   </div>
@@ -37,7 +37,7 @@ export default {
           show: true,
           textStyle: {
             color: 'rgba(255, 255, 255, 1)',
-            fontSize: 19
+            fontSize: 18
           },
           itemGap: 30,
           icon: 'circle'

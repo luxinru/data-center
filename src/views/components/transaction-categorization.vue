@@ -1,6 +1,6 @@
 <template>
   <div class="transaction_categorization">
-    <Box title="交易分类">
+    <Box title="交易分类占比">
       <template #select>
         <XSelect :value="value" :options="options" />
       </template>
@@ -163,7 +163,10 @@ export default {
           bottom: '0'
         },
         tooltip: {
-          trigger: 'item'
+          trigger: 'item',
+          textStyle: {
+            fontSize: 18
+          }
         },
         legend: {
           // type: 'scroll',

@@ -1,6 +1,6 @@
 <template>
   <div class="merchant_categorization">
-    <Box title="商户分类">
+    <Box title="商户分类占比">
       <template #select>
         <XSelect :value="value" :options="options" />
       </template>
@@ -147,7 +147,10 @@ export default {
           bottom: '0'
         },
         tooltip: {
-          trigger: 'item'
+          trigger: 'item',
+          textStyle: {
+            fontSize: 18
+          }
         },
         legend: {
           show: false,
