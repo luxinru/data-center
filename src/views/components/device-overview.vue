@@ -22,7 +22,15 @@
               <p>16565</p>
             </div>
             <div class="item">
-              <span>故障次数</span>
+              <span>正常运行</span>
+              <p>16565</p>
+            </div>
+            <div class="item">
+              <span>故障检修</span>
+              <p>16565</p>
+            </div>
+            <div class="item">
+              <span>关闭暂停</span>
               <p>16565</p>
             </div>
           </div>
@@ -43,7 +51,15 @@
               <p>16565</p>
             </div>
             <div class="item">
-              <span>故障次数</span>
+              <span>正常运行</span>
+              <p>16565</p>
+            </div>
+            <div class="item">
+              <span>故障检修</span>
+              <p>16565</p>
+            </div>
+            <div class="item">
+              <span>关闭暂停</span>
               <p>16565</p>
             </div>
           </div>
@@ -134,7 +150,7 @@ export default {
 
       .labels {
         width: 100%;
-        height: 148px;
+        // height: 148px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -183,6 +199,28 @@ export default {
           }
 
           &:nth-child(3) {
+            background: url('~@/assets/images/icon-bj-5.png') no-repeat;
+            background-size: 100% 100%;
+
+            p {
+              color: rgba(255, 198, 123, 1);
+            }
+          }
+          &:nth-child(4) {
+            background: url('~@/assets/images/icon-bj-3.png') no-repeat;
+            background-size: 100% 100%;
+          }
+
+          &:nth-child(5) {
+            background: url('~@/assets/images/icon-bj-4.png') no-repeat;
+            background-size: 100% 100%;
+
+            p {
+              color: rgba(171, 236, 150, 1);
+            }
+          }
+
+          &:nth-child(6) {
             background: url('~@/assets/images/icon-bj-5.png') no-repeat;
             background-size: 100% 100%;
 

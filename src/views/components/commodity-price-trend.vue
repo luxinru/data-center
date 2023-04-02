@@ -113,7 +113,8 @@ export default {
             axisLabel: {
               show: true,
               fontSize: 15,
-              color: '#fff'
+              color: '#fff',
+              formatter: '{value}%'
             }
           }
         ],
