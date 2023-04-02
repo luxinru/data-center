@@ -9,6 +9,8 @@
 <script>
 import Box from '@/components/box'
 import * as echarts from 'echarts'
+import request from '@/api/request'
+import urls from '@/api/urls'
 
 export default {
   name: 'TransactionTrend',
@@ -22,10 +24,37 @@ export default {
   },
 
   methods: {
-    init () {
+    async getData () {
+      const res = await request({
+        url: urls.transaction_trend,
+        method: 'POST',
+        data: {
+          // todo 待确认，时间戳范围
+          time_range: [1677427200, 1677513600],
+          // todo 待确认，1.日 2.月 3.年 4.小时
+          time_step: 4
+        }
+      })
+      return res.data.data
+    },
+    async init () {
       // 基于准备好的dom，初始化echarts实例
       echarts.dispose(document.getElementById('chart4'))
       const myChart = echarts.init(document.getElementById('chart4'))
+
+      const data = await this.getData() || []
+      const steps = []
+      const data1 = []
+      const data2 = []
+      const data3 = []
+      const data4 = []
+      data.forEach(item => {
+        steps.push(item.step)
+        data1.push(item.sum_price)
+        data2.push(item.order_count)
+        data3.push(item.user_count)
+        data4.push(item.goods_count)
+      })
 
       // 绘制图表
       myChart.setOption({
@@ -64,7 +93,8 @@ export default {
               color: '#fff',
               fontSize: 16
             },
-            data: ['13', '14', '15', '16', '17', '18', '19', '20', '21', '22'],
+            data: steps,
+            // ['13', '14', '15', '16', '17', '18', '19', '20', '21', '22'],
             boundaryGap: false // 不留白，从原点开始
           }
         ],
@@ -123,7 +153,8 @@ export default {
                 global: false
               }
             },
-            data: ['30', '70', '130', '200', '90', '30', '70', '130', '200', '90']
+            data: data1
+            // ['30', '70', '130', '200', '90', '30', '70', '130', '200', '90']
           },
           {
             name: '订单数',
@@ -157,7 +188,8 @@ export default {
                 global: false
               }
             },
-            data: ['95', '30', '170', '60', '210', '30', '70', '130', '200', '90']
+            data: data2
+            // ['95', '30', '170', '60', '210', '30', '70', '130', '200', '90']
           },
           {
             name: '用户数',
@@ -192,7 +224,8 @@ export default {
                 global: false
               }
             },
-            data: ['120', '130', '270', '160', '110', '130', '170', '230', '100', '190']
+            data: data3
+            // ['120', '130', '270', '160', '110', '130', '170', '230', '100', '190']
           },
           {
             name: '商品数',
@@ -227,7 +260,8 @@ export default {
                 global: false
               }
             },
-            data: ['80', '20', '150', '40', '180', '10', '90', '100', '100', '50']
+            data: data4
+            // ['80', '20', '150', '40', '180', '10', '90', '100', '100', '50']
           }
         ]
       })
@@ -241,6 +275,7 @@ export default {
   width: 100%;
   height: 100%;
   overflow: hidden;
+
   .chart {
     width: 100%;
     height: 100%;

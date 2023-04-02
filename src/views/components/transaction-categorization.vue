@@ -2,7 +2,7 @@
   <div class="transaction_categorization">
     <Box title="交易分类占比">
       <template #select>
-        <XSelect :value="value" :options="options" />
+        <XSelect :value="value" :options="options" @select="optionChange"/>
       </template>
 
       <div id="chart9" class="chart"></div>
@@ -26,6 +26,8 @@
 import Box from '@/components/box'
 import XSelect from '@/components/x-select.vue'
 import * as echarts from 'echarts'
+import request from '@/api/request'
+import urls from '@/api/urls'
 
 export default {
   name: 'TransactionCategorization',
@@ -91,7 +93,8 @@ export default {
         '#fc8452',
         '#ea7ccc',
         '#9a60b4'
-      ]
+      ],
+      myChart: null
     }
   },
 
@@ -100,61 +103,31 @@ export default {
   },
 
   methods: {
-    init () {
+    async init () {
       // 基于准备好的dom，初始化echarts实例
       echarts.dispose(document.getElementById('chart9'))
-      const myChart = echarts.init(document.getElementById('chart9'))
+      this.myChart = echarts.init(document.getElementById('chart9'))
 
-      var data = [
-        556, 1599, 500, 121, 186, 457, 436, 373, 4, 3, 77, 41, 3, 16, 0, 0, 4,
-        0, 0, 0, 2, 1, 0, 9, 0, 0, 1, 5611
-      ]
-      var getsjjg = [
-        '新鲜水果',
-        '蔬菜豆菇',
-        '鲜肉蛋禽',
-        '品质水产',
-        '速冻食品',
-        '粮油副食',
-        '酒水茶饮',
-        '休闲食品',
-        '营养保健',
-        '厨卫餐具',
-        '日化家用',
-        '个护美妆',
-        '生活服务',
-        '医疗健康',
-        '娱乐景点',
-        '酒店民宿',
-        '美食餐饮',
-        '花卉景观',
-        '母婴用品',
-        '数码',
-        '电器',
-        '服装箱包',
-        '运动健身',
-        '饰品',
-        '家纺',
-        '家具',
-        '进口专区',
-        '电子卡劵'
-      ]
-      var getsjjgrs = data
-      var syjgdata = []
+      const data = await this.getData(Number(this.options[0].value)) || []
+
+      // 绘制图表
+      this.setChartOption(data)
+    },
+    setChartOption (data) {
+      const syjgdata = []
       let total = 0
-      for (var i = 0; i < getsjjg.length; i++) {
-        total += data[i]
+      data.forEach(item => {
+        const num = Number(item.val)
+        total += num
         syjgdata.push({
-          name: getsjjg[i],
-          value: getsjjgrs[i]
+          name: item.cate,
+          value: num
         })
-      }
-
+      })
       this.labels = syjgdata
       this.total = total
 
-      // 绘制图表
-      myChart.setOption({
+      this.myChart.setOption({
         color: this.colors,
         grid: {
           left: '0',
@@ -181,10 +154,10 @@ export default {
           },
           // 使用回调函数
           formatter: function (name) {
-            const index = getsjjg.indexOf(name)
-            return (
-              `${name}` + ' ' + `${((data[index] / total) * 100).toFixed(2)}%`
-            )
+            const item = data.find(it => it.cate === name)
+            return item ? (
+              `${name}` + ' ' + `${((Number(item.val) / total) * 100).toFixed(2)}%`
+            ) : '-'
           },
           rich: {
             a: {},
@@ -208,6 +181,20 @@ export default {
           }
         ]
       })
+    },
+    async getData (type) {
+      const res = await request({
+        url: urls.product_category_ratio,
+        method: 'POST',
+        data: {
+          type
+        }
+      })
+      return res.data.data
+    },
+    async optionChange (option) {
+      const chartData = await this.getData(Number(option.value))
+      this.setChartOption(chartData)
     }
   }
 }

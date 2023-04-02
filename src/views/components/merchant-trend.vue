@@ -9,6 +9,8 @@
 <script>
 import Box from '@/components/box'
 import * as echarts from 'echarts'
+import request from '@/api/request'
+import urls from '@/api/urls'
 
 export default {
   name: 'MerchantTrend',
@@ -22,10 +24,33 @@ export default {
   },
 
   methods: {
-    init () {
+    async getData () {
+      const res = await request({
+        url: urls.merchant_trend,
+        method: 'POST',
+        data: {
+          // todo 待确认，时间戳范围
+          time_range: [1672416053, 1680058253]
+        }
+      })
+      return res.data.data
+    },
+    async init () {
       // 基于准备好的dom，初始化echarts实例
       echarts.dispose(document.getElementById('chart3'))
       const myChart = echarts.init(document.getElementById('chart3'))
+
+      const data = await this.getData() || []
+      const steps = []
+      const data1 = []
+      const data2 = []
+      const data3 = []
+      data.forEach(item => {
+        steps.push(item.date)
+        data1.push(item.merchant_count)
+        data2.push(item.store_count)
+        data3.push(item.post_count)
+      })
 
       // 绘制图表
       myChart.setOption({
@@ -53,7 +78,8 @@ export default {
         xAxis: [
           {
             type: 'category',
-            data: ['17', '18', '19', '20', '21', '22', '23', '24'],
+            data: steps,
+            // ['17', '18', '19', '20', '21', '22', '23', '24'],
             axisPointer: {
               type: 'shadow'
             },
@@ -97,7 +123,8 @@ export default {
             name: '商户数',
             type: 'bar',
             barWidth: 10,
-            data: [30000, 20000, 11600, 22200, 44400, 28000, 44400, 28000],
+            data: data1,
+            // [30000, 20000, 11600, 22200, 44400, 28000, 44400, 28000],
             itemStyle: {
               barBorderRadius: [8, 8, 0, 0],
               color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
@@ -133,7 +160,8 @@ export default {
                 }
               ])
             },
-            data: [10000, 20000, 10000, 10000, 50000, 17000, 50000, 17000]
+            data: data2
+            // [10000, 20000, 10000, 10000, 50000, 17000, 50000, 17000]
           },
           {
             name: '自提点数',
@@ -152,7 +180,8 @@ export default {
                 }
               ])
             },
-            data: [30000, 30000, 40000, 30000, 28000, 32000, 28000, 32000]
+            data: data3
+            // [30000, 30000, 40000, 30000, 28000, 32000, 28000, 32000]
           }
         ]
       })
@@ -166,6 +195,7 @@ export default {
   width: 100%;
   height: 100%;
   overflow: hidden;
+
   .chart {
     width: 100%;
     height: 100%;

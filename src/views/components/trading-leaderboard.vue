@@ -2,7 +2,7 @@
   <div class="trading_leaderboard">
     <Box title="交易排行榜">
       <template #select>
-        <XSelect :value="value" :options="options" />
+        <XSelect :value="value" :options="options" @select="optionChange"/>
       </template>
 
       <XTable
@@ -17,39 +17,39 @@
       <div class="modal">
         <div class="title">
           <span>商品详情</span>
-          <img src="@/assets/images/close.png" alt="" @click="onModalClose" />
+          <img src="@/assets/images/close.png" alt="" @click="onModalClose"/>
         </div>
 
         <div class="content">
           <div class="info">
             <div class="details">
-              <img src="@/assets/images/pic-1.png" alt="" />
+              <img src="@/assets/images/pic-1.png" alt=""/>
 
               <div class="labels">
                 <div class="item">
                   <span>商品名称：</span>
-                  <p>苏泊尔空气炸电烤箱 家用38L独立控温 OD38AK813</p>
+                  <p>{{ detailData.title || '-' }}</p>
                 </div>
                 <div class="item">
                   <span>供 应 商：</span>
-                  <p>苏泊尔广发旗舰店</p>
+                  <p>{{ detailData.supplier || '-' }}</p>
                 </div>
                 <div class="item">
                   <span>商品产地：</span>
-                  <p>江苏</p>
+                  <p>{{ detailData.province || '-' }}</p>
                 </div>
                 <div class="item">
                   <span>商户名称：</span>
-                  <p>南昌自营</p>
+                  <p>{{ detailData.merchant_name || '-' }}</p>
                 </div>
                 <div class="item">
                   <span>商品分类：</span>
-                  <p>家用电器</p>
+                  <p>{{ detailData.categories || '-' }}</p>
                 </div>
                 <div class="item">
                   <span>商品评分：</span>
-                  <p>4.5分</p>
-                  <el-rate v-model="rate" disabled style="margin-left: 10px">
+                  <p>{{ detailData.avgScore || '-' }}分</p>
+                  <el-rate v-model="detailData.avgScore" disabled style="margin-left: 10px">
                   </el-rate>
                 </div>
               </div>
@@ -61,15 +61,14 @@
           <div class="chat">
             <div class="title">商品评价</div>
 
-            <div class="chat_item" v-for="index in 20" :key="index">
+            <div class="chat_item" v-for="(item, index) in detailData.comments" :key="index">
               <div class="user">
-                <img src="@/assets/images/pic-1.png" alt="" />
-                <span class="name">熙***乐</span>
-                <span class="time">2023-03-28</span>
+                <img src="@/assets/images/pic-1.png" alt=""/>
+                <span class="name">{{ item.masked_name }}</span>
+                <span class="time">{{ item.time }}</span>
               </div>
               <div class="chat_content">
-                烤箱质量很好，启动声音不大，速度快。颜色也是喜欢的。大小
-                也很合适，烤箱质量很好，启动声音不大.
+                {{ item.comment }}
               </div>
             </div>
           </div>
@@ -85,6 +84,8 @@ import XTable from '@/components/x-table'
 import XSelect from '@/components/x-select.vue'
 import XModal from '@/components/x-model.vue'
 import * as echarts from 'echarts'
+import request from '@/api/request'
+import urls from '@/api/urls'
 
 export default {
   name: 'TradingLeaderboard',
@@ -123,193 +124,38 @@ export default {
       columns: [
         {
           name: '商品名称',
-          value: 'b',
+          value: 'title',
           width: '180px'
         },
         {
           name: '产地',
-          value: 'c'
+          value: 'city'
         },
         {
           name: '销量',
-          value: 'e',
+          value: 'sum_total',
           isNumber: true
         },
         {
           name: '金额',
-          value: 'f',
+          value: 'sum_price',
           isNumber: true,
           width: '100px'
         },
         {
           name: '评分',
-          value: 'g'
+          value: 'score'
         }
       ],
 
-      tableData: [
-        {
-          b: '【苏泊尔 电烤箱K30FK6】',
-          c: '江西',
+      tableData: [],
 
-          e: '2',
-          f: '789.63',
-          g: '95'
-        },
-        {
-          b: '【苏泊尔 电烤箱K30FK6】',
-          c: '江西',
-
-          e: '2',
-          f: '789.63',
-          g: '95'
-        },
-        {
-          b: '【苏泊尔 电烤箱K30FK6】',
-          c: '江西',
-
-          e: '2',
-          f: '789.63',
-          g: '95'
-        },
-        {
-          b: '【苏泊尔 电烤箱K30FK6】',
-          c: '江西',
-
-          e: '2',
-          f: '789.63',
-          g: '95'
-        },
-        {
-          b: '【苏泊尔 电烤箱K30FK6】',
-          c: '江西',
-
-          e: '2',
-          f: '789.63',
-          g: '95'
-        },
-        {
-          b: '【苏泊尔 电烤箱K30FK6】',
-          c: '江西',
-
-          e: '2',
-          f: '789.63',
-          g: '95'
-        },
-        {
-          b: '【苏泊尔 电烤箱K30FK6】',
-          c: '江西',
-
-          e: '2',
-          f: '789.63',
-          g: '95'
-        },
-        {
-          b: '【苏泊尔 电烤箱K30FK6】',
-          c: '江西',
-
-          e: '2',
-          f: '789.63',
-          g: '95'
-        },
-        {
-          b: '【苏泊尔 电烤箱K30FK6】',
-          c: '江西',
-
-          e: '2',
-          f: '789.63',
-          g: '95'
-        },
-        {
-          b: '【苏泊尔 电烤箱K30FK6】',
-          c: '江西',
-
-          e: '2',
-          f: '789.63',
-          g: '95'
-        },
-        {
-          b: '【苏泊尔 电烤箱K30FK6】',
-          c: '江西',
-
-          e: '2',
-          f: '789.63',
-          g: '95'
-        },
-        {
-          b: '【苏泊尔 电烤箱K30FK6】',
-          c: '江西',
-
-          e: '2',
-          f: '789.63',
-          g: '95'
-        },
-        {
-          b: '【苏泊尔 电烤箱K30FK6】',
-          c: '江西',
-
-          e: '2',
-          f: '789.63',
-          g: '95'
-        },
-        {
-          b: '【苏泊尔 电烤箱K30FK6】',
-          c: '江西',
-
-          e: '2',
-          f: '789.63',
-          g: '95'
-        },
-        {
-          b: '【苏泊尔 电烤箱K30FK6】',
-          c: '江西',
-
-          e: '2',
-          f: '789.63',
-          g: '95'
-        },
-        {
-          b: '【苏泊尔 电烤箱K30FK6】',
-          c: '江西',
-
-          e: '2',
-          f: '789.63',
-          g: '95'
-        },
-        {
-          b: '【苏泊尔 电烤箱K30FK6】',
-          c: '江西',
-
-          e: '2',
-          f: '789.63',
-          g: '95'
-        },
-        {
-          b: '【苏泊尔 电烤箱K30FK6】',
-          c: '江西',
-
-          e: '2',
-          f: '789.63',
-          g: '95'
-        },
-        {
-          b: '【苏泊尔 电烤箱K30FK6】',
-          c: '江西',
-
-          e: '2',
-          f: '789.63',
-          g: '95'
-        },
-        {
-          b: '【苏泊尔 电烤箱K30FK6】',
-          c: '江西',
-
-          e: '2',
-          f: '789.63',
-          g: '95'
-        }
-      ]
+      detailData: {}
     }
+  },
+
+  mounted () {
+    this.changeTableData(Number(this.options[0].value))
   },
 
   methods: {
@@ -317,11 +163,37 @@ export default {
       this.isShowModal = false
     },
 
-    init () {
+    async getData (type) {
+      const res = await request({
+        url: urls.product_rank,
+        method: 'POST',
+        data: {
+          time_range: [1677427200, 1680410218],
+          type,
+          limit: 999,
+          offset: 0
+        }
+      })
+      return res.data.data
+    },
+
+    async changeTableData (type) {
+      this.tableData = await this.getData(type)
+    },
+
+    init (data) {
       // 基于准备好的dom，初始化echarts实例
       echarts.dispose(document.getElementById('chart6'))
       const myChart = echarts.init(document.getElementById('chart6'))
 
+      const dates = []
+      const prices = []
+      const sales = []
+      data.forEach(item => {
+        dates.push(item.date.substring(0, 10))
+        prices.push(item.price)
+        sales.push(item.sales)
+      })
       // 绘制图表
       myChart.setOption({
         tooltip: {
@@ -348,26 +220,7 @@ export default {
         xAxis: [
           {
             type: 'category',
-            data: [
-              '09',
-              '10',
-              '11',
-              '12',
-              '13',
-              '14',
-              '15',
-              '16',
-              '17',
-              '18',
-              '19',
-              '20',
-              '21',
-              '22',
-              '23',
-              '24',
-              '25',
-              '26'
-            ],
+            data: dates,
             axisPointer: {
               type: 'shadow'
             },
@@ -446,10 +299,7 @@ export default {
                 )
               }
             },
-            data: [
-              1000, 2000, 1000, 2000, 1000, 2000, 1000, 2000, 1000, 2000, 1000,
-              2000, 1000, 2000, 1000, 2000, 1000, 2000, 1000, 2000
-            ]
+            data: prices
           },
           {
             name: '近期销售趋势',
@@ -489,20 +339,31 @@ export default {
                 )
               }
             },
-            data: [
-              500, 1000, 500, 1000, 500, 1000, 500, 1000, 500, 1000, 500, 1000,
-              500, 1000, 500, 1000, 500, 1000, 500, 1000
-            ]
+            data: sales
           }
         ]
       })
+    },
+
+    optionChange (option) {
+      this.changeTableData(Number(option.value))
     },
 
     onRowClick (row) {
       this.isShowModal = true
 
       this.$nextTick(() => {
-        this.init()
+        request({
+          url: urls.goods_detail,
+          method: 'POST',
+          data: {
+            time_range: [1677427200, 1680410218],
+            goods_id: row.product_id
+          }
+        }).then(res => {
+          this.detailData = res.data.data
+          this.init(res.data.data.trend)
+        })
       })
     }
   }

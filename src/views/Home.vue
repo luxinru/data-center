@@ -37,37 +37,37 @@
         <div class="content">
           <div class="item">
             <span class="label">交易额</span>
-            <span class="value">5678.00</span>
+            <span class="value">{{ cityName && cityData[cityName] ? cityData[cityName].sum_price : '' }}</span>
             <span class="unit">元</span>
           </div>
           <div class="item">
             <span class="label">订单数</span>
-            <span class="value">5678</span>
+            <span class="value">{{ cityName && cityData[cityName] ? cityData[cityName].order_count : '' }}</span>
             <span class="unit">笔</span>
           </div>
           <div class="item">
             <span class="label">商品数</span>
-            <span class="value">5678</span>
+            <span class="value">{{ cityName && cityData[cityName] ? cityData[cityName].goods_count : '' }}</span>
             <span class="unit">件</span>
           </div>
           <div class="item">
             <span class="label">商户数</span>
-            <span class="value">5678</span>
+            <span class="value">{{ cityName && cityData[cityName] ? cityData[cityName].merchant_count : '' }}</span>
             <span class="unit">户</span>
           </div>
           <div class="item">
             <span class="label">门店数</span>
-            <span class="value">5678</span>
+            <span class="value">{{ cityName && cityData[cityName] ? cityData[cityName].store_count : '' }}</span>
             <span class="unit">个</span>
           </div>
           <div class="item">
             <span class="label">用户数</span>
-            <span class="value">5678</span>
+            <span class="value">{{ cityName && cityData[cityName] ? cityData[cityName].user_count : '' }}</span>
             <span class="unit">个</span>
           </div>
           <div class="item">
             <span class="label">自提点数</span>
-            <span class="value">5678</span>
+            <span class="value">{{ cityName && cityData[cityName] ? cityData[cityName].post_count : '' }}</span>
             <span class="unit">个</span>
           </div>
         </div>
@@ -235,6 +235,8 @@ import RightPart from './RightPart.vue'
 import XModal from '@/components/x-model.vue'
 import * as echarts from 'echarts'
 import svgMap from '@/assets/images/map.svg'
+import request from '@/api/request'
+import urls from '@/api/urls'
 
 export default {
   name: 'Home',
@@ -286,7 +288,8 @@ export default {
       y: 0,
       isTooltipShow: false,
       cityName: '',
-      isShowSvg2Map: false
+      isShowSvg2Map: false,
+      cityData: {}
     }
   },
 
@@ -294,6 +297,26 @@ export default {
     this.$nextTick(() => {
       this.initSvgMap()
     })
+
+    // todo
+    // request({
+    //   url: 'http://api.jnysmall.com/open-api/cabinet-list',
+    //   params: {
+    //     page: 1,
+    //     limit: 999
+    //   }
+    // }).then(res => {
+    //   console.log(111, res)
+    // })
+  },
+
+  watch: {
+    daterange (newVal) {
+      this.$store.commit({
+        type: 'setTimeRange',
+        ranges: [Math.floor(new Date(newVal[0]).getTime() / 1000), Math.floor(new Date(newVal[1]).getTime() / 1000)]
+      })
+    }
   },
 
   methods: {
@@ -486,7 +509,24 @@ export default {
             this.cityName = params.name
             this.x = params.event.offsetX
             this.y = params.event.offsetY
-            this.isTooltipShow = true
+
+            if (!this.cityData[params.name]) {
+              request({
+                url: urls.overview,
+                method: 'POST',
+                data: {
+                  time_range: [1677427200, 1677513600],
+                  key: 'city',
+                  value: params.name
+                }
+              }).then(res => res.data.data)
+                .then(result => {
+                  this.cityData[params.name] = result[0]
+                  this.isTooltipShow = true
+                })
+            } else {
+              this.isTooltipShow = true
+            }
           })
           echartObj.on('mouseout', (params) => {
             this.isTooltipShow = false
@@ -495,6 +535,7 @@ export default {
           echartObj.on('click', (params) => {
             this.isShowSvg2Map = true
             this.isTooltipShow = false
+            this.cityName = ''
 
             this.$nextTick(() => {
               const name = params.name
@@ -510,88 +551,127 @@ export default {
               )
               echarts.registerMap(name, provinceJSON)
 
-              echartObj2.setOption({
-                tooltip: {
-                  padding: 0,
-                  // 数据格式化
-                  formatter: function (params, callback) {
-                    return params.name + '：' + (params.value || 0)
+              request({
+                url: '/stats/site/list',
+                method: 'POST',
+                data: {
+                  type: 1,
+                  province: '江西省',
+                  city: params.name
+                }
+              }).then(res => {
+                const results = res.data.data
+                const base64 = 'image://data:image/png;base64,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'
+                const markPointData = results.map(result => {
+                  return {
+                    name: result.name,
+                    coord: [result.lng, result.lat],
+                    symbol: base64,
+                    symbolSize: 36
                   }
-                },
-
-                geo: {
-                  map: name,
-                  roam: false, // 不开启缩放和平移
-                  zoom: 1, // 视角缩放比例
-                  label: {
-                    normal: {
-                      show: true,
-                      fontSize: 10,
-                      color: '#000'
-                    },
-                    emphasis: {
-                      show: true,
-                      color: 'blue'
+                })
+                echartObj2.setOption({
+                  tooltip: {
+                    padding: 0,
+                    // 数据格式化
+                    formatter: function (params, callback) {
+                      return params.name + '：' + (params.value || 0)
                     }
                   },
-                  itemStyle: {
-                    normal: {
-                      borderWidth: 6,
-                      // 外层边框
-                      borderColor: '#4b9fee',
-                      shadowBlur: 16, // 设置阴影大小
-                      shadowColor: 'rgba(0,106,250)' // 设置阴影颜色和透明度
-                    },
-                    emphasis: {
-                      // 高亮的显示设置
-                      areaColor: '#087af4' // 鼠标选择地图块区域颜色
-                    }
-                  }
-                },
-                series: [
-                  {
-                    type: 'map',
+
+                  geo: {
                     map: name,
+                    roam: false, // 不开启缩放和平移
                     zoom: 1, // 视角缩放比例
                     label: {
                       normal: {
                         show: true,
-                        fontSize: 18,
-                        color: 'rgba(0,0,0,0.7)',
-                        textStyle: {
-                          color: '#fff' // 地图省份文字颜色
-                        },
-                        emphasis: {
-                          textStyle: {
-                            color: '#fff'
-                          }
-                        },
-
-                        shadowBlur: 200, // 设置阴影大小
-                        shadowColor: 'rgba(255, 0, 0, 0.3)' // 设置阴影颜色和透明度
-                      }
-                    },
-                    roam: false,
-                    itemStyle: {
-                      normal: {
-                        areaColor: '#073c86',
-                        borderColor: '#0e5eb9',
-                        borderWidth: 1
+                        fontSize: 10,
+                        color: '#000'
                       },
                       emphasis: {
-                        show: false,
-                        areaColor: '#0377f7'
+                        show: true,
+                        color: 'blue'
+                      }
+                    },
+                    itemStyle: {
+                      normal: {
+                        borderWidth: 6,
+                        // 外层边框
+                        borderColor: '#4b9fee',
+                        shadowBlur: 16, // 设置阴影大小
+                        shadowColor: 'rgba(0,106,250)' // 设置阴影颜色和透明度
+                      },
+                      emphasis: {
+                        // 高亮的显示设置
+                        areaColor: '#087af4' // 鼠标选择地图块区域颜色
                       }
                     }
-                  }
-                ]
+                  },
+                  series: [
+                    {
+                      type: 'map',
+                      map: name,
+                      zoom: 1, // 视角缩放比例
+                      label: {
+                        normal: {
+                          show: true,
+                          fontSize: 18,
+                          color: 'rgba(0,0,0,0.7)',
+                          textStyle: {
+                            color: '#fff' // 地图省份文字颜色
+                          },
+                          emphasis: {
+                            textStyle: {
+                              color: '#fff'
+                            }
+                          },
+
+                          shadowBlur: 200, // 设置阴影大小
+                          shadowColor: 'rgba(255, 0, 0, 0.3)' // 设置阴影颜色和透明度
+                        }
+                      },
+                      roam: false,
+                      itemStyle: {
+                        normal: {
+                          areaColor: '#073c86',
+                          borderColor: '#0e5eb9',
+                          borderWidth: 1
+                        },
+                        emphasis: {
+                          show: false,
+                          areaColor: '#0377f7'
+                        }
+                      },
+                      markPoint: {
+                        data: markPointData
+                      }
+                    }
+                  ]
+                })
               })
 
               echartObj2.on('mouseover', (params) => {
                 this.cityName = params.name
                 this.x = params.event.offsetX
                 this.y = params.event.offsetY
-                this.isTooltipShow = true
+                if (!this.cityData[params.name]) {
+                  request({
+                    url: urls.overview,
+                    method: 'POST',
+                    data: {
+                      time_range: [1677427200, 1677513600],
+                      key: 'city',
+                      value: params.name
+                    }
+                  }).then(res => res.data.data)
+                    .then(result => {
+                      this.cityData[params.name] = result[0]
+                      this.isTooltipShow = true
+                    })
+                } else {
+                  this.isTooltipShow = true
+                }
               })
               echartObj2.on('mouseout', (params) => {
                 this.isTooltipShow = false
@@ -775,6 +855,7 @@ export default {
 .el-tooltip__popper[x-placement^='top'] .popper__arrow::after {
   border-top-color: rgba(0, 0, 0, 1);
 }
+
 .el-tooltip__popper[x-placement^='top'] .popper__arrow {
   border-top-color: rgba(0, 0, 0, 1);
 }
@@ -828,6 +909,7 @@ export default {
     border: 1px solid rgba(21, 61, 130, 1);
   }
 }
+
 .el-date-editor .el-range-input {
   font-size: 16px;
   color: #fff;
@@ -945,11 +1027,9 @@ export default {
         display: flex;
         align-items: center;
         justify-content: center;
-        background-image: linear-gradient(
-          to bottom,
-          rgba(33, 143, 247, 0.2),
-          rgba(33, 143, 247, 0)
-        );
+        background-image: linear-gradient(to bottom,
+        rgba(33, 143, 247, 0.2),
+        rgba(33, 143, 247, 0));
 
         span {
           &:first-child {
@@ -974,6 +1054,7 @@ export default {
             }
           }
         }
+
         &:nth-child(3) {
           span {
             &:first-child {
@@ -981,6 +1062,7 @@ export default {
             }
           }
         }
+
         &:nth-child(4) {
           span {
             &:first-child {
@@ -988,6 +1070,7 @@ export default {
             }
           }
         }
+
         &:nth-child(5) {
           span {
             &:first-child {
@@ -995,6 +1078,7 @@ export default {
             }
           }
         }
+
         &:nth-child(6) {
           span {
             &:first-child {
@@ -1002,6 +1086,7 @@ export default {
             }
           }
         }
+
         &:nth-child(7) {
           span {
             &:first-child {

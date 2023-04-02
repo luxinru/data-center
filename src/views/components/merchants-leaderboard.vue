@@ -2,7 +2,7 @@
   <div class="merchants_leaderboard">
     <Box title="商户排行榜">
       <template #select>
-        <XSelect :value="value" :options="options" />
+        <XSelect :value="value" :options="options" @select="optionChange" />
       </template>
 
       <XTable :columns="columns" :tableData="tableData" autoScrollId="tbody2" @onRowClick="onRowClick"/>
@@ -23,32 +23,32 @@
               <div class="labels">
                 <div class="item">
                   <span>商户名称：</span>
-                  <p>苏泊尔空气炸电烤箱 家用38L独立控温 OD38AK813</p>
+                  <p>{{detailData.name}}</p>
                 </div>
                 <div class="item">
                   <span>商户分类：</span>
-                  <p>苏泊尔广发旗舰店</p>
+                  <p>{{detailData.cate}}</p>
                 </div>
                 <div class="item">
                   <span>商户产地：</span>
-                  <p>江苏</p>
+                  <p>{{detailData.province}}</p>
                 </div>
                 <div class="item">
                   <span>商户类型：</span>
-                  <p>南昌自营</p>
+                  <p>{{detailData.cate}}</p>
                 </div>
                 <div class="item">
                   <span>商品数量：</span>
-                  <p>家用电器</p>
+                  <p>{{detailData.goods_count}}</p>
                 </div>
                 <div class="item">
                   <span>订单数量：</span>
-                  <p>家用电器</p>
+                  <p>{{detailData.order_count}}</p>
                 </div>
                 <div class="item">
                   <span>用户评分：</span>
-                  <p>4.5分</p>
-                  <el-rate v-model="rate" disabled style="margin-left: 10px">
+                  <p>{{detailData.rating || '-'}}分</p>
+                  <el-rate v-model="detailData.rating" disabled style="margin-left: 10px">
                   </el-rate>
                 </div>
               </div>
@@ -60,15 +60,14 @@
           <div class="chat">
             <div class="title">用户评价</div>
 
-            <div class="chat_item" v-for="index in 20" :key="index">
+            <div class="chat_item" v-for="(item, index) in detailData.comments" :key="index">
               <div class="user">
                 <img src="@/assets/images/pic-1.png" alt="" />
-                <span class="name">熙***乐</span>
-                <span class="time">2023-03-28</span>
+                <span class="name">{{ item.masked_name }}</span>
+                <span class="time">{{ item.time }}</span>
               </div>
               <div class="chat_content">
-                烤箱质量很好，启动声音不大，速度快。颜色也是喜欢的。大小
-                也很合适，烤箱质量很好，启动声音不大.
+                {{ item.comment }}
               </div>
             </div>
           </div>
@@ -84,6 +83,8 @@ import XTable from '@/components/x-table'
 import XSelect from '@/components/x-select.vue'
 import XModal from '@/components/x-model.vue'
 import * as echarts from 'echarts'
+import request from '@/api/request'
+import urls from '@/api/urls'
 
 export default {
   name: 'MerchantsLeaderboard',
@@ -117,169 +118,46 @@ export default {
       columns: [
         {
           name: '名称',
-          value: 'b'
+          value: 'name'
         },
         {
           name: '地区',
-          value: 'c'
+          value: 'city'
         },
         {
           name: '销量',
-          value: 'd',
+          value: 'sum_total',
           isNumber: true
         },
         {
           name: '金额',
-          value: 'e',
+          value: 'sum_price',
           isNumber: true
         },
         {
           name: '评分',
-          value: 'f'
+          value: 'rating'
         }
       ],
-      tableData: [
-        {
-          b: '南昌自营',
-          c: '江西省',
-          d: '2',
-          e: '789.63',
-          f: '95'
-        },
-        {
-          b: '南昌自营',
-          c: '江西省',
-          d: '2',
-          e: '789.63',
-          f: '95'
-        },
-        {
-          b: '南昌自营',
-          c: '江西省',
-          d: '2',
-          e: '789.63',
-          f: '95'
-        },
-        {
-          b: '南昌自营',
-          c: '江西省',
-          d: '2',
-          e: '789.63',
-          f: '95'
-        },
-        {
-          b: '南昌自营',
-          c: '江西省',
-          d: '2',
-          e: '789.63',
-          f: '95'
-        },
-        {
-          b: '南昌自营',
-          c: '江西省',
-          d: '2',
-          e: '789.63',
-          f: '95'
-        },
-        {
-          b: '南昌自营',
-          c: '江西省',
-          d: '2',
-          e: '789.63',
-          f: '95'
-        },
-        {
-          b: '南昌自营',
-          c: '江西省',
-          d: '2',
-          e: '789.63',
-          f: '95'
-        },
-        {
-          b: '南昌自营',
-          c: '江西省',
-          d: '2',
-          e: '789.63',
-          f: '95'
-        },
-        {
-          b: '南昌自营',
-          c: '江西省',
-          d: '2',
-          e: '789.63',
-          f: '95'
-        },
-        {
-          b: '南昌自营',
-          c: '江西省',
-          d: '2',
-          e: '789.63',
-          f: '95'
-        },
-        {
-          b: '南昌自营',
-          c: '江西省',
-          d: '2',
-          e: '789.63',
-          f: '95'
-        },
-        {
-          b: '南昌自营',
-          c: '江西省',
-          d: '2',
-          e: '789.63',
-          f: '95'
-        },
-        {
-          b: '南昌自营',
-          c: '江西省',
-          d: '2',
-          e: '789.63',
-          f: '95'
-        },
-        {
-          b: '南昌自营',
-          c: '江西省',
-          d: '2',
-          e: '789.63',
-          f: '95'
-        },
-        {
-          b: '南昌自营',
-          c: '江西省',
-          d: '2',
-          e: '789.63',
-          f: '95'
-        },
-        {
-          b: '南昌自营',
-          c: '江西省',
-          d: '2',
-          e: '789.63',
-          f: '95'
-        },
-        {
-          b: '南昌自营',
-          c: '江西省',
-          d: '2',
-          e: '789.63',
-          f: '95'
-        },
-        {
-          b: '南昌自营',
-          c: '江西省',
-          d: '2',
-          e: '789.63',
-          f: '95'
-        },
-        {
-          b: '南昌自营',
-          c: '江西省',
-          d: '2',
-          e: '789.63',
-          f: '95'
-        }
-      ]
+      tableData: [],
+      detailData: {}
+    }
+  },
+
+  mounted () {
+    this.changeTableData(1)
+  },
+  computed: {
+    timeRange () {
+      return this.$store.state.time_range
+    }
+  },
+  watch: {
+    value (newVal) {
+      this.changeTableData(Number(newVal))
+    },
+    timeRange (newVal) {
+
     }
   },
 
@@ -288,7 +166,25 @@ export default {
       this.isShowModal = false
     },
 
-    init () {
+    async getData (type) {
+      const res = await request({
+        url: urls.merchant_rank,
+        method: 'POST',
+        data: {
+          time_range: this.$store.state.time_range,
+          type,
+          limit: 999,
+          offset: 0
+        }
+      })
+      return res.data.data
+    },
+
+    async changeTableData (type) {
+      this.tableData = await this.getData(type)
+    },
+
+    init (data) {
       // 基于准备好的dom，初始化echarts实例
       echarts.dispose(document.getElementById('chart7'))
       const myChart = echarts.init(document.getElementById('chart7'))
@@ -417,20 +313,37 @@ export default {
                 )
               }
             },
-            data: [
-              1000, 2000, 1000, 2000, 1000, 2000, 1000, 2000, 1000, 2000, 1000,
-              2000, 1000, 2000, 1000, 2000, 1000, 2000, 1000, 2000
-            ]
+            data
+            // data: [
+            //   1000, 2000, 1000, 2000, 1000, 2000, 1000, 2000, 1000, 2000, 1000,
+            //   2000, 1000, 2000, 1000, 2000, 1000, 2000, 1000, 2000
+            // ]
           }
         ]
       })
+    },
+
+    optionChange (option) {
+      this.value = option.value
     },
 
     onRowClick (row) {
       this.isShowModal = true
 
       this.$nextTick(() => {
-        this.init()
+        request({
+          url: urls.goods_detail,
+          method: 'POST',
+          data: {
+            time_range: this.$store.state.time_range,
+            id: row.id
+          }
+        }).then(res => {
+          const result = res.data.data
+          this.detailData = { ...row, ...result }
+          // todo 处理图表数据
+          this.init([])
+        })
       })
     }
   }
