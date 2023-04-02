@@ -253,6 +253,60 @@
         </div>
       </div>
     </XModal>
+
+    <XModal v-show="isShowModal">
+      <div class="modal">
+        <div class="title">
+          <span>自提点详情</span>
+          <img src="@/assets/images/close.png" alt="" @click="isShowModal = !isShowModal" />
+        </div>
+
+        <div class="content">
+          <div class="info">
+            <div class="details">
+              <img src="@/assets/images/pic-7.png" alt="" />
+
+              <div class="labels">
+                <div class="item">
+                  <span>类型：</span>
+                  <p>自提点</p>
+                </div>
+                <div class="item">
+                  <span>名称：</span>
+                  <p>名称</p>
+                </div>
+                <div class="item">
+                  <span>商户名称：</span>
+                  <p>商户名称</p>
+                </div>
+                <div class="item">
+                  <span>联系姓名：</span>
+                  <p>联系姓名</p>
+                </div>
+                <div class="item">
+                  <span>联系电话：</span>
+                  <p>联系电话</p>
+                </div>
+                <div class="item">
+                  <span>详细地址：</span>
+                  <p>详细地址</p>
+                </div>
+                <div class="item">
+                  <span>营业时间：</span>
+                  <p>营业时间</p>
+                </div>
+                <div class="item">
+                  <span>评分：</span>
+                  <p>评分</p>
+                </div>
+              </div>
+            </div>
+
+            <div id="chart8" class="chart"></div>
+          </div>
+        </div>
+      </div>
+    </XModal>
   </div>
 </template>
 
@@ -283,6 +337,7 @@ export default {
   data () {
     return {
       daterange: '',
+      isShowModal: false,
       isShowModal3: false,
       isFullScreen: false,
       barsList: [
@@ -605,10 +660,10 @@ export default {
                 })
                 echartObj2.setOption({
                   tooltip: {
-                    padding: 0,
+                    // padding: 0,
                     // 数据格式化
                     formatter: function (params, callback) {
-                      return params.name + '：' + (params.value || 0)
+                      return params.componentType === 'series' ? params.name + '：' + (params.value || 0) : params.name
                     }
                   },
 
@@ -685,30 +740,37 @@ export default {
               })
 
               echartObj2.on('mouseover', (params) => {
-                this.cityName = params.name
-                this.x = params.event.offsetX
-                this.y = params.event.offsetY
-                if (!this.cityData[params.name]) {
-                  request({
-                    url: urls.overview,
-                    method: 'POST',
-                    data: {
-                      time_range: [1677427200, 1677513600],
-                      key: 'city',
-                      value: params.name
-                    }
-                  })
-                    .then((res) => res.data.data)
-                    .then((result) => {
-                      this.cityData[params.name] = result[0]
-                      this.isTooltipShow = true
+                if (params.componentType === 'series') {
+                  this.cityName = params.name
+                  this.x = params.event.offsetX
+                  this.y = params.event.offsetY
+                  if (!this.cityData[params.name]) {
+                    request({
+                      url: urls.overview,
+                      method: 'POST',
+                      data: {
+                        time_range: [1677427200, 1677513600],
+                        key: 'city',
+                        value: params.name
+                      }
                     })
-                } else {
-                  this.isTooltipShow = true
+                      .then((res) => res.data.data)
+                      .then((result) => {
+                        this.cityData[params.name] = result[0]
+                        this.isTooltipShow = true
+                      })
+                  } else {
+                    this.isTooltipShow = true
+                  }
                 }
               })
               echartObj2.on('mouseout', (params) => {
                 this.isTooltipShow = false
+              })
+              echartObj2.on('click', (params) => {
+                if (params.componentType === 'markPoint') {
+                  this.isShowModal = true
+                }
               })
             })
           })
@@ -1428,6 +1490,114 @@ export default {
       &:nth-child(3) {
         span {
           background-color: #89f4b9;
+        }
+      }
+    }
+  }
+
+  .modal {
+    width: 1153px;
+    height: 920px;
+    background: url('~@/assets/images/equipment-bj.png') no-repeat;
+    background-size: 100% 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    overflow: hidden;
+
+    .title {
+      width: 100%;
+      height: 67px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      span {
+        font-size: 40px;
+        font-family: YouSheBiaoTiHei;
+        font-weight: 400;
+        color: #ffffff;
+        margin-left: 36px;
+      }
+
+      img {
+        margin-right: 5px;
+        cursor: pointer;
+      }
+    }
+
+    .content {
+      position: relative;
+      width: 100%;
+      flex: 1 0;
+      overflow: hidden;
+      padding: 16px 0;
+      overflow: hidden;
+      display: flex;
+
+      .info {
+        flex: 2 0;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+
+        .details {
+          width: 100%;
+          height: 338px;
+          display: flex;
+          align-items: center;
+
+          img {
+            height: 338px;
+            margin-right: 25px;
+          }
+
+          .labels {
+            flex: 1 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+
+            .item {
+              width: 100%;
+              flex: 1 0;
+              border-bottom: 1px dashed rgba(58, 137, 206, 0.3);
+              display: flex;
+              align-items: center;
+
+              span {
+                width: 120px;
+                white-space: nowrap;
+                font-size: 24px;
+                font-family: Microsoft YaHei;
+                font-weight: 400;
+                color: #ffffff;
+              }
+
+              p {
+                font-size: 24px;
+                font-family: Microsoft YaHei;
+                font-weight: 400;
+                color: #05b9ff;
+                margin: 0;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+              }
+
+              &:nth-child(1) {
+                p {
+                  flex: 1 0;
+                }
+              }
+            }
+          }
+        }
+
+        .chart {
+          width: 100%;
+          flex: 1 0;
+          margin-top: 20px;
         }
       }
     }
