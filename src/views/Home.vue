@@ -667,13 +667,13 @@ export default {
                       roam: false,
                       itemStyle: {
                         normal: {
-                          areaColor: '#073c86',
+                          areaColor: '#05388e',
                           borderColor: '#0e5eb9',
                           borderWidth: 1
                         },
                         emphasis: {
-                          show: false,
-                          areaColor: '#0377f7'
+                          // show: false,
+                          areaColor: '#025bc7'
                         }
                       },
                       markPoint: {
@@ -819,13 +819,13 @@ export default {
             roam: false,
             itemStyle: {
               normal: {
-                areaColor: '#073c86',
+                areaColor: '#05388e',
                 borderColor: '#0e5eb9',
                 borderWidth: 1
               },
               emphasis: {
-                show: false,
-                areaColor: '#0377f7'
+                // show: false,
+                areaColor: '#025bc7'
               }
             }
           },
