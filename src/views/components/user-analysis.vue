@@ -13,36 +13,159 @@
           <span>{{ name }}</span>
         </div>
 
-        <div class="labels">
+        <div class="labels" v-if="value === '1'">
           <div class="item">
             <img class="bac" src="@/assets/images/underline.png" alt="" />
             <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
             <span>18岁以下</span>
-            <p>20%</p>
+            <p>1%</p>
           </div>
           <div class="item">
             <img class="bac" src="@/assets/images/underline.png" alt="" />
             <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
             <span>18~30岁</span>
-            <p>20%</p>
+            <p>21%</p>
           </div>
           <div class="item">
             <img class="bac" src="@/assets/images/underline.png" alt="" />
             <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
             <span>30~40岁</span>
-            <p>20%</p>
+            <p>41%</p>
           </div>
           <div class="item">
             <img class="bac" src="@/assets/images/underline.png" alt="" />
             <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
             <span>40~50岁</span>
-            <p>20%</p>
+            <p>26%</p>
           </div>
           <div class="item">
             <img class="bac" src="@/assets/images/underline.png" alt="" />
             <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
             <span>50岁以上</span>
-            <p>20%</p>
+            <p>11%</p>
+          </div>
+        </div>
+
+        <div class="labels" v-else-if="value === '2'">
+          <div class="item">
+            <img class="bac" src="@/assets/images/underline.png" alt="" />
+            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
+            <span>总比例</span>
+            <p>35%/65%</p>
+          </div>
+          <div class="item">
+            <img class="bac" src="@/assets/images/underline.png" alt="" />
+            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
+            <span>18岁以下</span>
+            <p>65%/35%</p>
+          </div>
+          <div class="item">
+            <img class="bac" src="@/assets/images/underline.png" alt="" />
+            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
+            <span>18~30岁</span>
+            <p>29%/71%</p>
+          </div>
+          <div class="item">
+            <img class="bac" src="@/assets/images/underline.png" alt="" />
+            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
+            <span>30~40岁</span>
+            <p>33%/67%</p>
+          </div>
+          <div class="item">
+            <img class="bac" src="@/assets/images/underline.png" alt="" />
+            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
+            <span>40~50岁</span>
+            <p>43%/57%</p>
+          </div>
+          <div class="item">
+            <img class="bac" src="@/assets/images/underline.png" alt="" />
+            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
+            <span>50岁以上</span>
+            <p>39%/61%</p>
+          </div>
+        </div>
+
+        <div class="labels" v-else-if="value === '4'">
+          <div class="item">
+            <img class="bac" src="@/assets/images/underline.png" alt="" />
+            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
+            <span>LV1</span>
+            <p>1%</p>
+          </div>
+          <div class="item">
+            <img class="bac" src="@/assets/images/underline.png" alt="" />
+            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
+            <span>LV2</span>
+            <p>21%</p>
+          </div>
+          <div class="item">
+            <img class="bac" src="@/assets/images/underline.png" alt="" />
+            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
+            <span>LV3</span>
+            <p>41%</p>
+          </div>
+          <div class="item">
+            <img class="bac" src="@/assets/images/underline.png" alt="" />
+            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
+            <span>LV4</span>
+            <p>26%</p>
+          </div>
+          <div class="item">
+            <img class="bac" src="@/assets/images/underline.png" alt="" />
+            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
+            <span>LV5</span>
+            <p>11%</p>
+          </div>
+          <div class="item">
+            <img class="bac" src="@/assets/images/underline.png" alt="" />
+            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
+            <span>LV6</span>
+            <p>11%</p>
+          </div>
+        </div>
+
+        <div class="labels" v-else-if="value === '5'">
+          <div class="item">
+            <img class="bac" src="@/assets/images/underline.png" alt="" />
+            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
+            <span>1次</span>
+            <p>1%</p>
+          </div>
+          <div class="item">
+            <img class="bac" src="@/assets/images/underline.png" alt="" />
+            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
+            <span>2次</span>
+            <p>21%</p>
+          </div>
+          <div class="item">
+            <img class="bac" src="@/assets/images/underline.png" alt="" />
+            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
+            <span>3次</span>
+            <p>41%</p>
+          </div>
+          <div class="item">
+            <img class="bac" src="@/assets/images/underline.png" alt="" />
+            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
+            <span>4次</span>
+            <p>26%</p>
+          </div>
+          <div class="item">
+            <img class="bac" src="@/assets/images/underline.png" alt="" />
+            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
+            <span>5~10次</span>
+            <p>11%</p>
+          </div>
+          <div class="item">
+            <img class="bac" src="@/assets/images/underline.png" alt="" />
+            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
+            <span>11~20次</span>
+            <p>11%</p>
+          </div>
+          <div class="item">
+            <img class="bac" src="@/assets/images/underline.png" alt="" />
+            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
+            <span>20次以上</span>
+            <p>11%</p>
           </div>
         </div>
       </div>
@@ -73,10 +196,6 @@ export default {
         {
           value: '2',
           label: '用户性别'
-        },
-        {
-          value: '3',
-          label: '用户地区'
         },
         {
           value: '4',

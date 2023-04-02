@@ -103,15 +103,15 @@ export default {
       ],
       columns: [
         {
-          name: '编号',
-          value: 'b'
-        },
-        {
           name: '类型',
           value: 'c'
         },
         {
-          name: '地址',
+          name: '编号',
+          value: 'b'
+        },
+        {
+          name: '设备名称',
           value: 'd'
         },
         {
