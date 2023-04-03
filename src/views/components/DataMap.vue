@@ -370,10 +370,10 @@ export default {
             emphasis: {
               show: true,
               formatter: (param) => {
-                return '{bg| ' + param.name + '}'
+                return '{bg1| ' + param.name + '}'
               },
               rich: {
-                bg: {
+                bg1: {
                   height: 100,
                   backgroundColor: {
                     image: require('@/assets/images/font-1.png')
