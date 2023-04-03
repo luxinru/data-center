@@ -101,23 +101,19 @@ export default {
     return {
       rate: 4.5,
       isShowModal: false,
-      value: '1',
+      value: '3',
       options: [
         {
-          value: '1',
-          label: '商品金额'
+          value: '3',
+          label: '商品数量'
         },
         {
           value: '2',
           label: '商品销量'
         },
         {
-          value: '3',
-          label: '商品价格'
-        },
-        {
-          value: '4',
-          label: '商品评分'
+          value: '1',
+          label: '商品金额'
         }
       ],
 
