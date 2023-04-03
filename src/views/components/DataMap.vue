@@ -396,13 +396,13 @@ export default {
       this.isTooltipShow = true
       const item = this.cityData.find(it => it.city === params.name)
       this.currentHoverData = item || {
-        sum_price: '',
-        merchant_count: '',
-        order_count: '',
-        post_count: '',
-        prod_count: '',
-        store_count: '',
-        user_count: ''
+        sum_price: 0,
+        merchant_count: 0,
+        order_count: 0,
+        post_count: 0,
+        prod_count: 0,
+        store_count: 0,
+        user_count: 0
       }
     },
     onChartObj1Click (params) {
@@ -558,13 +558,13 @@ export default {
         this.isTooltipShow = true
         const item = this.cityData.find(it => it.area === params.name)
         this.currentHoverData = item || {
-          sum_price: '',
-          merchant_count: '',
-          order_count: '',
-          post_count: '',
-          prod_count: '',
-          store_count: '',
-          user_count: ''
+          sum_price: 0,
+          merchant_count: 0,
+          order_count: 0,
+          post_count: 0,
+          prod_count: 0,
+          store_count: 0,
+          user_count: 0
         }
       }
     },
