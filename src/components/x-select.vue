@@ -70,6 +70,7 @@ export default {
     onSelectItem (data) {
       this.currentObj = data
       this.isShow = false
+      this.$emit('update:value', data.value)
       this.$emit('select', data)
     },
 
