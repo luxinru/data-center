@@ -266,75 +266,75 @@ export default {
           name: '南昌市',
           symbol: base64png,
           x: 497,
-          y: 167,
+          y: 159,
           symbolSize: [52, 79]
         },
         {
           name: '九江市',
           symbol: base64png,
           x: 385,
-          y: 72,
+          y: 64,
           symbolSize: [52, 79]
         },
         {
           name: '景德镇市',
           symbol: base64png,
           x: 752,
-          y: 79,
+          y: 71,
           symbolSize: [52, 79]
         },
         {
           name: '上饶市',
           symbol: base64png,
           x: 758,
-          y: 152,
+          y: 144,
           symbolSize: [52, 79]
         },
         {
           name: '鹰潭市',
           symbol: base64png,
           x: 705,
-          y: 220,
+          y: 212,
           symbolSize: [52, 79]
         },
         {
           name: '宜春市',
           symbol: base64png,
           x: 308,
-          y: 208,
+          y: 200,
           symbolSize: [52, 79]
         },
         {
           symbol: base64png,
           x: 287,
-          y: 275,
+          y: 267,
           symbolSize: [52, 79]
         },
         {
           name: '萍乡市',
           symbol: base64png,
           x: 93,
-          y: 315,
+          y: 307,
           symbolSize: [52, 79]
         },
         {
           symbol: base64png,
           x: 583,
-          y: 315,
+          y: 307,
           symbolSize: [52, 79]
         },
         {
           name: '吉安市',
           symbol: base64png,
           x: 280,
-          y: 383,
+          y: 375,
           symbolSize: [52, 79]
         },
         {
           name: '赣州市',
           symbol: base64png,
           x: 355,
-          y: 532,
+          y: 524,
           symbolSize: [52, 79]
         }
       ]
@@ -349,22 +349,48 @@ export default {
           layoutCenter: ['50.15%', '46.38%'],
           layoutSize: '111%',
           label: {
-            show: true,
-            color: '#fff',
-            fontSize: 18,
-            backgroundColor: 'rgba(0, 0, 0, 1)',
-            padding: [4, 8]
+            normal: {
+              show: true,
+              color: '#fff',
+              formatter: (param) => {
+                return '{bg| ' + param.name + '}'
+              },
+              rich: {
+                bg: {
+                  height: 44,
+                  backgroundColor: {
+                    image: require('@/assets/images/font-2.png')
+                  },
+                  align: 'center',
+                  fontSize: 20,
+                  padding: [0, 0, 0, 16]
+                }
+              }
+            },
+            emphasis: {
+              show: true,
+              formatter: (param) => {
+                return '{bg| ' + param.name + '}'
+              },
+              rich: {
+                bg: {
+                  height: 100,
+                  backgroundColor: {
+                    image: require('@/assets/images/font-1.png')
+                  },
+                  align: 'center',
+                  fontSize: 20,
+                  color: 'rgba(189, 62, 13, 1)',
+                  padding: [-18, 0, 0, 0]
+                }
+              }
+            }
           },
           itemStyle: {
             areaColor: 'transparent',
             borderColor: 'RGBA(122, 177, 233, 1)'
           },
           emphasis: {
-            label: {
-              color: 'rgba(189, 62, 13, 1)',
-              backgroundColor: 'rgba(255, 209, 51, 1)',
-              padding: [4, 8]
-            },
             itemStyle: {
               areaColor: 'rgba(9,171,255, 0.7)' // 鼠标选择地图块区域颜色
             }
