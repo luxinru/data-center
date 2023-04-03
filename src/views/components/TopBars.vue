@@ -1,22 +1,22 @@
 <template>
   <div class="bars">
     <div class="item" v-for="(item, index) in barsList" :key="index">
-          <span>
-            <CountUp
-              v-if="index === 0"
-              :startVal="0"
-              :endVal="item.value"
-              :duration="2"
-              :options="{ decimalPlaces: 2, useGrouping: false }"
-            ></CountUp>
-            <CountUp
-              v-else
-              :startVal="0"
-              :endVal="item.value"
-              :duration="2"
-              :options="{ useGrouping: false }"
-            ></CountUp>
-          </span>
+      <span>
+        <CountUp
+          v-if="index === 0"
+          :startVal="0"
+          :endVal="item.value"
+          :duration="2"
+          :options="{ decimalPlaces: 2, useGrouping: false }"
+        ></CountUp>
+        <CountUp
+          v-else
+          :startVal="0"
+          :endVal="item.value"
+          :duration="2"
+          :options="{ useGrouping: false }"
+        ></CountUp>
+      </span>
       <span>{{ item.label }}</span>
     </div>
   </div>
@@ -24,6 +24,8 @@
 
 <script>
 import CountUp from 'vue-countup-v2'
+import urls from '@/api/urls'
+import request from '@/api/request'
 
 export default {
   name: 'TopBars',
@@ -32,36 +34,72 @@ export default {
   },
   data () {
     return {
-      barsList: [
+      sum_price: 0,
+      goods_count: 0,
+      merchant_count: 0,
+      order_count: 0,
+      post_count: 0,
+      store_count: 0,
+      user_count: 0
+    }
+  },
+
+  computed: {
+    barsList () {
+      return [
         {
-          value: 4037969.99,
-          label: '交易额'
+          value: Number(this.sum_price),
+          label: '交易额(年)'
         },
         {
-          value: 18832,
-          label: '订单数'
+          value: Number(this.order_count),
+          label: '订单数(年)'
         },
         // {
         //   value: 12,
         //   label: '门店数'
         // },
         {
-          value: 5623,
+          value: Number(this.user_count),
           label: '用户数'
         },
         {
-          value: 97,
+          value: Number(this.merchant_count),
           label: '商户数'
         },
         {
-          value: 3741,
+          value: Number(this.goods_count),
           label: '商品数'
         },
         {
-          value: 12,
+          value: Number(this.post_count),
           label: '设备数'
         }
       ]
+    }
+  },
+
+  mounted () {
+    this.init()
+  },
+
+  methods: {
+    async init () {
+      const {
+        data: { data }
+      } = await request({
+        url: urls.overview,
+        method: 'POST',
+        data: { time_range: [1654012800, 1656311413] }
+      })
+
+      this.sum_price = data[0].sum_price || 0
+      this.goods_count = data[0].goods_count || 0
+      this.merchant_count = data[0].merchant_count || 0
+      this.order_count = data[0].order_count || 0
+      this.post_count = data[0].post_count || 0
+      this.store_count = data[0].store_count || 0
+      this.user_count = data[0].user_count || 0
     }
   }
 }
@@ -87,9 +125,11 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: linear-gradient(to bottom,
-    rgba(33, 143, 247, 0.2),
-    rgba(33, 143, 247, 0));
+    background-image: linear-gradient(
+      to bottom,
+      rgba(33, 143, 247, 0.2),
+      rgba(33, 143, 247, 0)
+    );
 
     span {
       &:first-child {

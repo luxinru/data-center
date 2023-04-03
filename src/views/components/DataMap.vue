@@ -18,12 +18,12 @@
 
       <div class="content">
         <div class="item">
-          <span class="label">交易额(年)</span>
+          <span class="label">交易额</span>
           <span class="value">{{ currentHoverData.sum_price }}</span>
           <span class="unit">元</span>
         </div>
         <div class="item">
-          <span class="label">订单数(年)</span>
+          <span class="label">订单数</span>
           <span class="value">{{ currentHoverData.order_count }}</span>
           <span class="unit">笔</span>
         </div>
