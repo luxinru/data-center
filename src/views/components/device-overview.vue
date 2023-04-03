@@ -77,6 +77,22 @@ export default {
 
   components: {
     Box
+  },
+
+  data () {
+    return {
+
+    }
+  },
+
+  mounted () {
+    this.init()
+  },
+
+  methods: {
+    async init () {
+
+    }
   }
 }
 </script>
