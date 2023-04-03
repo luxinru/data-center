@@ -18,7 +18,7 @@
         <div class="content">
           <div class="info">
             <div class="details">
-              <img src="@/assets/images/pic-5.png" alt="" />
+              <img :src="detailData.pic" width="365" height="338" style="color: white" alt="商户图片" />
 
               <div class="labels">
                 <div class="item">
@@ -62,7 +62,7 @@
 
             <div class="chat_item" v-for="(item, index) in detailData.comments" :key="index">
               <div class="user">
-                <img src="@/assets/images/pic-1.png" alt="" />
+                <img :src="item.avatar || defaultHeadSrc" alt="" />
                 <span class="name">{{ item.masked_name }}</span>
                 <span class="time">{{ item.time }}</span>
               </div>
@@ -85,6 +85,7 @@ import XModal from '@/components/x-model.vue'
 import * as echarts from 'echarts'
 import request from '@/api/request'
 import urls from '@/api/urls'
+import defaultHeadSrc from '@/assets/images/user.png'
 
 export default {
   name: 'MerchantsLeaderboard',
@@ -98,6 +99,7 @@ export default {
 
   data () {
     return {
+      defaultHeadSrc: defaultHeadSrc,
       rate: 4.5,
       isShowModal: false,
       value: '1',
@@ -189,6 +191,14 @@ export default {
       echarts.dispose(document.getElementById('chart7'))
       const myChart = echarts.init(document.getElementById('chart7'))
 
+      const dates = []
+      const counts = []
+      const prices = []
+      data.forEach(item => {
+        dates.push(item.date)
+        counts.push(item.order_count)
+        prices.push(item.sum_price)
+      })
       // 绘制图表
       myChart.setOption({
         tooltip: {
@@ -215,26 +225,7 @@ export default {
         xAxis: [
           {
             type: 'category',
-            data: [
-              '09',
-              '10',
-              '11',
-              '12',
-              '13',
-              '14',
-              '15',
-              '16',
-              '17',
-              '18',
-              '19',
-              '20',
-              '21',
-              '22',
-              '23',
-              '24',
-              '25',
-              '26'
-            ],
+            data: dates,
             axisPointer: {
               type: 'shadow'
             },
@@ -313,11 +304,7 @@ export default {
                 )
               }
             },
-            data
-            // data: [
-            //   1000, 2000, 1000, 2000, 1000, 2000, 1000, 2000, 1000, 2000, 1000,
-            //   2000, 1000, 2000, 1000, 2000, 1000, 2000, 1000, 2000
-            // ]
+            data: prices
           }
         ]
       })
@@ -332,7 +319,7 @@ export default {
 
       this.$nextTick(() => {
         request({
-          url: urls.goods_detail,
+          url: urls.merchant_detail,
           method: 'POST',
           data: {
             time_range: this.$store.state.time_range,
@@ -340,9 +327,8 @@ export default {
           }
         }).then(res => {
           const result = res.data.data
-          this.detailData = { ...row, ...result }
-          // todo 处理图表数据
-          this.init([])
+          this.detailData = result
+          this.init(result.trend || [])
         })
       })
     }
@@ -528,6 +514,7 @@ export default {
             color: #05b9ff;
             line-height: 32px;
             margin-top: 20px;
+            word-wrap: break-word;
           }
         }
       }

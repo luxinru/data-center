@@ -28,6 +28,15 @@ export default {
   // 数据大屏(商户交易排行)
   merchant_rank: '/stats/merchant/rank',
 
-  // 数据大屏(商品/商户详情弹窗)
-  goods_detail: '/stats/goods/detail'
+  // 数据大屏(商品详情弹窗)
+  goods_detail: '/stats/goods/detail',
+
+  // 数据大屏(商户详情弹窗)
+  merchant_detail: '/stats/merchant/detail',
+
+  // 数据大屏(门店/自提点列表)
+  site_list: '/stats/site/list',
+
+  // 数据大屏(门店/自提点详情)
+  site_detail: '/stats/site/detail'
 }
