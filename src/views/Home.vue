@@ -37,14 +37,14 @@
 
         <div class="content">
           <div class="item">
-            <span class="label">交易额</span>
+            <span class="label">交易额(年)</span>
             <span class="value">{{
               cityName && cityData[cityName] ? cityData[cityName].sum_price : ''
             }}</span>
             <span class="unit">元</span>
           </div>
           <div class="item">
-            <span class="label">订单数</span>
+            <span class="label">订单数(年)</span>
             <span class="value">{{
               cityName && cityData[cityName]
                 ? cityData[cityName].order_count
@@ -353,10 +353,10 @@ export default {
           value: 18832,
           label: '订单数'
         },
-        {
-          value: 12,
-          label: '门店数'
-        },
+        // {
+        //   value: 12,
+        //   label: '门店数'
+        // },
         {
           value: 5623,
           label: '用户数'
@@ -1086,11 +1086,11 @@ export default {
 
     .top_title {
       position: absolute;
-      top: 0;
+      top: 4px;
       width: 100%;
       display: flex;
       justify-content: center;
-      font-size: 63px;
+      font-size: 55px;
       font-family: YouSheBiaoTiHei;
       font-weight: 400;
       color: #eff8fc;
@@ -1133,7 +1133,7 @@ export default {
       width: 100%;
       height: 102px;
       display: grid;
-      grid-template-columns: 300px 180px 1fr 1fr 1fr 1fr 1fr;
+      grid-template-columns: 300px 1fr 1fr 1fr 1fr 1fr;
       grid-column-gap: 10px;
       padding: 0 150px;
 
