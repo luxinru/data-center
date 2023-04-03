@@ -39,10 +39,10 @@ export default {
 
   data () {
     return {
-      value: '3',
+      value: '1',
       options: [
         {
-          value: '3',
+          value: '1',
           label: '商品数量'
         },
         {
@@ -50,7 +50,7 @@ export default {
           label: '商品销量'
         },
         {
-          value: '1',
+          value: '3',
           label: '商品金额'
         }
       ],
