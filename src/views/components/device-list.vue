@@ -1,5 +1,5 @@
 <template>
-  <div class="device_list">
+  <div class="device_list_root">
     <Box title="设备列表">
       <template #select>
         <XSelect :value="value" :options="options" />
@@ -450,7 +450,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.device_list {
+.device_list_root {
   width: 100%;
   height: 100%;
   overflow: hidden;

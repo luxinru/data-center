@@ -141,11 +141,11 @@ export default {
           value: 'sum_price',
           isNumber: true,
           width: '100px'
-        },
-        {
-          name: '评分',
-          value: 'score'
         }
+        // {
+        //   name: '评分',
+        //   value: 'score'
+        // }
       ],
 
       tableData: [],

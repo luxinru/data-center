@@ -2,7 +2,7 @@
   <div class="transaction_categorization">
     <Box title="交易分类占比">
       <template #select>
-        <XSelect :value="value" :options="options" @select="optionChange"/>
+        <XSelect :value="value" :options="options" @select="optionChange" />
       </template>
 
       <div id="chart9" class="chart"></div>
@@ -39,19 +39,19 @@ export default {
 
   data () {
     return {
-      value: '1',
+      value: '3',
       options: [
         {
-          value: '1',
-          label: '商品金额'
+          value: '3',
+          label: '商品数量'
         },
         {
           value: '2',
           label: '商品销量'
         },
         {
-          value: '3',
-          label: '商品数量'
+          value: '1',
+          label: '商品金额'
         }
       ],
       labels: [],
@@ -108,7 +108,7 @@ export default {
       echarts.dispose(document.getElementById('chart9'))
       this.myChart = echarts.init(document.getElementById('chart9'))
 
-      const data = await this.getData(Number(this.options[0].value)) || []
+      const data = (await this.getData(Number(this.options[0].value))) || []
 
       // 绘制图表
       this.setChartOption(data)
@@ -116,7 +116,7 @@ export default {
     setChartOption (data) {
       const syjgdata = []
       let total = 0
-      data.forEach(item => {
+      data.forEach((item) => {
         const num = Number(item.val)
         total += num
         syjgdata.push({
@@ -154,10 +154,12 @@ export default {
           },
           // 使用回调函数
           formatter: function (name) {
-            const item = data.find(it => it.cate === name)
-            return item ? (
-              `${name}` + ' ' + `${((Number(item.val) / total) * 100).toFixed(2)}%`
-            ) : '-'
+            const item = data.find((it) => it.cate === name)
+            return item
+              ? `${name}` +
+                  ' ' +
+                  `${((Number(item.val) / total) * 100).toFixed(2)}%`
+              : '-'
           },
           rich: {
             a: {},

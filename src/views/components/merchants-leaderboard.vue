@@ -135,11 +135,11 @@ export default {
           name: '金额',
           value: 'sum_price',
           isNumber: true
-        },
-        {
-          name: '评分',
-          value: 'rating'
         }
+        // {
+        //   name: '评分',
+        //   value: 'rating'
+        // }
       ],
       tableData: [],
       detailData: {}

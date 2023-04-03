@@ -1,15 +1,6 @@
 <template>
   <div class="LeftPart">
     <div class="item">
-      <TransactionCategorization />
-    </div>
-    <div class="item">
-      <TradingLeaderboard />
-    </div>
-    <div class="item">
-      <TransactionTrend />
-    </div>
-    <div class="item">
       <MerchantCategorization />
     </div>
     <div class="item">
@@ -17,6 +8,15 @@
     </div>
     <div class="item">
       <MerchantTrend />
+    </div>
+    <div class="item">
+      <TransactionCategorization />
+    </div>
+    <div class="item">
+      <TradingLeaderboard />
+    </div>
+    <div class="item">
+      <TransactionTrend />
     </div>
   </div>
 </template>
