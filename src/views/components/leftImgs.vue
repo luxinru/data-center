@@ -59,7 +59,7 @@ export default {
           src: require('@/assets/images/gongyingshang/安福火腿.jpg')
         },
         {
-          name: '崇仁麻鸡.',
+          name: '崇仁麻鸡',
           src: require('@/assets/images/gongyingshang/崇仁麻鸡.jpg')
         },
         {
@@ -81,7 +81,7 @@ export default {
           src: require('@/assets/images/gongyingshang/奉新猕猴桃.jpg')
         },
         {
-          name: '赣南脐橙.',
+          name: '赣南脐橙',
           src: require('@/assets/images/gongyingshang/赣南脐橙.jpg')
         },
         {
@@ -103,7 +103,7 @@ export default {
           src: require('@/assets/images/gongyingshang/井冈山黑猪.jpg')
         },
         {
-          name: '九江茶饼.',
+          name: '九江茶饼',
           src: require('@/assets/images/gongyingshang/九江茶饼.jpg')
         },
         {

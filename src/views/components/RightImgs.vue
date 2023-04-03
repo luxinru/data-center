@@ -59,7 +59,7 @@ export default {
           src: require('@/assets/images/gongyingshang/南丰蜜桔.jpg')
         },
         {
-          name: '鄱阳湖银鱼.',
+          name: '鄱阳湖银鱼',
           src: require('@/assets/images/gongyingshang/鄱阳湖银鱼.jpg')
         },
         {
@@ -81,7 +81,7 @@ export default {
           src: require('@/assets/images/gongyingshang/万年贡米.jpg')
         },
         {
-          name: '万载百合粉.',
+          name: '万载百合粉',
           src: require('@/assets/images/gongyingshang/万载百合粉.jpg')
         },
         {
@@ -103,7 +103,7 @@ export default {
           src: require('@/assets/images/gongyingshang/宜丰闽笋.jpg')
         },
         {
-          name: '九江茶饼.',
+          name: '九江茶饼',
           src: require('@/assets/images/gongyingshang/九江茶饼.jpg')
         },
         {

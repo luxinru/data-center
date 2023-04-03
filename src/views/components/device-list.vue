@@ -317,7 +317,7 @@ export default {
           position: 'top',
           textStyle: {
             color: '#fff',
-            fontSize: 19
+            fontSize: 18
           },
           itemGap: 30
         },
@@ -364,7 +364,7 @@ export default {
             },
             axisLabel: {
               color: '#fff',
-              fontSize: 16
+              fontSize: 18
             },
             boundaryGap: false // 不留白，从原点开始
           }
@@ -386,7 +386,7 @@ export default {
             },
             axisLabel: {
               color: '#fff',
-              fontSize: 16
+              fontSize: 18
             }
           }
         ],
@@ -526,16 +526,16 @@ export default {
               align-items: center;
 
               span {
-                width: 120px;
+                width: 150px;
                 white-space: nowrap;
-                font-size: 24px;
+                font-size: 18px;
                 font-family: Microsoft YaHei;
                 font-weight: 400;
                 color: #ffffff;
               }
 
               p {
-                font-size: 24px;
+                font-size: 18px;
                 font-family: Microsoft YaHei;
                 font-weight: 400;
                 color: #05b9ff;

@@ -258,7 +258,11 @@
       <div class="modal">
         <div class="title">
           <span>自提点详情</span>
-          <img src="@/assets/images/close.png" alt="" @click="isShowModal = !isShowModal" />
+          <img
+            src="@/assets/images/close.png"
+            alt=""
+            @click="isShowModal = !isShowModal"
+          />
         </div>
 
         <div class="content">
@@ -663,7 +667,9 @@ export default {
                     // padding: 0,
                     // 数据格式化
                     formatter: function (params, callback) {
-                      return params.componentType === 'series' ? params.name + '：' + (params.value || 0) : params.name
+                      return params.componentType === 'series'
+                        ? params.name + '：' + (params.value || 0)
+                        : params.name
                     }
                   },
 
@@ -671,29 +677,12 @@ export default {
                     map: name,
                     roam: false, // 不开启缩放和平移
                     zoom: 1, // 视角缩放比例
-                    label: {
-                      normal: {
-                        show: true,
-                        fontSize: 10,
-                        color: '#000'
-                      },
-                      emphasis: {
-                        show: true,
-                        color: 'blue'
-                      }
-                    },
                     itemStyle: {
-                      normal: {
-                        borderWidth: 6,
-                        // 外层边框
-                        borderColor: '#4b9fee',
-                        shadowBlur: 16, // 设置阴影大小
-                        shadowColor: 'rgba(0,106,250)' // 设置阴影颜色和透明度
-                      },
-                      emphasis: {
-                        // 高亮的显示设置
-                        areaColor: '#087af4' // 鼠标选择地图块区域颜色
-                      }
+                      borderWidth: 6,
+                      // 外层边框
+                      borderColor: '#4b9fee',
+                      shadowBlur: 16, // 设置阴影大小
+                      shadowColor: 'rgba(0,106,250)' // 设置阴影颜色和透明度
                     }
                   },
                   series: [
@@ -709,25 +698,52 @@ export default {
                           textStyle: {
                             color: '#fff' // 地图省份文字颜色
                           },
-                          emphasis: {
-                            textStyle: {
-                              color: '#fff'
+                          formatter: (param) => {
+                            var res = '{xing|} ' + param.name
+                            return res
+                          },
+                          rich: {
+                            xing: {
+                              height: 8,
+                              width: 8,
+                              backgroundColor: '#09abff',
+                              borderRadius: 50
                             }
                           },
-
                           shadowBlur: 200, // 设置阴影大小
                           shadowColor: 'rgba(255, 0, 0, 0.3)' // 设置阴影颜色和透明度
+                        },
+                        emphasis: {
+                          textStyle: {
+                            color: '#fff'
+                          }
+                        },
+                        select: {
+                          textStyle: {
+                            color: '#fff'
+                          },
+                          itemStyle: {
+                            areaColor: '#025bc7'
+                          }
                         }
                       },
                       roam: false,
                       itemStyle: {
-                        normal: {
-                          areaColor: '#05388e',
-                          borderColor: '#0e5eb9',
-                          borderWidth: 1
+                        areaColor: '#05388e',
+                        borderColor: '#0e5eb9',
+                        borderWidth: 1
+                      },
+                      emphasis: {
+                        // show: false,
+                        itemStyle: {
+                          areaColor: '#025bc7'
+                        }
+                      },
+                      select: {
+                        label: {
+                          color: '#fff'
                         },
-                        emphasis: {
-                          // show: false,
+                        itemStyle: {
                           areaColor: '#025bc7'
                         }
                       },
@@ -819,40 +835,19 @@ export default {
       echarts.registerMap(name, provinceJSON)
       echartObj.setOption({
         tooltip: {
-          padding: 0,
-          // 数据格式化
-          formatter: function (params, callback) {
-            return params.name + '：' + (params.value || 0)
-          }
+          show: false
         },
 
         geo: {
           map: name,
           roam: false, // 不开启缩放和平移
           zoom: 1, // 视角缩放比例
-          label: {
-            normal: {
-              show: true,
-              fontSize: 10,
-              color: '#000'
-            },
-            emphasis: {
-              show: true,
-              color: 'blue'
-            }
-          },
           itemStyle: {
-            normal: {
-              borderWidth: 6,
-              // 外层边框
-              borderColor: '#4b9fee',
-              shadowBlur: 16, // 设置阴影大小
-              shadowColor: 'rgba(0,106,250)' // 设置阴影颜色和透明度
-            },
-            emphasis: {
-              // 高亮的显示设置
-              areaColor: '#087af4' // 鼠标选择地图块区域颜色
-            }
+            borderWidth: 6,
+            // 外层边框
+            borderColor: '#4b9fee',
+            shadowBlur: 16, // 设置阴影大小
+            shadowColor: 'rgba(0,106,250)' // 设置阴影颜色和透明度
           }
         },
         series: [
@@ -868,25 +863,52 @@ export default {
                 textStyle: {
                   color: '#fff' // 地图省份文字颜色
                 },
-                emphasis: {
-                  textStyle: {
-                    color: '#fff'
+                formatter: (param) => {
+                  var res = '{xing|} ' + param.name
+                  return res
+                },
+                rich: {
+                  xing: {
+                    height: 8,
+                    width: 8,
+                    backgroundColor: '#09abff',
+                    borderRadius: 50
                   }
                 },
-
                 shadowBlur: 200, // 设置阴影大小
                 shadowColor: 'rgba(255, 0, 0, 0.3)' // 设置阴影颜色和透明度
+              },
+              emphasis: {
+                textStyle: {
+                  color: '#fff'
+                }
+              },
+              select: {
+                textStyle: {
+                  color: '#fff'
+                },
+                itemStyle: {
+                  areaColor: '#025bc7'
+                }
               }
             },
             roam: false,
             itemStyle: {
-              normal: {
-                areaColor: '#05388e',
-                borderColor: '#0e5eb9',
-                borderWidth: 1
+              areaColor: '#05388e',
+              borderColor: '#0e5eb9',
+              borderWidth: 1
+            },
+            emphasis: {
+              // show: false,
+              itemStyle: {
+                areaColor: '#025bc7'
+              }
+            },
+            select: {
+              label: {
+                color: '#fff'
               },
-              emphasis: {
-                // show: false,
+              itemStyle: {
                 areaColor: '#025bc7'
               }
             }
@@ -928,8 +950,9 @@ export default {
         ]
       })
       echartObj.on('click', (params) => {
-        const name = params.name
-        this.initProvinceMap(name)
+        if (name === '江西省') {
+          this.initProvinceMap(params.name)
+        }
       })
     }
   }

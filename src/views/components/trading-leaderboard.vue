@@ -206,7 +206,7 @@ export default {
           position: 'top',
           textStyle: {
             color: '#fff',
-            fontSize: 19
+            fontSize: 18
           },
           itemGap: 30
         },
@@ -234,7 +234,7 @@ export default {
             },
             axisLabel: {
               color: '#fff',
-              fontSize: 16
+              fontSize: 18
             },
             boundaryGap: false // 不留白，从原点开始
           }
@@ -256,7 +256,7 @@ export default {
             },
             axisLabel: {
               color: '#fff',
-              fontSize: 16
+              fontSize: 18
             }
           }
         ],
@@ -302,7 +302,7 @@ export default {
             data: prices
           },
           {
-            name: '近期销售趋势',
+            name: '近期销量趋势',
             type: 'line',
             symbol: 'none', // 默认是空心圆（中间是白色的），改成实心圆
             smooth: true,
@@ -456,14 +456,14 @@ export default {
               span {
                 width: 120px;
                 white-space: nowrap;
-                font-size: 24px;
+                font-size: 18px;
                 font-family: Microsoft YaHei;
                 font-weight: 400;
                 color: #ffffff;
               }
 
               p {
-                font-size: 24px;
+                font-size: 18px;
                 font-family: Microsoft YaHei;
                 font-weight: 400;
                 color: #05b9ff;
@@ -503,7 +503,7 @@ export default {
           top: 0;
           width: 100%;
           height: 56px;
-          font-size: 24px;
+          font-size: 18px;
           font-family: Microsoft YaHei;
           font-weight: 400;
           color: #ffffff;
@@ -536,14 +536,14 @@ export default {
 
             .name {
               flex: 1 0;
-              font-size: 22px;
+              font-size: 18px;
               font-family: Microsoft YaHei;
               font-weight: 400;
               color: #ffffff;
             }
 
             .time {
-              font-size: 20px;
+              font-size: 18px;
               font-family: Microsoft YaHei;
               font-weight: 400;
               color: #ffffff;
@@ -551,7 +551,7 @@ export default {
           }
 
           .chat_content {
-            font-size: 22px;
+            font-size: 18px;
             font-family: Microsoft YaHei;
             font-weight: 400;
             color: #05b9ff;

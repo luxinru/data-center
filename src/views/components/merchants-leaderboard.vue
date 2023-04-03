@@ -201,7 +201,7 @@ export default {
           position: 'top',
           textStyle: {
             color: '#fff',
-            fontSize: 19
+            fontSize: 18
           },
           itemGap: 30
         },
@@ -248,7 +248,7 @@ export default {
             },
             axisLabel: {
               color: '#fff',
-              fontSize: 16
+              fontSize: 18
             },
             boundaryGap: false // 不留白，从原点开始
           }
@@ -270,7 +270,7 @@ export default {
             },
             axisLabel: {
               color: '#fff',
-              fontSize: 16
+              fontSize: 18
             }
           }
         ],
@@ -429,14 +429,14 @@ export default {
               span {
                 width: 120px;
                 white-space: nowrap;
-                font-size: 24px;
+                font-size: 18px;
                 font-family: Microsoft YaHei;
                 font-weight: 400;
                 color: #ffffff;
               }
 
               p {
-                font-size: 24px;
+                font-size: 18px;
                 font-family: Microsoft YaHei;
                 font-weight: 400;
                 color: #05b9ff;
@@ -471,9 +471,11 @@ export default {
         padding-right: 10px;
 
         .title {
+          position: sticky;
+          top: 0;
           width: 100%;
           height: 56px;
-          font-size: 24px;
+          font-size: 18px;
           font-family: Microsoft YaHei;
           font-weight: 400;
           color: #ffffff;
@@ -505,14 +507,14 @@ export default {
 
             .name {
               flex: 1 0;
-              font-size: 22px;
+              font-size: 18px;
               font-family: Microsoft YaHei;
               font-weight: 400;
               color: #ffffff;
             }
 
             .time {
-              font-size: 20px;
+              font-size: 18px;
               font-family: Microsoft YaHei;
               font-weight: 400;
               color: #ffffff;
@@ -520,7 +522,7 @@ export default {
           }
 
           .chat_content {
-            font-size: 22px;
+            font-size: 18px;
             font-family: Microsoft YaHei;
             font-weight: 400;
             color: #05b9ff;
