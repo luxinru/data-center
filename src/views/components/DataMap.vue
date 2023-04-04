@@ -19,37 +19,37 @@
       <div class="content">
         <div class="item">
           <span class="label">交易额</span>
-          <span class="value">{{ currentHoverData.sum_price }}</span>
+          <span class="value">{{ currentHoverData.sum_price || 0 }}</span>
           <span class="unit">元</span>
         </div>
         <div class="item">
           <span class="label">订单数</span>
-          <span class="value">{{ currentHoverData.order_count }}</span>
+          <span class="value">{{ currentHoverData.order_count || 0 }}</span>
           <span class="unit">笔</span>
         </div>
         <div class="item">
           <span class="label">商品数</span>
-          <span class="value">{{ currentHoverData.prod_count }}</span>
+          <span class="value">{{ currentHoverData.prod_count || 0 }}</span>
           <span class="unit">件</span>
         </div>
         <div class="item">
           <span class="label">商户数</span>
-          <span class="value">{{ currentHoverData.merchant_count }}</span>
+          <span class="value">{{ currentHoverData.merchant_count || 0 }}</span>
           <span class="unit">户</span>
         </div>
         <div class="item">
           <span class="label">门店数</span>
-          <span class="value">{{ currentHoverData.store_count }}</span>
+          <span class="value">{{ currentHoverData.store_count || 0 }}</span>
           <span class="unit">个</span>
         </div>
         <div class="item">
           <span class="label">用户数</span>
-          <span class="value">{{ currentHoverData.user_count }}</span>
+          <span class="value">{{ currentHoverData.user_count || 0 }}</span>
           <span class="unit">个</span>
         </div>
         <div class="item">
           <span class="label">自提点数</span>
-          <span class="value">{{ currentHoverData.post_count }}</span>
+          <span class="value">{{ currentHoverData.post_count || 0 }}</span>
           <span class="unit">个</span>
         </div>
       </div>
@@ -597,7 +597,6 @@ export default {
     },
     onChartObj2Click (params) {
       if (params.componentType === 'markPoint') {
-        console.log(params)
         this.isShowModal = true
         request({
           url: urls.site_detail,
