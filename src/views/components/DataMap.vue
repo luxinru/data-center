@@ -452,39 +452,34 @@ export default {
         echarts.registerMap(name, provinceJSON)
         this.cityData = await this.getHoverData('city', name)
 
-        const shops = await this.getShops(params.name)
-        this.setChartOption2(echartObj2, name, shops)
+        this.setChartOption2(echartObj2, name, [])
 
         echartObj2.on('mouseover', this.onChartObj2Mouseover)
         echartObj2.on('mouseout', (params) => {
           this.isTooltipShow = false
         })
         echartObj2.on('click', this.onChartObj2Click)
+
+        // 获取自提点、门店数据
+        const shops = await this.getShops(params.name)
+        this.setChartOption2(echartObj2, name, shops)
       })
     },
     setChartOption2 (echartObj, name, shops) {
       const mdBase64 =
         'image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAtCAYAAAA6GuKaAAAAAXNSR0IArs4c6QAACdNJREFUaEPVmXmQHUUdxz/dc7z3dpe9ckBIuJLNwQIqGE0gYLIkhFMQqCcmKLEULfEALf7wD1SSQqqsAglleaBFiaAkIWsEiRaag02ACtdCuLLF5kCOkGM3517vzZuZbqtn9mWvt2QWColdtTWve36/33zmO7/+9fSsoETTGlFq/JMYEwI9+Lol4WLoxb3nFg9yGjxu+v1tBvcHX/KDzg89NwLoxfKTULXUNYVYrBIq/f8IvTJrHTNKf7kxTKZ00xz7mIFu2BAkg27+tnPMQE//g58MekvWPWagz2gsJINumpMml9Fkcn0lsX9/uN8m+mC/wVc054utf/xSdpmcEA0b8smgN2Uzx4zS5zXmkkE3f7GM/V6fyqNSOuoPdxwc1diZVoxR7BftirGG6/cbFxev6U4G3ZStGGDoeAK/F6R4otSYOWfGTSvaD2f3QY+yn49oaOxKBt2crSLo6ss9u0IM6JsopcZKgSS16+9rfEwLurSY+URHMuimL1WXun6h5625oQoWaa1mgBj70fNetwkhn7ek/aBbNnH9kHh2mRAXLDuYDHpTtnaAYdehdC6369cadfVHBy0dQQjxWCY9/ntUVA+oFuK8xgPJoJ/KjulvmDvccr9W+sqPC7gYVwixOlNd/82obwVRiohZj7Ylg27KnhAZhp72vXfmB4H/0McNXIxv284NTuqUNVipGLqhcU8y6PXZ8ZFhytM97W89KISa97+C1lquKxszcRFeL/TcxveTQT+dPTkyVAWdO7B9MzBqOGhZXU9q9goQEsI8Wg15vxnoGubxX1lMuGfDcCH3Z2rrzka6AmVpMXvFe8mgN2ZPi6F9nTu07T8fqLJdhjPtuwi3hqEbo17PfvsjrXyC7Q+gu94ZNmymevJpSCdOj9mNQ65feru1ceHkKGLQo/KHt28fEr3fBsz5zG2IyroRZY/ufAv/lTuG9UlX1dWhUxaOUXrZtmRKNy2YhlQCSZhra2kd4NRv8yMqJ5Ke/9iIgIvG3tprUYd7eQZt7jJj66eisFBSi4blbyaEvu7MyDCGbhmOyjnzZuxpN34o6KD1AfzXl5b0zYytr4+go+rxyBvJoNct+FRkaOVVft+O10tFNuI4l/0LUTbuQ0Hrzrfx/n3VQN/eZE2PmnQW2o2Vnrf8tWTQTy78LMISkA/ye1tN9YiaEP1nFKSyL4Ls3eT43WhVQKRqYmOtwO8Et+pIXxc6EKneN4TQw1s1IzbVA79SpI+fejakoy2faPhzczLoputnRtC62/fatr9YdJJF5t68llMWYp1xE4Q5ws33xA9nxhIQFurVX6HbXkLO+gUiMwb18l2YrynynB+DdAlfXYp680GTglFT/bhTY+s+1wf98HMJoRecH0tQ8P192yOnSOV+k1BrM0+B9ChE5SR0+8voMIyUF5mxiKkLEG4lascqdPtrCBE7i4lXQc9Owr0vIUQvaS94UXFndN1MwjIHO0A0LH8mGfTar85BConwvKB9a+xkrqnNoxTIIxeRyE//AFm/iGDlhVDoBCuFfeUq9P4WdP4gctLlhKuz6M5dkdL21avRO5tQm+9GKSOGjsaLihtwZ+zU81FpF620uOgvQ1ah0nV63Q3zEGaJy+X9vds29i0aIv7IZwTSMjrK6bciT/8K4fK5iEIXYtx0xBd+jnrk0shQXvJ79LbHUTtWY1LXzj6Oem8jqvluMMAmTCR4r+oCnOMnz0a7KTAT8aF1I1BaZsD3grbWlULrUUbhOK7sBRdgsuHztyJOvw4euRjyXXDceLh6BTxzB+QOwJw74amfwJ4XUEohr30U/a6B/iUmZDRhrT7FNRywx07LgpNCqdxIlD4XKcagA599rT8KCvqiCFiISBzCXsWRyPN/CnWXw65mKHRBy19h8uUw2SgNtL0Bzb+Bc74V+TP6THTr39AvxNBaRo8tThGhsR25ltFTlyJSDipoF/MeejaZ0k1fPxVtnwNK0PXuieHhQ/eaJx2nhkRogRCm9ks47zaou6QvrtcBj98MVywFtwJW3wLzfgYV8dtu1LasQL9wL9g6Sg1tJmn8IJVdVf1DKk7ehdICSzeLhj+9nQzafGHqCC5Fy3Jk6LOn9RrlFRaYUtYHbIGSUDsNJs2PVVSmpkl4+3mw01A9Adpb4dSZ8UzWIfS0wzsboPt9tOlLAx5GU8Qqc5dTO+VRlOtgBV1U2k+IpF+YIkHXfONEpHMhQtjo0Gf/1vnkvesJhYW0QVsQSKLfyo5qM5j1wJQWEd9EVG6MiuYvBB2A9uPf0YQwR4UWYSgymYcZNWUNwnLQOkD5T4r5f9w1WOWobJYaLI7pphsnEDpzEVYmelzdu2o5tP87hExAu3EFsVKgDLAVr45mrBjWRDd17QhoYF53wQpBmPfuECz9HjW195GZcBApNDrMYfnrRcP9O4djO+q/KfTTN9WQlxch3HFo4aC6CrS9O598eBnCNQUqhjbwRm1pbqYY1mRpECsbFmJ4WVQ70GSsfzL6lLXIyhQEPiLYTSpcIy743ZAdeP8bODq0qXUbllj4h2ch7HPBSkfqde88joPdiwitURG4gbXc+Gib75cmx83jDyDwzH4zBjcK28E+qsseoPKkTrRtRVseVdiEW7OJObeH4shSWVrro0JH+W3AlywRXNB9GoFzDZY8Hm1lCDs62bt3Nr6YgUyJaPIZxQ20Ud1MNAMc5MDPg/Y0KZ5l9AnrsauqENGdtKH8Vcy/K6oSRwM+ak4fye0i9LhxFiftzuCqLMo6F2FVoAKPzr0pOoMrsDLluBlwykCa6mKge+JFR+e7yMi/Uz2+J7ozGfagC8+TC1axuSz+Xnf77dHydTTw5Eo3NkrGtAhytRZdBxxqxCyU9TWEPSbKiaBjD4d7piPTddhl4DhRmuL3gM5tpTLzHPZxY+L3V92OKiwjJZ9l67iQmhpFNhu9UR0NeGRKG2sDTotFVbmDH7jY/okI9xakczbaKkOG+yn0aAriDLAqIewgpV8nlQkIZTU66EYHmymEv0W5e/CcgIPlAbt3h0lV/vDQGWwCXHS5i50vJ+UuhNT1WE4lUhSQhS3Y6hChrCR0pqDMKhQcJsgtw7NWYqkc2vOwakMyB0I2oj4eaDMR6+sFBw9KTvIkfs7FyzlYToqUzGDbZyHTi5HOqUiT0GYJVCFKeejCDsLCneQLW7DSOVToUZnzo9SYslsXoZOkRmKlB1QQA25ShEqLig6HsMJFhS6WSiNEOanU98G9DGFVocN28P5B3r8PSSd5WUB0F7ApHFG5vV6bfE4KPHJo42EUn42MJqTl2YTdFnnXLL0ulraRKRtbS0Kk+QiAlgFB6OOFPk7Bp6zcx+0Oj0zAlhY9ktQwCP8F+j2BatY7gNgAAAAASUVORK5CYII='
       const ztdBase64 = 'image://data:image/png;base64,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'
-      const markPointData1 = shops[0].map((shop) => {
-        return {
+      const markPointData = []
+      shops.forEach(shopArr => {
+        const data = shopArr.map(shop => ({
           name: shop.name,
           coord: [shop.lng, shop.lat],
-          symbol: ztdBase64,
+          symbol: shop.type === 1 ? ztdBase64 : mdBase64,
           symbolSize: 36,
           id: shop.id,
           type: shop.type
-        }
-      })
-      const markPointData2 = shops[1].map((shop) => {
-        return {
-          name: shop.name,
-          coord: [shop.lng, shop.lat],
-          symbol: mdBase64,
-          symbolSize: 36,
-          id: shop.id,
-          type: shop.type
-        }
+        }))
+        markPointData.push(...data)
       })
       echartObj.setOption({
         tooltip: {
@@ -571,7 +566,7 @@ export default {
               }
             },
             markPoint: {
-              data: [...markPointData1, ...markPointData2]
+              data: markPointData
             }
           }
         ]
