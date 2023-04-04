@@ -18,7 +18,7 @@
         <div class="content">
           <div class="info">
             <div class="details">
-              <img :src="detailData.pic" width="365" height="338" style="color: white" alt="商户图片" />
+              <img :src="detailData.logo" width="365" height="338" style="color: white" alt="商户图片" />
 
               <div class="labels">
                 <div class="item">

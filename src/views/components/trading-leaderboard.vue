@@ -23,7 +23,7 @@
         <div class="content">
           <div class="info">
             <div class="details">
-              <img src="@/assets/images/pic-1.png" alt=""/>
+              <img :src="detailData.thumb" alt=""/>
 
               <div class="labels">
                 <div class="item">
