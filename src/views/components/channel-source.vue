@@ -2,7 +2,7 @@
   <div class="channel-source">
     <Box title="渠道来源">
       <template #select>
-        <XSelect :value="value" :options="options" />
+        <XSelect :value="value" :options="options" @select="optionChange" />
       </template>
 
       <div id="chart2" class="chart"></div>
@@ -14,6 +14,8 @@
 import Box from '@/components/box'
 import * as echarts from 'echarts'
 import XSelect from '@/components/x-select.vue'
+import request from '@/api/request'
+import urls from '@/api/urls'
 
 export default {
   name: 'ChannelSource',
@@ -35,7 +37,16 @@ export default {
           value: '2',
           label: '用户渠道来源'
         }
-      ]
+      ],
+      sourceTypes: {
+        1: 'h5',
+        2: 'app',
+        3: '小程序',
+        4: '大江网',
+        5: 'i南昌',
+        6: '鹭鹭行'
+      },
+      myChart: null
     }
   },
 
@@ -44,13 +55,27 @@ export default {
   },
 
   methods: {
-    init () {
+    async init () {
       // 基于准备好的dom，初始化echarts实例
       echarts.dispose(document.getElementById('chart2'))
-      const myChart = echarts.init(document.getElementById('chart2'))
+      this.myChart = echarts.init(document.getElementById('chart2'))
+
+      const data = await this.getData() || []
 
       // 绘制图表
-      myChart.setOption({
+      this.setChartOption(data)
+    },
+    setChartOption (data) {
+      const xaxisData = []
+      const yaxisData1 = []
+      const yaxisData2 = []
+      data.forEach(item => {
+        xaxisData.push(this.sourceTypes[item.source_type])
+        yaxisData1.push(item.sum_price)
+        yaxisData2.push(item.order_count)
+      })
+
+      this.myChart.setOption({
         // 提示框
         tooltip: {
           trigger: 'item'
@@ -113,7 +138,7 @@ export default {
               show: false
             },
             // prettier-ignore
-            data: ['APP', '小程序', '公众号', '鹭鹭行', '大江网', '绿宝碳汇'],
+            data: xaxisData,
             splitLine: {
               // 网格线
               show: false
@@ -125,7 +150,7 @@ export default {
           {
             type: 'bar',
             name: '交易额',
-            data: [1, 2, 13, 109, 2, 13],
+            data: yaxisData1,
             barWidth: 10,
             itemStyle: {
               color: new echarts.graphic.LinearGradient(1, 0, 0, 0, [
@@ -150,7 +175,7 @@ export default {
           {
             type: 'bar',
             name: '订单数',
-            data: [1, 2, 11, 89, 2, 11],
+            data: yaxisData2,
             barWidth: 10,
             itemStyle: {
               // 柱条的颜色（color）；
@@ -172,6 +197,20 @@ export default {
           }
         ]
       })
+    },
+    async getData (type) {
+      const res = await request({
+        url: urls.channel_source,
+        method: 'POST',
+        data: {
+          time_range: this.$store.state.time_range
+        }
+      })
+      return res.data.data
+    },
+    async optionChange (option) {
+      const chartData = await this.getData(Number(option.value))
+      this.setChartOption(chartData)
     }
   }
 }
