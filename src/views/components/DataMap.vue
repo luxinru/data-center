@@ -84,7 +84,7 @@
         <div class="content">
           <div class="info">
             <div class="details">
-              <img src="@/assets/images/pic-7.png" alt="" />
+              <img :src="currentShopData.logo" alt="" />
 
               <div class="labels">
                 <div class="item">
@@ -101,23 +101,23 @@
                 </div>
                 <div class="item">
                   <span>联系姓名：</span>
-                  <p>{{currentShopData.linkName}}</p>
+                  <p>{{currentShopData.real_name}}</p>
                 </div>
                 <div class="item">
                   <span>联系电话：</span>
-                  <p>{{currentShopData.phone}}</p>
+                  <p>{{currentShopData.mobile}}</p>
                 </div>
                 <div class="item">
                   <span>详细地址：</span>
-                  <p>{{currentShopData.addr}}</p>
+                  <p>{{currentShopData.address}}</p>
                 </div>
                 <div class="item">
                   <span>营业时间：</span>
-                  <p>{{currentShopData.time}}</p>
+                  <p>{{currentShopData.sale_time}}</p>
                 </div>
                 <div class="item">
                   <span>评分：</span>
-                  <p>{{currentShopData.score}}</p>
+                  <p>{{currentShopData.rating}}</p>
                 </div>
               </div>
             </div>
@@ -352,6 +352,7 @@ export default {
             normal: {
               show: true,
               color: '#fff',
+              padding: [4, 8],
               formatter: (param) => {
                 return '{bg| ' + param.name + '}'
               },
@@ -602,14 +603,12 @@ export default {
           url: urls.site_detail,
           method: 'POST',
           data: {
-            id: 1,
+            id: params.data.id,
             time_range: this.$store.state.time_range
           }
         }).then(res => res.data.data)
           .then(result => {
             this.currentShopData = {
-              id: params.data.id,
-              name: params.data.name,
               type: params.data.type,
               ...result
             }
