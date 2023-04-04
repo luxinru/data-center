@@ -38,5 +38,8 @@ export default {
   site_list: '/stats/site/list',
 
   // 数据大屏(门店/自提点详情)
-  site_detail: '/stats/site/detail'
+  site_detail: '/stats/site/detail',
+
+  // 数据大屏(用户分析)
+  user_ratio: '/stats/user/ratio'
 }

@@ -13,7 +13,7 @@
           <span>{{ name }}</span>
         </div>
 
-        <div class="labels" v-if="value === '1'">
+        <div class="labels" v-if="value === '3'">
           <div class="item">
             <img class="bac" src="@/assets/images/underline.png" alt="" />
             <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
@@ -46,7 +46,7 @@
           </div>
         </div>
 
-        <div class="labels" v-else-if="value === '2'">
+        <div class="labels" v-else-if="value === '4'">
           <div class="item">
             <img class="bac" src="@/assets/images/underline.png" alt="" />
             <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
@@ -85,87 +85,21 @@
           </div>
         </div>
 
-        <div class="labels" v-else-if="value === '4'">
-          <div class="item">
+        <div class="labels" v-else-if="value === '1'">
+          <div class="item" v-for="(item, index) in ratingData.data" :key="index">
             <img class="bac" src="@/assets/images/underline.png" alt="" />
             <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
-            <span>LV1</span>
-            <p>1%</p>
-          </div>
-          <div class="item">
-            <img class="bac" src="@/assets/images/underline.png" alt="" />
-            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
-            <span>LV2</span>
-            <p>21%</p>
-          </div>
-          <div class="item">
-            <img class="bac" src="@/assets/images/underline.png" alt="" />
-            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
-            <span>LV3</span>
-            <p>41%</p>
-          </div>
-          <div class="item">
-            <img class="bac" src="@/assets/images/underline.png" alt="" />
-            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
-            <span>LV4</span>
-            <p>26%</p>
-          </div>
-          <div class="item">
-            <img class="bac" src="@/assets/images/underline.png" alt="" />
-            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
-            <span>LV5</span>
-            <p>11%</p>
-          </div>
-          <div class="item">
-            <img class="bac" src="@/assets/images/underline.png" alt="" />
-            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
-            <span>LV6</span>
-            <p>11%</p>
+            <span>{{item.range}}</span>
+            <p>{{(Number(item.count) / ratingData.total * 100).toFixed(2)}}%</p>
           </div>
         </div>
 
-        <div class="labels" v-else-if="value === '5'">
-          <div class="item">
+        <div class="labels" v-else-if="value === '2'">
+          <div class="item" v-for="(item, index) in ratingData.data" :key="index">
             <img class="bac" src="@/assets/images/underline.png" alt="" />
             <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
-            <span>1次</span>
-            <p>1%</p>
-          </div>
-          <div class="item">
-            <img class="bac" src="@/assets/images/underline.png" alt="" />
-            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
-            <span>2次</span>
-            <p>21%</p>
-          </div>
-          <div class="item">
-            <img class="bac" src="@/assets/images/underline.png" alt="" />
-            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
-            <span>3次</span>
-            <p>41%</p>
-          </div>
-          <div class="item">
-            <img class="bac" src="@/assets/images/underline.png" alt="" />
-            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
-            <span>4次</span>
-            <p>26%</p>
-          </div>
-          <div class="item">
-            <img class="bac" src="@/assets/images/underline.png" alt="" />
-            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
-            <span>5~10次</span>
-            <p>11%</p>
-          </div>
-          <div class="item">
-            <img class="bac" src="@/assets/images/underline.png" alt="" />
-            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
-            <span>11~20次</span>
-            <p>11%</p>
-          </div>
-          <div class="item">
-            <img class="bac" src="@/assets/images/underline.png" alt="" />
-            <img class="arr" src="@/assets/images/weibiaoti.png" alt="" />
-            <span>20次以上</span>
-            <p>11%</p>
+            <span>{{item.range}}</span>
+            <p>{{(Number(item.count) / ratingData.total * 100).toFixed(2)}}%</p>
           </div>
         </div>
       </div>
@@ -176,6 +110,8 @@
 <script>
 import Box from '@/components/box'
 import XSelect from '@/components/x-select.vue'
+import request from '@/api/request'
+import urls from '@/api/urls'
 
 export default {
   name: 'UserAnalysis',
@@ -187,25 +123,26 @@ export default {
 
   data () {
     return {
-      value: '1',
+      value: '3',
       options: [
         {
-          value: '1',
+          value: '3',
           label: '用户年龄'
         },
         {
-          value: '2',
+          value: '4',
           label: '用户性别'
         },
         {
-          value: '4',
+          value: '1',
           label: '用户等级'
         },
         {
-          value: '5',
+          value: '2',
           label: '消费次数'
         }
-      ]
+      ],
+      userData: []
     }
   },
 
@@ -213,10 +150,35 @@ export default {
     name () {
       const finded = this.options.find(item => item.value === this.value)
       return finded.label
+    },
+    ratingData () {
+      return {
+        total: this.userData.reduce((a, b) => a + Number(b.count), 0),
+        data: this.userData
+      }
     }
   },
 
+  watch: {
+    value: 'valueChange'
+  },
+
   methods: {
+    valueChange (newVal) {
+      this.getData(Number(newVal)).then(res => {
+        this.userData = res
+      })
+    },
+    async getData (type) {
+      const res = await request({
+        url: urls.user_ratio,
+        method: 'POST',
+        data: {
+          type
+        }
+      })
+      return res.data.data
+    },
     onSelect (data) {
       this.value = data.value
     }
