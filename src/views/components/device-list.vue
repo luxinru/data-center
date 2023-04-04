@@ -2,7 +2,7 @@
   <div class="device_list_root">
     <Box title="设备列表">
       <template #select>
-        <XSelect :value="value" :options="options" />
+        <XSelect :value="value" :options="options" @select="optionChange" />
       </template>
 
       <XTable
@@ -29,31 +29,31 @@
               <div class="labels">
                 <div class="item">
                   <span>设备编号：</span>
-                  <p>0154545</p>
+                  <p>{{currentData.device_id}}</p>
                 </div>
                 <div class="item">
                   <span>设备地址：</span>
-                  <p>江西省南昌市江西省南昌市江西省南昌市</p>
+                  <p>{{currentData.addr}}</p>
                 </div>
                 <div class="item">
                   <span>设备温度：</span>
-                  <p>25℃</p>
+                  <p>{{currentData.temp}}</p>
                 </div>
                 <div class="item">
                   <span>设备格子数：</span>
-                  <p>10</p>
+                  <p>{{currentData.box_amount}}</p>
                 </div>
                 <div class="item">
                   <span>占用数量：</span>
-                  <p>5</p>
+                  <p>{{currentData.used_box_amount}}</p>
                 </div>
                 <div class="item">
                   <span>联系人：</span>
-                  <p>刘洋洋</p>
+                  <p>{{currentData.real_name}}</p>
                 </div>
                 <div class="item">
                   <span>联系电话：</span>
-                  <p>17715640000</p>
+                  <p>{{currentData.mobile}}</p>
                 </div>
               </div>
             </div>
@@ -83,17 +83,19 @@ export default {
     XModal
   },
 
+  props: ['cabinetList'],
+
   data () {
     return {
       isShowModal: false,
       value: '1',
       options: [
         {
-          value: '1',
+          value: '2',
           label: '故障检修'
         },
         {
-          value: '2',
+          value: '1',
           label: '正常运行'
         },
         {
@@ -104,194 +106,38 @@ export default {
       columns: [
         {
           name: '类型',
-          value: 'c'
+          value: 'type'
         },
         {
           name: '编号',
-          value: 'b'
+          value: 'device_id'
         },
         {
           name: '设备名称',
-          value: 'd'
+          value: 'cabinet_mark'
         },
         {
           name: '温度',
-          value: 'e'
+          value: 'temp'
         },
         {
           name: '网络状态',
-          value: 'f',
+          value: 'online_str',
           color: 'rgba(0, 186, 255, 1)'
         },
         {
           name: '设备状态',
-          value: 'g',
+          value: 'cabinet_status_str',
           color: 'rgba(0, 186, 255, 1)'
         }
       ],
+      currentData: {}
+    }
+  },
 
-      tableData: [
-        {
-          b: '0457',
-          c: '主控柜',
-          d: '江西省南昌市南昌街道',
-          e: '25℃',
-          f: '正常运行',
-          g: '正常运行'
-        },
-        {
-          b: '0457',
-          c: '主控柜',
-          d: '江西省南昌市南昌街道',
-          e: '25℃',
-          f: '正常运行',
-          g: '正常运行'
-        },
-        {
-          b: '0457',
-          c: '主控柜',
-          d: '江西省南昌市南昌街道',
-          e: '25℃',
-          f: '正常运行',
-          g: '正常运行'
-        },
-        {
-          b: '0457',
-          c: '主控柜',
-          d: '江西省南昌市南昌街道',
-          e: '25℃',
-          f: '正常运行',
-          g: '正常运行'
-        },
-        {
-          b: '0457',
-          c: '主控柜',
-          d: '江西省南昌市南昌街道',
-          e: '25℃',
-          f: '正常运行',
-          g: '正常运行'
-        },
-        {
-          b: '0457',
-          c: '主控柜',
-          d: '江西省南昌市南昌街道',
-          e: '25℃',
-          f: '正常运行',
-          g: '正常运行'
-        },
-        {
-          b: '0457',
-          c: '主控柜',
-          d: '江西省南昌市南昌街道',
-          e: '25℃',
-          f: '正常运行',
-          g: '正常运行'
-        },
-        {
-          b: '0457',
-          c: '主控柜',
-          d: '江西省南昌市南昌街道',
-          e: '25℃',
-          f: '正常运行',
-          g: '正常运行'
-        },
-        {
-          b: '0457',
-          c: '主控柜',
-          d: '江西省南昌市南昌街道',
-          e: '25℃',
-          f: '正常运行',
-          g: '正常运行'
-        },
-        {
-          b: '0457',
-          c: '主控柜',
-          d: '江西省南昌市南昌街道',
-          e: '25℃',
-          f: '正常运行',
-          g: '正常运行'
-        },
-        {
-          b: '0457',
-          c: '主控柜',
-          d: '江西省南昌市南昌街道',
-          e: '25℃',
-          f: '正常运行',
-          g: '正常运行'
-        },
-        {
-          b: '0457',
-          c: '主控柜',
-          d: '江西省南昌市南昌街道',
-          e: '25℃',
-          f: '正常运行',
-          g: '正常运行'
-        },
-        {
-          b: '0457',
-          c: '主控柜',
-          d: '江西省南昌市南昌街道',
-          e: '25℃',
-          f: '正常运行',
-          g: '正常运行'
-        },
-        {
-          b: '0457',
-          c: '主控柜',
-          d: '江西省南昌市南昌街道',
-          e: '25℃',
-          f: '正常运行',
-          g: '正常运行'
-        },
-        {
-          b: '0457',
-          c: '主控柜',
-          d: '江西省南昌市南昌街道',
-          e: '25℃',
-          f: '正常运行',
-          g: '正常运行'
-        },
-        {
-          b: '0457',
-          c: '主控柜',
-          d: '江西省南昌市南昌街道',
-          e: '25℃',
-          f: '正常运行',
-          g: '正常运行'
-        },
-        {
-          b: '0457',
-          c: '主控柜',
-          d: '江西省南昌市南昌街道',
-          e: '25℃',
-          f: '正常运行',
-          g: '正常运行'
-        },
-        {
-          b: '0457',
-          c: '主控柜',
-          d: '江西省南昌市南昌街道',
-          e: '25℃',
-          f: '正常运行',
-          g: '正常运行'
-        },
-        {
-          b: '0457',
-          c: '主控柜',
-          d: '江西省南昌市南昌街道',
-          e: '25℃',
-          f: '正常运行',
-          g: '正常运行'
-        },
-        {
-          b: '0457',
-          c: '主控柜',
-          d: '江西省南昌市南昌街道',
-          e: '25℃',
-          f: '正常运行',
-          g: '正常运行'
-        }
-      ]
+  computed: {
+    tableData () {
+      return this.cabinetList.filter(item => item.cabinet_status === this.value)
     }
   },
 
@@ -438,10 +284,15 @@ export default {
       })
     },
 
+    optionChange (option) {
+      this.value = option.value
+    },
+
     onRowClick (row) {
       this.isShowModal = true
 
       this.$nextTick(() => {
+        this.currentData = row
         this.init()
       })
     }

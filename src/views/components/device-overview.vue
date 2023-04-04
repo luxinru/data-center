@@ -15,23 +15,23 @@
           <div class="labels">
             <div class="item">
               <span>设备数量</span>
-              <p>16565</p>
+              <p>{{overviewData.cabinet.counts}}</p>
             </div>
             <div class="item">
               <span>使用次数</span>
-              <p>16565</p>
+              <p>{{overviewData.cabinet.use_times}}</p>
             </div>
             <div class="item">
               <span>正常运行</span>
-              <p>16565</p>
+              <p>{{overviewData.cabinet.counts1}}</p>
             </div>
             <div class="item">
               <span>故障检修</span>
-              <p>16565</p>
+              <p>{{overviewData.cabinet.counts2}}</p>
             </div>
             <div class="item">
               <span>关闭暂停</span>
-              <p>16565</p>
+              <p>{{overviewData.cabinet.counts3}}</p>
             </div>
           </div>
         </div>
@@ -44,23 +44,23 @@
           <div class="labels">
             <div class="item">
               <span>设备数量</span>
-              <p>16565</p>
+              <p>{{overviewData.shop.counts}}</p>
             </div>
             <div class="item">
               <span>使用次数</span>
-              <p>16565</p>
+              <p>{{overviewData.shop.use_times}}</p>
             </div>
             <div class="item">
               <span>正常运行</span>
-              <p>16565</p>
+              <p>{{overviewData.shop.counts1}}</p>
             </div>
             <div class="item">
               <span>故障检修</span>
-              <p>16565</p>
+              <p>{{overviewData.shop.counts2}}</p>
             </div>
             <div class="item">
               <span>关闭暂停</span>
-              <p>16565</p>
+              <p>{{overviewData.shop.counts3}}</p>
             </div>
           </div>
         </div>
@@ -78,6 +78,8 @@ export default {
   components: {
     Box
   },
+
+  props: ['overviewData'],
 
   data () {
     return {

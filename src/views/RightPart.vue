@@ -10,10 +10,10 @@
       <ChannelSource />
     </div>
     <div class="item">
-      <DeviceOverview />
+      <DeviceOverview :overviewData="overviewData" />
     </div>
     <div class="item">
-      <DeviceList />
+      <DeviceList :cabinetList="cabinetList" />
     </div>
     <div class="item">
       <UsageFrequencyRanking />
@@ -28,9 +28,11 @@ import ChannelSource from './components/channel-source.vue'
 import DeviceOverview from './components/device-overview.vue'
 import DeviceList from './components/device-list.vue'
 import UsageFrequencyRanking from './components/usage-frequency-ranking.vue'
+import request from '@/api/request'
+import urls from '@/api/urls'
 
 export default {
-  name: 'LeftPart',
+  name: 'RightPart',
 
   components: {
     UserAnalysis,
@@ -39,6 +41,55 @@ export default {
     DeviceOverview,
     ChannelSource,
     UsageFrequencyRanking
+  },
+
+  data () {
+    return {
+      cabinetList: []
+    }
+  },
+
+  mounted () {
+    this.getCabinetList().then(res => {
+      this.cabinetList = res.map(item => ({
+        type: '自提柜',
+        temp: '-',
+        ...item
+      }))
+    })
+  },
+
+  computed: {
+    overviewData () {
+      return {
+        cabinet: {
+          counts: this.cabinetList.length,
+          use_times: 0,
+          counts1: 0,
+          counts2: 0,
+          counts3: 0
+        },
+        shop: {
+          counts: 0,
+          use_times: 0,
+          counts1: 0,
+          counts2: 0,
+          counts3: 0
+        }
+      }
+    }
+  },
+
+  methods: {
+    async getCabinetList () {
+      return await request({
+        url: urls.cabinet_list,
+        params: {
+          page: 1,
+          limit: 99999
+        }
+      }).then(res => res.data.data)
+    }
   }
 }
 </script>

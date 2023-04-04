@@ -164,17 +164,6 @@ export default {
       this.initSvgMap()
     })
 
-    // todo
-    // request({
-    //   url: 'http://api.jnysmall.com/open-api/cabinet-list',
-    //   params: {
-    //     page: 1,
-    //     limit: 999
-    //   }
-    // }).then(res => {
-    //   console.log(111, res)
-    // })
-
     this.getHoverData('province', '江西省').then(result => {
       this.cityData = result
     })

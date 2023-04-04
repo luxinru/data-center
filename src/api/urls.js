@@ -41,5 +41,8 @@ export default {
   site_detail: '/stats/site/detail',
 
   // 数据大屏(用户分析)
-  user_ratio: '/stats/user/ratio'
+  user_ratio: '/stats/user/ratio',
+
+  // 自提柜设备列表
+  cabinet_list: 'http://api.jnysmall.com/open-api/cabinet-list'
 }
