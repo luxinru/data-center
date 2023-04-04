@@ -2,7 +2,7 @@
   <div class="commodity_price_trend">
     <Box title="商品价格趋势">
       <template #select>
-        <XSelect :value="value" :options="options" />
+        <XSelect :value="value" :options="options" @select="optionChange" />
       </template>
 
       <div id="chart1" class="chart"></div>
@@ -14,6 +14,8 @@
 import Box from '@/components/box'
 import * as echarts from 'echarts'
 import XSelect from '@/components/x-select.vue'
+import request from '@/api/request'
+import urls from '@/api/urls'
 
 export default {
   name: 'CommodityPriceTrend',
@@ -25,21 +27,22 @@ export default {
 
   data () {
     return {
-      value: '1',
+      value: '2',
       options: [
         {
-          value: '1',
+          value: '2',
           label: '上升'
         },
         {
-          value: '2',
+          value: '1',
           label: '下降'
         },
         {
           value: '3',
           label: '异常'
         }
-      ]
+      ],
+      myChart: null
     }
   },
 
@@ -48,26 +51,25 @@ export default {
   },
 
   methods: {
-    init () {
+    async init () {
       // 基于准备好的dom，初始化echarts实例
       echarts.dispose(document.getElementById('chart1'))
-      const myChart = echarts.init(document.getElementById('chart1'))
+      this.myChart = echarts.init(document.getElementById('chart1'))
 
-      const xaxisData = [
-        '家用电器',
-        '速冻食品',
-        '粮油副食',
-        '酒水茶饮',
-        '美食餐饮',
-        '蔬菜豆菇',
-        '新鲜水果',
-        '鲜肉蛋禽',
-        '酒店民宿'
-      ]
-      const yaxisData = [90, 80, 100, 70, 65, 69, 80, 69, 80]
+      const data = await this.getData() || []
 
       // 绘制图表
-      myChart.setOption({
+      this.setChartOption(data)
+    },
+    setChartOption (data) {
+      const xaxisData = []
+      const yaxisData = []
+      data.forEach(item => {
+        xaxisData.push(item.title)
+        yaxisData.push(item.rate * 100)
+      })
+
+      this.myChart.setOption({
         tooltip: {
           trigger: 'axis',
           axisPointer: {
@@ -81,7 +83,7 @@ export default {
           },
           formatter: (params) => {
             const item = params[0]
-            return item.name + ' : ' + item.value + ' 条'
+            return item.name + ' : ' + item.value.toFixed(2) + ' %'
           }
         },
         grid: {
@@ -137,7 +139,7 @@ export default {
             axisTick: {
               show: false
             },
-            data: xaxisData
+            data: xaxisData.reverse()
           }
         ],
         series: [
@@ -160,10 +162,28 @@ export default {
                 }
               ])
             },
-            data: yaxisData
+            data: yaxisData.reverse()
           }
         ]
       })
+    },
+    async getData (sort = 2, isErr = 0) {
+      const res = await request({
+        url: urls.goods_price_trend,
+        method: 'POST',
+        data: {
+          time_range: this.$store.state.time_range,
+          limit: 10,
+          offset: 0,
+          sort,
+          is_err: isErr
+        }
+      })
+      return res.data.data
+    },
+    async optionChange (option) {
+      const chartData = await this.getData(option.value === '3' ? undefined : Number(option.value), option.value === '3' ? 1 : 0)
+      this.setChartOption(chartData)
     }
   }
 }
