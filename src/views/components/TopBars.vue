@@ -1,24 +1,43 @@
 <template>
-  <div class="bars">
-    <div class="item" v-for="(item, index) in barsList" :key="index">
-      <span>
-        <CountUp
-          v-if="index === 0"
-          :startVal="0"
-          :endVal="item.value"
-          :duration="2"
-          :options="{ decimalPlaces: 2, useGrouping: false }"
-        ></CountUp>
-        <CountUp
-          v-else
-          :startVal="0"
-          :endVal="item.value"
-          :duration="2"
-          :options="{ useGrouping: false }"
-        ></CountUp>
-      </span>
-      <span>{{ item.label }}</span>
-    </div>
+  <div
+    class="bars"
+    :style="{ 'grid-template-columns': barType === 1 ? '' : '1fr 1fr 1fr 1fr' }"
+  >
+    <template v-if="barType === 1">
+      <div class="item" v-for="(item, index) in barsList" :key="index">
+        <span>
+          <CountUp
+            v-if="index === 0"
+            :startVal="0"
+            :endVal="item.value"
+            :duration="2"
+            :options="{ decimalPlaces: 2, useGrouping: false }"
+          ></CountUp>
+          <CountUp
+            v-else
+            :startVal="0"
+            :endVal="item.value"
+            :duration="2"
+            :options="{ useGrouping: false }"
+          ></CountUp>
+        </span>
+        <span>{{ item.label }}</span>
+      </div>
+    </template>
+
+    <template v-else>
+      <div class="item" v-for="(item, index) in barsList2" :key="index">
+        <span>
+          <CountUp
+            :startVal="0"
+            :endVal="item.value"
+            :duration="2"
+            :options="{ decimalPlaces: 0, useGrouping: false }"
+          ></CountUp>
+        </span>
+        <span>{{ item.label }}</span>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -29,9 +48,13 @@ import request from '@/api/request'
 
 export default {
   name: 'TopBars',
+
   components: {
     CountUp
   },
+
+  props: ['footerType'],
+
   data () {
     return {
       sum_price: 0,
@@ -40,7 +63,8 @@ export default {
       order_count: 0,
       post_count: 0,
       store_count: 0,
-      user_count: 0
+      user_count: 0,
+      barType: 1
     }
   },
 
@@ -76,6 +100,38 @@ export default {
           label: '设备数'
         }
       ]
+    },
+
+    barsList2 () {
+      return [
+        {
+          value: 0,
+          label: '商品数'
+        },
+        {
+          value: 3000,
+          label: '基地数'
+        },
+        {
+          value: 0,
+          label: '交易额'
+        },
+        {
+          value: 0,
+          label: '订单数'
+        }
+      ]
+    }
+  },
+
+  watch: {
+    footerType: {
+      handler () {
+        if (this.footerType === 1 || this.footerType === 2) {
+          this.barType = this.footerType
+        }
+      },
+      immediate: true
     }
   },
 
@@ -85,12 +141,18 @@ export default {
 
   methods: {
     async init () {
+      const date = new Date()
       const {
         data: { data }
       } = await request({
         url: urls.overview,
         method: 'POST',
-        data: { time_range: this.$store.state.time_range }
+        data: {
+          time_range: [
+            Date.parse(`${date.getFullYear()}/1/1 00:00:00`) / 1000,
+            Date.now() / 1000
+          ]
+        }
       })
 
       this.sum_price = data[0].sum_price || 0

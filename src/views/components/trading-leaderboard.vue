@@ -201,8 +201,6 @@ export default {
 
     async changeTableData (type) {
       this.tableData = await this.getData(type)
-
-      this.autoScroll()
     },
 
     autoScroll () {
@@ -420,6 +418,8 @@ export default {
         }).then((res) => {
           this.detailData = res.data.data
           this.init(res.data.data.trend)
+
+          this.autoScroll()
         })
       })
     }

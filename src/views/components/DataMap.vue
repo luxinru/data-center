@@ -85,7 +85,11 @@
       <div class="modal">
         <div class="title">
           <span>详情</span>
-          <img src="@/assets/images/close.png" alt="" @click="isShowModal = !isShowModal" />
+          <img
+            src="@/assets/images/close.png"
+            alt=""
+            @click="isShowModal = !isShowModal"
+          />
         </div>
 
         <div class="content">
@@ -203,17 +207,18 @@ export default {
       this.initSvgMap()
     })
 
-    this.getHoverData('province', '江西省').then(result => {
+    this.getHoverData('province', '江西省').then((result) => {
       this.cityData = result
     })
   },
   methods: {
     async getHoverData (key, value) {
+      const date = new Date()
       return await request({
         url: urls.overview,
         method: 'POST',
         data: {
-          time_range: this.$store.state.time_range,
+          time_range: [Date.parse(`${date.getFullYear()}/1/1 00:00:00`) / 1000, Date.now() / 1000],
           key,
           value
         }
@@ -228,7 +233,7 @@ export default {
           province: '江西省',
           city
         }
-      }).then(res => res.data.data)
+      }).then((res) => res.data.data)
       const promise2 = request({
         url: urls.site_list,
         method: 'POST',
@@ -237,7 +242,7 @@ export default {
           province: '江西省',
           city
         }
-      }).then(res => res.data.data)
+      }).then((res) => res.data.data)
       return await Axios.all([promise1, promise2])
     },
     showDataMap1 () {
@@ -252,7 +257,7 @@ export default {
       }
       this.$nextTick(() => {
         this.initSvgMap()
-        this.getHoverData('province', '江西省').then(result => {
+        this.getHoverData('province', '江西省').then((result) => {
           this.cityData = result
         })
       })
@@ -286,7 +291,8 @@ export default {
         })
     },
     async setChartOption1 (echartObj) {
-      const base64png = 'image://data:image/png;base64,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'
+      const base64png =
+        'image://data:image/png;base64,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'
 
       const markPointData = [
         {
@@ -448,7 +454,7 @@ export default {
       this.y = params.event.offsetY
 
       this.isTooltipShow = true
-      const item = this.cityData.find(it => it.city === params.name)
+      const item = this.cityData.find((it) => it.city === params.name)
       this.currentHoverData = item || {
         sum_price: 0,
         merchant_count: 0,
@@ -473,9 +479,7 @@ export default {
         if (chart) {
           echarts.dispose(document.getElementById('provinceMap'))
         }
-        const echartObj2 = echarts.init(
-          document.getElementById('provinceMap')
-        )
+        const echartObj2 = echarts.init(document.getElementById('provinceMap'))
         echarts.registerMap(name, provinceJSON)
 
         this.setChartOption2(echartObj2, name, [])
@@ -494,11 +498,13 @@ export default {
       })
     },
     setChartOption2 (echartObj, name, shops) {
-      const mdBase64 = 'image://data:image/png;base64,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'
-      const ztdBase64 = 'image://data:image/png;base64,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'
+      const mdBase64 =
+        'image://data:image/png;base64,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'
+      const ztdBase64 =
+        'image://data:image/png;base64,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'
       const markPointData = []
-      shops.forEach(shopArr => {
-        const data = shopArr.map(shop => ({
+      shops.forEach((shopArr) => {
+        const data = shopArr.map((shop) => ({
           name: shop.name,
           coord: [shop.lng, shop.lat],
           symbol: shop.type === 1 ? ztdBase64 : mdBase64,
@@ -605,7 +611,7 @@ export default {
         this.x = params.event.offsetX
         this.y = params.event.offsetY
         this.isTooltipShow = true
-        const item = this.cityData.find(it => it.area === params.name)
+        const item = this.cityData.find((it) => it.area === params.name)
         this.currentHoverData = item || {
           sum_price: 0,
           merchant_count: 0,
@@ -627,8 +633,9 @@ export default {
             id: params.data.id,
             time_range: this.$store.state.time_range
           }
-        }).then(res => res.data.data)
-          .then(result => {
+        })
+          .then((res) => res.data.data)
+          .then((result) => {
             this.currentShopData = {
               type: params.data.type,
               ...result
@@ -842,30 +849,147 @@ export default {
 
       if (name === '江西省') {
         points = [
-          { value: [115.96066, 29.66666], itemStyle: { color: '#00EEFF' } }, // 九江市
-          { value: [117.18457, 29.27425], itemStyle: { color: '#00EEFF' } }, // 景德镇市
-          { value: [115.95046, 28.5516], itemStyle: { color: '#00EEFF' } }, // 南昌市
-          { value: [117.94946, 28.46063], itemStyle: { color: '#00EEFF' } }, // 上饶市
-          { value: [117.07557, 28.26579], itemStyle: { color: '#00EEFF' } }, // 鹰潭市
-          { value: [116.36454, 27.95489], itemStyle: { color: '#00EEFF' } }, // 抚州市
-          { value: [114.92354, 27.82358], itemStyle: { color: '#00EEFF' } },
-          { value: [114.42356, 27.82086], itemStyle: { color: '#00EEFF' } },
-          { value: [113.89369, 27.66475], itemStyle: { color: '#00EEFF' } },
-          { value: [115.00051, 27.11973], itemStyle: { color: '#00EEFF' } },
-          { value: [114.94051, 25.83518], itemStyle: { color: '#00EEFF' } }
+          { value: [115.96066, 29.66666] }, // 九江市
+          { value: [117.18457, 29.27425] }, // 景德镇市
+          { value: [115.95046, 28.5516] }, // 南昌市
+          { value: [117.94946, 28.46063] }, // 上饶市
+          { value: [117.07557, 28.26579] }, // 鹰潭市
+          { value: [116.36454, 27.95489] }, // 抚州市
+          { value: [114.92354, 27.82358] }, // 新余市
+          { value: [114.42356, 27.82086] }, // 宜春市
+          { value: [113.89369, 27.66475] }, // 萍乡市
+          { value: [115.00051, 27.11973] }, // 吉安市
+          { value: [114.94051, 25.83518] } // 赣州市
         ]
       }
 
-      const gdCode = [115.95046, 28.5516]
       const codes = []
 
-      if (name === '江西省') {
-        points.forEach((item) => {
-          codes.push({
-            coords: [item.value, gdCode],
-            lineStyle: item.lineStyle
-          })
-        })
+      switch (name) {
+        case '江西省':
+          codes.push(
+            /**
+             * 九江
+             */
+            {
+              coords: [
+                [115.96066, 29.66666],
+                [115.95046, 28.5516]
+              ]
+            },
+            {
+              coords: [
+                [115.96066, 29.66666],
+                [114.42356, 27.82086]
+              ]
+            },
+            {
+              coords: [
+                [115.96066, 29.66666],
+                [117.94946, 28.46063]
+              ]
+            },
+            {
+              coords: [
+                [115.96066, 29.66666],
+                [117.94946, 28.46063]
+              ]
+            },
+            /**
+             * 景德镇
+             */
+            {
+              coords: [
+                [117.18457, 29.27425],
+                [117.94946, 28.46063]
+              ]
+            },
+            /**
+             * 上饶
+             */
+            {
+              coords: [
+                [117.94946, 28.46063],
+                [115.96066, 29.66666]
+              ]
+            },
+            {
+              coords: [
+                [117.94946, 28.46063],
+                [117.18457, 29.27425]
+              ]
+            },
+            {
+              coords: [
+                [117.94946, 28.46063],
+                [115.95046, 28.5516]
+              ]
+            },
+            {
+              coords: [
+                [117.94946, 28.46063],
+                [117.07557, 28.26579]
+              ]
+            },
+            {
+              coords: [
+                [117.94946, 28.46063],
+                [116.36454, 27.95489]
+              ]
+            },
+            /**
+             * 南昌
+             */
+            {
+              coords: [
+                [115.95046, 28.5516],
+                [115.96066, 29.66666]
+              ]
+            },
+            {
+              coords: [
+                [115.95046, 28.5516],
+                [114.42356, 27.82086]
+              ]
+            },
+            {
+              coords: [
+                [115.95046, 28.5516],
+                [117.94946, 28.46063]
+              ]
+            },
+            {
+              coords: [
+                [115.95046, 28.5516],
+                [116.36454, 27.95489]
+              ]
+            },
+            /**
+             * 鹰潭
+             */
+            {
+              coords: [
+                [117.07557, 28.26579],
+                [116.36454, 27.95489]
+              ]
+            },
+            {
+              coords: [
+                [117.07557, 28.26579],
+                [117.94946, 28.46063]
+              ]
+            }
+            /**
+             * 抚州
+             */
+            // {
+            //   coords: [
+            //     [117.07557, 28.26579],
+            //     [117.94946, 28.46063]
+            //   ]
+            // }
+          )
+          break
       }
 
       const provinceJSON = require(`@/assets/json/jiangxi/${name}.json`)
@@ -1188,181 +1312,181 @@ export default {
 }
 
 .modal {
-    width: 1868px;
-    height: 920px;
-    background: url('~@/assets/images/details-bj.png') no-repeat;
-    background-size: 100% 100%;
+  width: 1868px;
+  height: 920px;
+  background: url('~@/assets/images/details-bj.png') no-repeat;
+  background-size: 100% 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  overflow: hidden;
+
+  .title {
+    width: 100%;
+    height: 67px;
     display: flex;
-    flex-direction: column;
-    padding: 20px;
+    align-items: center;
+    justify-content: space-between;
+
+    span {
+      font-size: 40px;
+      font-family: YouSheBiaoTiHei;
+      font-weight: 400;
+      color: #ffffff;
+      margin-left: 36px;
+    }
+
+    img {
+      margin-right: 5px;
+      cursor: pointer;
+    }
+  }
+
+  .content {
+    position: relative;
+    width: 100%;
+    flex: 1 0;
     overflow: hidden;
+    padding: 16px 0;
+    overflow: hidden;
+    display: flex;
 
-    .title {
-      width: 100%;
-      height: 67px;
+    .info {
+      flex: 2 0;
+      overflow: hidden;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      flex-direction: column;
 
-      span {
-        font-size: 40px;
-        font-family: YouSheBiaoTiHei;
-        font-weight: 400;
-        color: #ffffff;
-        margin-left: 36px;
+      .details {
+        width: 100%;
+        height: 338px;
+        display: flex;
+        align-items: center;
+
+        img {
+          height: 338px;
+          margin-right: 25px;
+        }
+
+        .labels {
+          flex: 1 0;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+
+          .item {
+            width: 100%;
+            flex: 1 0;
+            border-bottom: 1px dashed rgba(58, 137, 206, 0.3);
+            display: flex;
+            align-items: center;
+
+            span {
+              width: 120px;
+              white-space: nowrap;
+              font-size: 18px;
+              font-family: Microsoft YaHei;
+              font-weight: 400;
+              color: #ffffff;
+            }
+
+            p {
+              font-size: 18px;
+              font-family: Microsoft YaHei;
+              font-weight: 400;
+              color: #05b9ff;
+              margin: 0;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+
+            &:nth-child(1) {
+              p {
+                flex: 1 0;
+              }
+            }
+          }
+        }
       }
 
-      img {
-        margin-right: 5px;
-        cursor: pointer;
+      .chart {
+        width: 100%;
+        flex: 1 0;
+        margin-top: 20px;
       }
     }
 
-    .content {
-      position: relative;
-      width: 100%;
+    .chat {
       flex: 1 0;
-      overflow: hidden;
-      padding: 16px 0;
-      overflow: hidden;
       display: flex;
+      flex-direction: column;
+      margin-left: 36px;
+      overflow-y: auto;
+      padding-right: 10px;
 
-      .info {
-        flex: 2 0;
-        overflow: hidden;
+      .title {
+        position: sticky;
+        top: 0;
+        width: 100%;
+        height: 56px;
+        font-size: 18px;
+        font-family: Microsoft YaHei;
+        font-weight: 400;
+        color: #ffffff;
+        border-bottom: 1px solid rgba(58, 137, 206, 1);
+        flex-shrink: 0;
+      }
+
+      .chat_item {
+        width: 100%;
         display: flex;
         flex-direction: column;
+        padding: 20px 0;
+        flex-shrink: 0;
+        border-bottom: 1px dashed rgba(58, 137, 206, 0.5);
 
-        .details {
+        .user {
           width: 100%;
-          height: 338px;
+          height: 35px;
           display: flex;
           align-items: center;
 
           img {
-            height: 338px;
-            margin-right: 25px;
-          }
-
-          .labels {
-            flex: 1 0;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-
-            .item {
-              width: 100%;
-              flex: 1 0;
-              border-bottom: 1px dashed rgba(58, 137, 206, 0.3);
-              display: flex;
-              align-items: center;
-
-              span {
-                width: 120px;
-                white-space: nowrap;
-                font-size: 18px;
-                font-family: Microsoft YaHei;
-                font-weight: 400;
-                color: #ffffff;
-              }
-
-              p {
-                font-size: 18px;
-                font-family: Microsoft YaHei;
-                font-weight: 400;
-                color: #05b9ff;
-                margin: 0;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-              }
-
-              &:nth-child(1) {
-                p {
-                  flex: 1 0;
-                }
-              }
-            }
-          }
-        }
-
-        .chart {
-          width: 100%;
-          flex: 1 0;
-          margin-top: 20px;
-        }
-      }
-
-      .chat {
-        flex: 1 0;
-        display: flex;
-        flex-direction: column;
-        margin-left: 36px;
-        overflow-y: auto;
-        padding-right: 10px;
-
-        .title {
-          position: sticky;
-          top: 0;
-          width: 100%;
-          height: 56px;
-          font-size: 18px;
-          font-family: Microsoft YaHei;
-          font-weight: 400;
-          color: #ffffff;
-          border-bottom: 1px solid rgba(58, 137, 206, 1);
-          flex-shrink: 0;
-        }
-
-        .chat_item {
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          padding: 20px 0;
-          flex-shrink: 0;
-          border-bottom: 1px dashed rgba(58, 137, 206, 0.5);
-
-          .user {
-            width: 100%;
+            width: 35px;
             height: 35px;
-            display: flex;
-            align-items: center;
-
-            img {
-              width: 35px;
-              height: 35px;
-              overflow: hidden;
-              border-radius: 50%;
-              margin-right: 16px;
-            }
-
-            .name {
-              flex: 1 0;
-              font-size: 18px;
-              font-family: Microsoft YaHei;
-              font-weight: 400;
-              color: #ffffff;
-            }
-
-            .time {
-              font-size: 18px;
-              font-family: Microsoft YaHei;
-              font-weight: 400;
-              color: #ffffff;
-            }
+            overflow: hidden;
+            border-radius: 50%;
+            margin-right: 16px;
           }
 
-          .chat_content {
+          .name {
+            flex: 1 0;
             font-size: 18px;
             font-family: Microsoft YaHei;
             font-weight: 400;
-            color: #05b9ff;
-            line-height: 32px;
-            margin-top: 20px;
-            word-wrap: break-word;
+            color: #ffffff;
           }
+
+          .time {
+            font-size: 18px;
+            font-family: Microsoft YaHei;
+            font-weight: 400;
+            color: #ffffff;
+          }
+        }
+
+        .chat_content {
+          font-size: 18px;
+          font-family: Microsoft YaHei;
+          font-weight: 400;
+          color: #05b9ff;
+          line-height: 32px;
+          margin-top: 20px;
+          word-wrap: break-word;
         }
       }
     }
   }
+}
 </style>

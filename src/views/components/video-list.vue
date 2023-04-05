@@ -7,24 +7,19 @@
 
     <div class="content">
       <template v-if="!isFullScreen">
-        <div class="item" v-for="(item, index) in list" :key="index">
+        <div
+          class="item"
+          v-for="(item, index) in list"
+          :key="index"
+          @click="onFullScreen(item)"
+        >
           <video class="bac" :src="item.url"></video>
 
           <div class="bar">
-            <img
-              class="icon"
-              src="@/assets/images/video.png"
-              alt=""
-              @click="onFullScreen(item)"
-            />
+            <img class="icon" src="@/assets/images/video.png" alt="" />
             <span>{{ item.name }}</span>
 
-            <img
-              class="full"
-              src="@/assets/images/full-screen.png"
-              alt=""
-              @click="onFullScreen(item)"
-            />
+            <img class="full" src="@/assets/images/full-screen.png" alt="" />
           </div>
         </div>
       </template>
@@ -53,10 +48,10 @@ export default {
     return {
       isFullScreen: false,
       list: [
-        {
-          name: '20220529供销江南宣传视频',
-          url: 'https://gxjn.oss-cn-hangzhou.aliyuncs.com/big-screen/videos/20220529%E4%BE%9B%E9%94%80%E6%B1%9F%E5%8D%97%E5%AE%A3%E4%BC%A0%E8%A7%86%E9%A2%91.mp4'
-        },
+        // {
+        //   name: '20220529供销江南宣传视频',
+        //   url: 'https://gxjn.oss-cn-hangzhou.aliyuncs.com/big-screen/videos/20220529%E4%BE%9B%E9%94%80%E6%B1%9F%E5%8D%97%E5%AE%A3%E4%BC%A0%E8%A7%86%E9%A2%91.mp4'
+        // },
         {
           name: '20220824央视新闻东方时空',
           url: 'https://gxjn.oss-cn-hangzhou.aliyuncs.com/big-screen/videos/20220824%E5%A4%AE%E8%A7%86%E6%96%B0%E9%97%BB%E4%B8%9C%E6%96%B9%E6%97%B6%E7%A9%BA.mp4'
@@ -102,6 +97,10 @@ export default {
 
   methods: {
     onModalClose () {
+      if (this.isFullScreen) {
+        this.isFullScreen = !this.isFullScreen
+        return
+      }
       this.$emit('onModalClose')
     },
 
@@ -160,6 +159,7 @@ export default {
       position: relative;
       width: 100%;
       height: 253px;
+      cursor: pointer;
 
       .bac {
         position: absolute;

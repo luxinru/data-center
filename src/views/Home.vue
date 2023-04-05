@@ -19,7 +19,7 @@
       <img class="left" src="@/assets/images/left-1.png" alt="" />
       <img class="right" src="@/assets/images/right-1.png" alt="" />
       <data-map ref="dataMapRef" :type="type" />
-      <top-bars />
+      <top-bars :footerType="type"/>
       <footer-tools
         @showDataMap1="showDataMap1"
         @showDataMap2="showDataMap2"
