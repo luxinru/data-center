@@ -322,6 +322,7 @@ export default {
               formatter: (param) => {
                 return '{bg1| ' + param.name + '}'
               },
+              offset: [0, 18],
               rich: {
                 bg1: {
                   height: 100,
@@ -331,7 +332,8 @@ export default {
                   align: 'center',
                   fontSize: 20,
                   color: 'rgba(189, 62, 13, 1)',
-                  padding: [-18, 0, 0, 0]
+                  padding: [-18, 0, 0, 0],
+                  margin: [18, 0, 0, 0]
                 }
               }
             }
