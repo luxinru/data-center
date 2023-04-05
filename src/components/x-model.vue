@@ -2,9 +2,9 @@
   <!-- <div class="x_model">
   </div> -->
   <transition name="modal">
-    <div class="modal-mask">
+    <div class="modal-mask" @click="onClose">
       <div class="modal-wrapper">
-        <div class="modal-container">
+        <div class="modal-container" @click.stop>
           <slot />
         </div>
       </div>

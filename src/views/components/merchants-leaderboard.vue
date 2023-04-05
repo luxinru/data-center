@@ -5,10 +5,15 @@
         <XSelect :value="value" :options="options" @select="optionChange" />
       </template>
 
-      <XTable :columns="columns" :tableData="tableData" autoScrollId="tbody2" @onRowClick="onRowClick"/>
+      <XTable
+        :columns="columns"
+        :tableData="tableData"
+        autoScrollId="tbody2"
+        @onRowClick="onRowClick"
+      />
     </Box>
 
-    <XModal v-show="isShowModal">
+    <XModal v-show="isShowModal" @close="onModalClose">
       <div class="modal">
         <div class="title">
           <span>商户详情</span>
@@ -18,37 +23,47 @@
         <div class="content">
           <div class="info">
             <div class="details">
-              <img :src="detailData.logo" width="365" height="338" style="color: white" alt="商户图片" />
+              <img
+                :src="detailData.logo"
+                width="365"
+                height="338"
+                style="color: white"
+                alt="商户图片"
+              />
 
               <div class="labels">
                 <div class="item">
                   <span>商户名称：</span>
-                  <p>{{detailData.name}}</p>
+                  <p>{{ detailData.name }}</p>
                 </div>
                 <div class="item">
                   <span>商户分类：</span>
-                  <p>{{detailData.cate}}</p>
+                  <p>{{ detailData.cate }}</p>
                 </div>
                 <div class="item">
                   <span>商户产地：</span>
-                  <p>{{detailData.province}}</p>
+                  <p>{{ detailData.province }}</p>
                 </div>
                 <div class="item">
-                  <span>商户类型：</span>
-                  <p>{{detailData.cate}}</p>
+                  <span>交易额：</span>
+                  <p>{{ detailData.sum_price }}</p>
                 </div>
                 <div class="item">
                   <span>商品数量：</span>
-                  <p>{{detailData.goods_count}}</p>
+                  <p>{{ detailData.goods_count }}</p>
                 </div>
-                <div class="item">
+                <!-- <div class="item">
                   <span>订单数量：</span>
-                  <p>{{detailData.order_count}}</p>
-                </div>
+                  <p>{{ detailData.order_count }}</p>
+                </div> -->
                 <div class="item">
                   <span>用户评分：</span>
-                  <p>{{detailData.rating || '-'}}分</p>
-                  <el-rate v-model="detailData.rating" disabled style="margin-left: 10px">
+                  <p>{{ detailData.rating || '-' }}分</p>
+                  <el-rate
+                    v-model="detailData.rating"
+                    disabled
+                    style="margin-left: 10px; margin-bottom: 8px"
+                  >
                   </el-rate>
                 </div>
               </div>
@@ -57,13 +72,23 @@
             <div id="chart7" class="chart"></div>
           </div>
 
-          <div class="chat">
+          <div class="chat" id="chat2">
             <div class="title">用户评价</div>
 
-            <div class="chat_item" v-for="(item, index) in detailData.comments" :key="index">
+            <div
+              class="chat_item"
+              v-for="(item, index) in detailData.comments"
+              :key="index"
+            >
               <div class="user">
                 <img :src="item.avatar || defaultHeadSrc" alt="" />
                 <span class="name">{{ item.masked_name }}</span>
+                <el-rate
+                  v-model="item.score"
+                  disabled
+                  style="margin-left: 10px; margin-bottom: 8px"
+                >
+                </el-rate>
                 <span class="time">{{ item.time }}</span>
               </div>
               <div class="chat_content">
@@ -159,9 +184,7 @@ export default {
     value (newVal) {
       this.changeTableData(Number(newVal))
     },
-    timeRange (newVal) {
-
-    }
+    timeRange (newVal) {}
   },
 
   methods: {
@@ -185,6 +208,40 @@ export default {
 
     async changeTableData (type) {
       this.tableData = await this.getData(type)
+      this.autoScroll()
+    },
+
+    autoScroll () {
+      const scrollContainer = document.getElementById('chat2')
+
+      // Automatically scroll the container every 2 seconds
+      let intervalId = setInterval(function () {
+        scrollContainer.scrollTop += 1 // Adjust the amount of scrolling here
+        if (
+          scrollContainer.scrollTop ===
+          scrollContainer.scrollHeight - scrollContainer.clientHeight
+        ) {
+          scrollContainer.scrollTop = 0
+        }
+      }, 60)
+
+      // Pause scrolling when the mouse is over the container
+      scrollContainer.addEventListener('mouseover', function () {
+        clearInterval(intervalId)
+      })
+
+      // Resume scrolling when the mouse leaves the container
+      scrollContainer.addEventListener('mouseout', function () {
+        intervalId = setInterval(function () {
+          scrollContainer.scrollTop += 1 // Adjust the amount of scrolling here
+          if (
+            scrollContainer.scrollTop ===
+            scrollContainer.scrollHeight - scrollContainer.clientHeight
+          ) {
+            scrollContainer.scrollTop = 0
+          }
+        }, 60)
+      })
     },
 
     init (data) {
@@ -195,9 +252,9 @@ export default {
       const dates = []
       const counts = []
       const prices = []
-      data.forEach(item => {
+      data.forEach((item) => {
         dates.push(item.date)
-        counts.push(item.order_count)
+        counts.push(Number(item.order_count))
         prices.push(item.sum_price)
       })
       // 绘制图表
@@ -268,7 +325,7 @@ export default {
         ],
         series: [
           {
-            name: '近期交易趋势',
+            name: '近期订单趋势',
             type: 'line',
             symbol: 'none', // 默认是空心圆（中间是白色的），改成实心圆
             smooth: true,
@@ -305,6 +362,46 @@ export default {
                 )
               }
             },
+            data: counts
+          },
+          {
+            name: '近期交易额趋势',
+            type: 'line',
+            symbol: 'none', // 默认是空心圆（中间是白色的），改成实心圆
+            smooth: true,
+            lineStyle: {
+              normal: {
+                width: 1,
+                color: 'rgba(46, 255, 169, 1)' // 线条颜色
+              }
+            },
+            itemStyle: {
+              normal: {
+                color: '#fff600'
+              }
+            },
+            areaStyle: {
+              normal: {
+                // 线性渐变，前4个参数分别是x0,y0,x2,y2(范围0~1);相当于图形包围盒中的百分比。如果最后一个参数是‘true’，则该四个值是绝对像素位置。
+                color: new echarts.graphic.LinearGradient(
+                  0,
+                  0,
+                  0,
+                  1,
+                  [
+                    {
+                      offset: 0,
+                      color: 'rgba(46, 255, 169, 0.3)'
+                    },
+                    {
+                      offset: 1,
+                      color: 'rgba(46, 255, 169, 0.1)'
+                    }
+                  ],
+                  false
+                )
+              }
+            },
             data: prices
           }
         ]
@@ -326,7 +423,7 @@ export default {
             time_range: this.$store.state.time_range,
             id: row.id
           }
-        }).then(res => {
+        }).then((res) => {
           const result = res.data.data
           this.detailData = result
           this.init(result.trend || [])

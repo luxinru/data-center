@@ -2,7 +2,7 @@
   <div class="trading_leaderboard">
     <Box title="交易排行榜">
       <template #select>
-        <XSelect :value="value" :options="options" @select="optionChange"/>
+        <XSelect :value="value" :options="options" @select="optionChange" />
       </template>
 
       <XTable
@@ -13,17 +13,17 @@
       />
     </Box>
 
-    <XModal v-show="isShowModal">
+    <XModal v-show="isShowModal" @close="onModalClose">
       <div class="modal">
         <div class="title">
           <span>商品详情</span>
-          <img src="@/assets/images/close.png" alt="" @click="onModalClose"/>
+          <img src="@/assets/images/close.png" alt="" @click="onModalClose" />
         </div>
 
         <div class="content">
           <div class="info">
             <div class="details">
-              <img :src="detailData.thumb" alt=""/>
+              <img :src="detailData.thumb" alt="" />
 
               <div class="labels">
                 <div class="item">
@@ -31,8 +31,16 @@
                   <p>{{ detailData.title || '-' }}</p>
                 </div>
                 <div class="item">
-                  <span>供 应 商：</span>
-                  <p>{{ detailData.supplier || '-' }}</p>
+                  <span>上架时间：</span>
+                  <p>
+                    {{
+                      detailData.create_time
+                        ? Moment(Number(detailData.create_time) * 1000).format(
+                            'YYYY-MM-DD HH:mm:ss'
+                          )
+                        : '-'
+                    }}
+                  </p>
                 </div>
                 <div class="item">
                   <span>商品产地：</span>
@@ -49,7 +57,11 @@
                 <div class="item">
                   <span>商品评分：</span>
                   <p>{{ detailData.avgScore || '-' }}分</p>
-                  <el-rate v-model="detailData.avgScore" disabled style="margin-left: 10px">
+                  <el-rate
+                    v-model="detailData.avgScore"
+                    disabled
+                    style="margin-left: 10px; margin-bottom: 8px"
+                  >
                   </el-rate>
                 </div>
               </div>
@@ -58,13 +70,23 @@
             <div id="chart6" class="chart"></div>
           </div>
 
-          <div class="chat">
+          <div class="chat" id="chat1">
             <div class="title">商品评价</div>
 
-            <div class="chat_item" v-for="(item, index) in detailData.comments" :key="index">
+            <div
+              class="chat_item"
+              v-for="(item, index) in detailData.comments"
+              :key="index"
+            >
               <div class="user">
-                <img src="@/assets/images/pic-1.png" alt=""/>
+                <img :src="item.avatar" alt="" />
                 <span class="name">{{ item.masked_name }}</span>
+                <el-rate
+                  v-model="item.score"
+                  disabled
+                  style="margin-left: 10px; margin-bottom: 8px"
+                >
+                </el-rate>
                 <span class="time">{{ item.time }}</span>
               </div>
               <div class="chat_content">
@@ -86,6 +108,7 @@ import XModal from '@/components/x-model.vue'
 import * as echarts from 'echarts'
 import request from '@/api/request'
 import urls from '@/api/urls'
+import Moment from 'moment'
 
 export default {
   name: 'TradingLeaderboard',
@@ -156,6 +179,8 @@ export default {
   },
 
   methods: {
+    Moment,
+
     onModalClose () {
       this.isShowModal = false
     },
@@ -176,6 +201,41 @@ export default {
 
     async changeTableData (type) {
       this.tableData = await this.getData(type)
+
+      this.autoScroll()
+    },
+
+    autoScroll () {
+      const scrollContainer = document.getElementById('chat1')
+
+      // Automatically scroll the container every 2 seconds
+      let intervalId = setInterval(function () {
+        scrollContainer.scrollTop += 1 // Adjust the amount of scrolling here
+        if (
+          scrollContainer.scrollTop ===
+          scrollContainer.scrollHeight - scrollContainer.clientHeight
+        ) {
+          scrollContainer.scrollTop = 0
+        }
+      }, 60)
+
+      // Pause scrolling when the mouse is over the container
+      scrollContainer.addEventListener('mouseover', function () {
+        clearInterval(intervalId)
+      })
+
+      // Resume scrolling when the mouse leaves the container
+      scrollContainer.addEventListener('mouseout', function () {
+        intervalId = setInterval(function () {
+          scrollContainer.scrollTop += 1 // Adjust the amount of scrolling here
+          if (
+            scrollContainer.scrollTop ===
+            scrollContainer.scrollHeight - scrollContainer.clientHeight
+          ) {
+            scrollContainer.scrollTop = 0
+          }
+        }, 60)
+      })
     },
 
     init (data) {
@@ -186,7 +246,7 @@ export default {
       const dates = []
       const prices = []
       const sales = []
-      data.forEach(item => {
+      data.forEach((item) => {
         dates.push(item.date.substring(0, 10))
         prices.push(item.price)
         sales.push(item.sales)
@@ -357,7 +417,7 @@ export default {
             time_range: this.$store.state.time_range,
             goods_id: row.product_id
           }
-        }).then(res => {
+        }).then((res) => {
           this.detailData = res.data.data
           this.init(res.data.data.trend)
         })
@@ -537,6 +597,9 @@ export default {
               font-family: Microsoft YaHei;
               font-weight: 400;
               color: #ffffff;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              overflow: hidden;
             }
 
             .time {

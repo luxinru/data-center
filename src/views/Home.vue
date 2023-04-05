@@ -32,7 +32,7 @@
       <RightImgs v-else />
     </div>
 
-    <XModal v-show="isShowVideoModal">
+    <XModal v-show="isShowVideoModal" @close="onModalClose">
       <VideoList v-if="isShowVideoModal" @onModalClose="onModalClose" />
     </XModal>
   </div>

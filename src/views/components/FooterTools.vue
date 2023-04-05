@@ -20,11 +20,7 @@
     >
       <div class="item" @click="onFooterClick(2)">
         <img class="bac" src="@/assets/images/base.png" alt="" />
-        <img
-          class="icon"
-          src="@/assets/images/Internetofthings.png"
-          alt=""
-        />
+        <img class="icon" src="@/assets/images/Internetofthings.png" alt="" />
       </div>
     </el-tooltip>
 
@@ -40,12 +36,7 @@
       </div>
     </el-tooltip>
 
-    <el-tooltip
-      effect="dark"
-      content="APP演示"
-      placement="top"
-      :hide-after="0"
-    >
+    <el-tooltip effect="dark" content="APP演示" placement="top" :hide-after="0">
       <div class="item" @click="onFooterClick(4)">
         <img class="bac" src="@/assets/images/base.png" alt="" />
         <img class="icon" src="@/assets/images/app.png" alt="" />
@@ -69,24 +60,41 @@
       </div>
     </el-tooltip>
 
+    <XModal v-show="isShowMobileModal" @close="isShowMobileModal = !isShowMobileModal">
+      <div class="mobile" v-if="isShowMobileModal">
+        <iframe :src="url" frameborder="0"></iframe>
+      </div>
+    </XModal>
   </div>
 </template>
 
 <script>
+import XModal from '@/components/x-model.vue'
+
 export default {
   name: 'FooterTools',
+
+  components: {
+    XModal
+  },
+
   data () {
     return {
       daterange: '',
       isShowModal: false,
-      isFullScreen: false
+      isFullScreen: false,
+      isShowMobileModal: false,
+      url: ''
     }
   },
   watch: {
     daterange (newVal) {
       this.$store.commit({
         type: 'setTimeRange',
-        ranges: [Math.floor(new Date(newVal[0]).getTime() / 1000), Math.floor(new Date(newVal[1]).getTime() / 1000)]
+        ranges: [
+          Math.floor(new Date(newVal[0]).getTime() / 1000),
+          Math.floor(new Date(newVal[1]).getTime() / 1000)
+        ]
       })
     }
   },
@@ -106,7 +114,8 @@ export default {
           break
 
         case 4:
-          window.open('http://shop.gxjnmall.com/')
+          this.url = 'http://shop.gxjnmall.com/'
+          this.isShowMobileModal = true
           break
       }
     },
@@ -266,6 +275,17 @@ export default {
         height: 100%;
       }
     }
+  }
+}
+
+.mobile {
+  width: 375px;
+  height: 667px;
+  transform: scale(1.5);
+
+  iframe {
+    width: 100%;
+    height: 100%;
   }
 }
 </style>

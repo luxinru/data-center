@@ -56,7 +56,7 @@ export default {
       echarts.dispose(document.getElementById('chart1'))
       this.myChart = echarts.init(document.getElementById('chart1'))
 
-      const data = await this.getData() || []
+      const data = (await this.getData()) || []
 
       // 绘制图表
       this.setChartOption(data)
@@ -64,7 +64,7 @@ export default {
     setChartOption (data) {
       const xaxisData = []
       const yaxisData = []
-      data.forEach(item => {
+      data.forEach((item) => {
         xaxisData.push(item.title)
         yaxisData.push(item.rate * 100)
       })
@@ -106,7 +106,6 @@ export default {
             splitLine: {
               show: true,
               lineStyle: {
-
                 // y轴网格线设置
                 color: 'rgba(183, 200, 235, 0.08)',
                 width: 1
@@ -127,7 +126,18 @@ export default {
               interval: 0,
               color: '#fff',
               fontSize: 18,
-              margin: 20
+              margin: 20,
+              formatter: function (params) {
+                let valueTxt = ''
+
+                if (params.length > 6) {
+                  valueTxt = params.substring(0, 6) + '...'
+                } else {
+                  valueTxt = params
+                }
+
+                return valueTxt
+              }
             },
             axisLine: {
               lineStyle: {
@@ -182,7 +192,10 @@ export default {
       return res.data.data
     },
     async optionChange (option) {
-      const chartData = await this.getData(option.value === '3' ? undefined : Number(option.value), option.value === '3' ? 1 : 0)
+      const chartData = await this.getData(
+        option.value === '3' ? undefined : Number(option.value),
+        option.value === '3' ? 1 : 0
+      )
       this.setChartOption(chartData)
     }
   }

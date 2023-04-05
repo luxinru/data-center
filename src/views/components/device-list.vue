@@ -14,7 +14,7 @@
       />
     </Box>
 
-    <XModal v-show="isShowModal">
+    <XModal v-show="isShowModal" @close="onModalClose">
       <div class="modal">
         <div class="title">
           <span>设备详情</span>
