@@ -48,6 +48,13 @@ export default {
 
   mounted () {
     this.init()
+    this.$EventBus.$on('onTimeChange', () => {
+      this.init()
+    })
+  },
+
+  beforeDestroy () {
+    this.$EventBus.$off('onTimeChange')
   },
 
   methods: {
@@ -56,7 +63,11 @@ export default {
       echarts.dispose(document.getElementById('chart1'))
       this.myChart = echarts.init(document.getElementById('chart1'))
 
-      const data = (await this.getData()) || []
+      const data =
+        (await this.getData(
+          this.value === '3' ? undefined : Number(this.value),
+          this.value === '3' ? 1 : 0
+        )) || []
 
       // 绘制图表
       this.setChartOption(data)
@@ -192,9 +203,10 @@ export default {
       return res.data.data
     },
     async optionChange (option) {
+      this.value = option.value
       const chartData = await this.getData(
-        option.value === '3' ? undefined : Number(option.value),
-        option.value === '3' ? 1 : 0
+        this.value === '3' ? undefined : Number(this.value),
+        this.value === '3' ? 1 : 0
       )
       this.setChartOption(chartData)
     }

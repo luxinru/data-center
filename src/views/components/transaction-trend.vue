@@ -21,6 +21,13 @@ export default {
 
   mounted () {
     this.init()
+    this.$EventBus.$on('onTimeChange', () => {
+      this.init()
+    })
+  },
+
+  beforeDestroy () {
+    this.$EventBus.$off('onTimeChange')
   },
 
   methods: {
@@ -30,7 +37,7 @@ export default {
         method: 'POST',
         data: {
           // todo 待确认，时间戳范围
-          time_range: [1677427200, 1677513600],
+          time_range: this.$store.state.time_range,
           // todo 待确认，1.日 2.月 3.年 4.小时
           time_step: 4
         }

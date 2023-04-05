@@ -28,6 +28,8 @@ Vue.directive('click-outside', {
 
 Vue.use(ElementUI)
 
+Vue.prototype.$EventBus = new Vue()
+
 new Vue({
   router,
   store,

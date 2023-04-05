@@ -169,8 +169,19 @@ export default {
     }
   },
 
-  watch: {
-    value: 'valueChange'
+  // watch: {
+  //   value: 'valueChange'
+  // },
+
+  mounted () {
+    this.valueChange(this.value)
+    this.$EventBus.$on('onTimeChange', () => {
+      this.valueChange(this.value)
+    })
+  },
+
+  beforeDestroy () {
+    this.$EventBus.$off('onTimeChange')
   },
 
   methods: {
@@ -184,13 +195,15 @@ export default {
         url: urls.user_ratio,
         method: 'POST',
         data: {
-          type
+          type,
+          time_range: this.$store.state.time_range
         }
       })
       return res.data.data
     },
     onSelect (data) {
       this.value = data.value
+      this.valueChange(this.value)
     }
   }
 }

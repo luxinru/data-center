@@ -9,7 +9,7 @@
 
       <div class="labels">
         <div class="item" v-for="(item, index) in labels" :key="index">
-          <span class="icon" :style="{background: colors[index]}"></span>
+          <span class="icon" :style="{ background: colors[index] }"></span>
           <span class="name">
             {{ item.name }}
           </span>
@@ -100,6 +100,14 @@ export default {
 
   mounted () {
     this.init()
+
+    this.$EventBus.$on('onTimeChange', () => {
+      this.init()
+    })
+  },
+
+  beforeDestroy () {
+    this.$EventBus.$off('onTimeChange')
   },
 
   methods: {
@@ -108,7 +116,7 @@ export default {
       echarts.dispose(document.getElementById('chart5'))
       this.myChart = echarts.init(document.getElementById('chart5'))
 
-      const data = await this.getData() || []
+      const data = (await this.getData(Number(this.value))) || []
 
       // 绘制图表
       this.setChartOption(data)
@@ -116,7 +124,7 @@ export default {
     setChartOption (data) {
       const syjgdata = []
       let total = 0
-      data.forEach(item => {
+      data.forEach((item) => {
         const num = Number(item.val)
         total += num
         syjgdata.push({
@@ -153,15 +161,15 @@ export default {
           },
           // 使用回调函数
           formatter: function (name) {
-            const item = data.find(it => it.cate === name)
-            return item ? (
-              `${name}` + ' ' + `${((Number(item.val) / total) * 100).toFixed(2)}%`
-            ) : '-'
+            const item = data.find((it) => it.cate === name)
+            return item
+              ? `${name}` +
+                  ' ' +
+                  `${((Number(item.val) / total) * 100).toFixed(2)}%`
+              : '-'
           },
           rich: {
-            a: {
-
-            },
+            a: {},
             b: {}
           }
         },
@@ -257,13 +265,15 @@ export default {
         url: urls.merchant_cate_ratio,
         method: 'POST',
         data: {
-          type
+          type,
+          time_range: this.$store.state.time_range
         }
       })
       return res.data.data
     },
     async optionChange (option) {
-      const chartData = await this.getData(Number(option.value))
+      this.value = option.value
+      const chartData = await this.getData(Number(this.value))
       this.setChartOption(chartData)
     }
   }

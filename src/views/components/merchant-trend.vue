@@ -21,6 +21,13 @@ export default {
 
   mounted () {
     this.init()
+    this.$EventBus.$on('onTimeChange', () => {
+      this.init()
+    })
+  },
+
+  beforeDestroy () {
+    this.$EventBus.$off('onTimeChange')
   },
 
   methods: {
@@ -39,12 +46,12 @@ export default {
       echarts.dispose(document.getElementById('chart3'))
       const myChart = echarts.init(document.getElementById('chart3'))
 
-      const data = await this.getData() || []
+      const data = (await this.getData()) || []
       const steps = []
       const data1 = []
       const data2 = []
       const data3 = []
-      data.forEach(item => {
+      data.forEach((item) => {
         steps.push(item.date)
         data1.push(item.merchant_count)
         data2.push(item.store_count)

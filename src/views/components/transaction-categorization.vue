@@ -100,6 +100,13 @@ export default {
 
   mounted () {
     this.init()
+    this.$EventBus.$on('onTimeChange', () => {
+      this.init()
+    })
+  },
+
+  beforeDestroy () {
+    this.$EventBus.$off('onTimeChange')
   },
 
   methods: {
@@ -108,7 +115,7 @@ export default {
       echarts.dispose(document.getElementById('chart9'))
       this.myChart = echarts.init(document.getElementById('chart9'))
 
-      const data = (await this.getData(Number(this.options[0].value))) || []
+      const data = (await this.getData(Number(this.value))) || []
 
       // 绘制图表
       this.setChartOption(data)
@@ -189,13 +196,15 @@ export default {
         url: urls.product_category_ratio,
         method: 'POST',
         data: {
-          type
+          type,
+          time_range: this.$store.state.time_range
         }
       })
       return res.data.data
     },
     async optionChange (option) {
-      const chartData = await this.getData(Number(option.value))
+      this.value = option.value
+      const chartData = await this.getData(Number(this.value))
       this.setChartOption(chartData)
     }
   }
