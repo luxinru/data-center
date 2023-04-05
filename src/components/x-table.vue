@@ -47,6 +47,7 @@
               color: label.color || '#fffefe',
               width: label.width ? label.width : 'auto',
               flex: label.width ? 'none' : '1 0',
+              textAlign: label.align || 'center'
             }"
           >
             <span :title="item[label.value]">
@@ -75,7 +76,8 @@ export default {
         return [
           {
             name: '商品名称',
-            value: 'b'
+            value: 'b',
+            align: 'center'
           },
           {
             name: '产地',

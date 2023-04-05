@@ -17,10 +17,10 @@
               <span>设备数量</span>
               <p>{{overviewData.cabinet.counts}}</p>
             </div>
-            <div class="item">
-              <span>使用次数</span>
-              <p>{{overviewData.cabinet.use_times}}</p>
-            </div>
+<!--            <div class="item">-->
+<!--              <span>使用次数</span>-->
+<!--              <p>{{overviewData.cabinet.use_times}}</p>-->
+<!--            </div>-->
             <div class="item">
               <span>正常运行</span>
               <p>{{overviewData.cabinet.counts1}}</p>
@@ -46,10 +46,10 @@
               <span>设备数量</span>
               <p>{{overviewData.shop.counts}}</p>
             </div>
-            <div class="item">
-              <span>使用次数</span>
-              <p>{{overviewData.shop.use_times}}</p>
-            </div>
+<!--            <div class="item">-->
+<!--              <span>使用次数</span>-->
+<!--              <p>{{overviewData.shop.use_times}}</p>-->
+<!--            </div>-->
             <div class="item">
               <span>正常运行</span>
               <p>{{overviewData.shop.counts1}}</p>

@@ -90,7 +90,7 @@ export default {
       } = await request({
         url: urls.overview,
         method: 'POST',
-        data: { time_range: [1654012800, 1656311413] }
+        data: { time_range: this.$store.state.time_range }
       })
 
       this.sum_price = data[0].sum_price || 0

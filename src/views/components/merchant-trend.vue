@@ -29,8 +29,7 @@ export default {
         url: urls.merchant_trend,
         method: 'POST',
         data: {
-          // todo 待确认，时间戳范围
-          time_range: [1672416053, 1680058253]
+          time_range: this.$store.state.time_range
         }
       })
       return res.data.data

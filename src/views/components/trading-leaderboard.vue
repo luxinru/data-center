@@ -121,7 +121,8 @@ export default {
         {
           name: '商品名称',
           value: 'title',
-          width: '180px'
+          width: '180px',
+          align: 'left'
         },
         {
           name: '产地',
@@ -164,7 +165,7 @@ export default {
         url: urls.product_rank,
         method: 'POST',
         data: {
-          time_range: [1677427200, 1680410218],
+          time_range: this.$store.state.time_range,
           type,
           limit: 999,
           offset: 0
@@ -353,7 +354,7 @@ export default {
           url: urls.goods_detail,
           method: 'POST',
           data: {
-            time_range: [1677427200, 1680410218],
+            time_range: this.$store.state.time_range,
             goods_id: row.product_id
           }
         }).then(res => {

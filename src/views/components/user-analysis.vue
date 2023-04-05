@@ -8,7 +8,7 @@
       <div class="user_analysis_container">
         <div class="imgs">
           <img class="bac" src="@/assets/images/icon-bj-1.png" alt="" />
-          <img class="content" src="@/assets/images/user.png" alt="" />
+          <img class="content" :src="imgSrc[value]" alt="" />
 
           <span>{{ name }}</span>
         </div>
@@ -112,6 +112,10 @@ import Box from '@/components/box'
 import XSelect from '@/components/x-select.vue'
 import request from '@/api/request'
 import urls from '@/api/urls'
+import userSrc from '@/assets/images/user.png'
+import genderSrc from '@/assets/images/gender.png'
+import gradeSrc from '@/assets/images/grade.png'
+import consumeSrc from '@/assets/images/consume.png'
 
 export default {
   name: 'UserAnalysis',
@@ -142,6 +146,12 @@ export default {
           label: '消费次数'
         }
       ],
+      imgSrc: {
+        1: gradeSrc,
+        2: consumeSrc,
+        3: userSrc,
+        4: genderSrc
+      },
       userData: []
     }
   },

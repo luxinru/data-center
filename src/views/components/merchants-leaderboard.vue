@@ -120,7 +120,8 @@ export default {
       columns: [
         {
           name: '名称',
-          value: 'name'
+          value: 'name',
+          align: 'left'
         },
         {
           name: '地区',
