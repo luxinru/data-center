@@ -174,17 +174,13 @@ export default {
 
   mounted () {
     this.changeTableData(1)
+    this.$EventBus.$on('onTimeChange', () => {
+      this.changeTableData(Number(this.value))
+    })
   },
-  computed: {
-    timeRange () {
-      return this.$store.state.time_range
-    }
-  },
-  watch: {
-    value (newVal) {
-      this.changeTableData(Number(newVal))
-    },
-    timeRange (newVal) {}
+
+  beforeDestroy () {
+    this.$EventBus.$off('onTimeChange')
   },
 
   methods: {
@@ -207,6 +203,7 @@ export default {
     },
 
     async changeTableData (type) {
+      this.tableData = []
       this.tableData = await this.getData(type)
     },
 
@@ -409,6 +406,7 @@ export default {
 
     optionChange (option) {
       this.value = option.value
+      this.changeTableData(Number(this.value))
     },
 
     onRowClick (row) {

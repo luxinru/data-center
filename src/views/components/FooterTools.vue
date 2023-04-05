@@ -60,7 +60,10 @@
       </div>
     </el-tooltip>
 
-    <XModal v-show="isShowMobileModal" @close="isShowMobileModal = !isShowMobileModal">
+    <XModal
+      v-show="isShowMobileModal"
+      @close="isShowMobileModal = !isShowMobileModal"
+    >
       <div class="mobile" v-if="isShowMobileModal">
         <iframe :src="url" frameborder="0"></iframe>
       </div>
@@ -80,7 +83,16 @@ export default {
 
   data () {
     return {
-      daterange: '',
+      daterange: [
+        Date.parse(
+          `${new Date().getFullYear()}/${new Date().getMonth() + 1}/1`
+        ),
+        Date.parse(
+          `${new Date().getFullYear()}/${
+            new Date().getMonth() + 1
+          }/${new Date().getDate()}`
+        )
+      ],
       isShowModal: false,
       isFullScreen: false,
       isShowMobileModal: false,
@@ -88,14 +100,18 @@ export default {
     }
   },
   watch: {
-    daterange (newVal) {
-      this.$store.commit({
-        type: 'setTimeRange',
-        ranges: [
-          Math.floor(new Date(newVal[0]).getTime() / 1000),
-          Math.floor(new Date(newVal[1]).getTime() / 1000)
-        ]
-      })
+    daterange: {
+      handler (newVal) {
+        this.$store.commit({
+          type: 'setTimeRange',
+          ranges: [
+            Math.floor(new Date(this.daterange[0]).getTime() / 1000),
+            Math.floor(new Date(this.daterange[1]).getTime() / 1000)
+          ]
+        })
+        this.$EventBus.$emit('onTimeChange')
+      },
+      immediate: true
     }
   },
   methods: {
