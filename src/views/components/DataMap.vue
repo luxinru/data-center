@@ -206,10 +206,6 @@ export default {
     this.$nextTick(() => {
       this.initSvgMap()
     })
-
-    this.getHoverData('province', '江西省').then((result) => {
-      this.cityData = result
-    })
   },
   methods: {
     async getHoverData (key, value) {
@@ -291,87 +287,7 @@ export default {
         })
     },
     async setChartOption1 (echartObj) {
-      const base64png =
-        'image://data:image/png;base64,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'
-
-      const markPointData = [
-        {
-          name: '南昌市',
-          symbol: base64png,
-          x: 497,
-          y: 159,
-          symbolSize: [52, 79]
-        },
-        {
-          name: '九江市',
-          symbol: base64png,
-          x: 385,
-          y: 64,
-          symbolSize: [52, 79]
-        },
-        {
-          name: '景德镇市',
-          symbol: base64png,
-          x: 752,
-          y: 71,
-          symbolSize: [52, 79]
-        },
-        {
-          name: '上饶市',
-          symbol: base64png,
-          x: 758,
-          y: 144,
-          symbolSize: [52, 79]
-        },
-        {
-          name: '鹰潭市',
-          symbol: base64png,
-          x: 705,
-          y: 212,
-          symbolSize: [52, 79]
-        },
-        {
-          name: '宜春市',
-          symbol: base64png,
-          x: 308,
-          y: 200,
-          symbolSize: [52, 79]
-        },
-        {
-          symbol: base64png,
-          x: 287,
-          y: 267,
-          symbolSize: [52, 79]
-        },
-        {
-          name: '萍乡市',
-          symbol: base64png,
-          x: 93,
-          y: 307,
-          symbolSize: [52, 79]
-        },
-        {
-          symbol: base64png,
-          x: 583,
-          y: 307,
-          symbolSize: [52, 79]
-        },
-        {
-          name: '吉安市',
-          symbol: base64png,
-          x: 280,
-          y: 375,
-          symbolSize: [52, 79]
-        },
-        {
-          name: '赣州市',
-          symbol: base64png,
-          x: 355,
-          y: 524,
-          symbolSize: [52, 79]
-        }
-      ]
-      echartObj.setOption({
+      const option = {
         tooltip: {
           show: false
         },
@@ -441,12 +357,69 @@ export default {
               borderColor: 'transparent'
             },
             markPoint: {
-              data: markPointData
+              data: []
             },
             silent: true
           }
         ]
+      }
+
+      echartObj.setOption(option)
+
+      this.cityData = await this.getHoverData('province', '江西省')
+
+      const arrSumPrice = this.cityData.map((item) => item.sum_price ? Number(item.sum_price) : 0)
+      const arrOrderCount = this.cityData.map((item) => item.order_count ? Number(item.order_count) : 0)
+      const arrMerchantCount = this.cityData.map((item) => item.merchant_count ? Number(item.merchant_count) : 0)
+
+      const maxSumPrice = Math.max(...arrSumPrice)
+      const maxOrderCount = Math.max(...arrOrderCount)
+      const maxMerchantCount = Math.max(...arrMerchantCount)
+
+      const markPointData = []
+      const mapObj = {
+        南昌市: [497, 169],
+        九江市: [385, 74],
+        景德镇市: [752, 81],
+        上饶市: [758, 154],
+        鹰潭市: [705, 222],
+        宜春市: [308, 210],
+        萍乡市: [93, 317],
+        吉安市: [280, 385],
+        赣州市: [355, 524]
+      }
+      this.cityData.forEach((item) => {
+        const div0 = document.createElement('div')
+        const maxHeight = 300
+        const h1 = item.merchant_count ? maxHeight * item.merchant_count / maxMerchantCount : 0
+        const h2 = item.sum_price ? maxHeight * item.sum_price / maxSumPrice : 0
+        const h3 = item.order_count ? maxHeight * item.order_count / maxOrderCount : 0
+        div0.innerHTML = '<div style="display: flex; align-items: flex-end;">' +
+          '<div style="width: 60px; height: ' + h1 + 'px; background: linear-gradient(to bottom, rgb(137, 244, 185), rgb(33, 143, 247)); margin-right: 15px"></div>' +
+          '<div style="width: 60px; height: ' + h2 + 'px; background: linear-gradient(to bottom, rgb(25, 214, 255), rgb(33, 143, 247)); margin-right: 15px"></div>' +
+          '<div style="width: 60px; height: ' + h3 + 'px; background: linear-gradient(to bottom, rgb(255, 189, 119), rgb(33, 143, 247))"></div>' +
+          '</div>'
+        const svgStr = "<svg xmlns='http://www.w3.org/2000/svg' width='220' height='320'>" +
+          "<foreignObject width='100%' height='100%'>" +
+          "<div xmlns='http://www.w3.org/1999/xhtml' style='font-size:16px;font-family:Helvetica'>" +
+          div0.innerHTML +
+          '</div>' +
+          '</foreignObject>' +
+          '</svg>'
+
+        const symbol = `image://data:image/svg+xml;charset=utf-8,${encodeURI(svgStr)}`
+        markPointData.push({
+          name: item.city,
+          symbol,
+          x: mapObj[item.city][0],
+          y: mapObj[item.city][1],
+          symbolSize: [52, 79]
+        })
       })
+
+      option.series[0].markPoint.data = markPointData
+
+      echartObj.setOption(option)
     },
     onChartObj1Mouseover (params) {
       this.cityName = params.name
